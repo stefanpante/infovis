@@ -1,0 +1,15 @@
+/* line 6, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+body {
+  background-color: black;
+  font-family: sans-serif;
+  font-size: 16px; }
+
+/* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_circuit.scss */
+path.circuit {
+  stroke: #444; }
+
+/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_driver.scss */
+.driver {
+  fill: #ed1e79; }
+
+/*# sourceMappingURL=main.css.map */
