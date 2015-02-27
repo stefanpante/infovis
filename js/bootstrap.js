@@ -13,18 +13,19 @@
 
     // no multiplier, fastest driver
     var schumacher = new Driver("Michael Schumacher", svg, circuit);
+    schumacher.setFill("#8d5ba1");
     schumacher.setAverageLapTime(110.9235);
     // Vettel, 
     var vettel = new Driver("Sebastian Vettel", svg, circuit);
     vettel.setMultiplier(1.0306);
     vettel.setAverageLapTime(114.1408);
-    vettel.setFill("#00FF00");
+    vettel.setFill("#0069b4");
     
     // Senna, largest multiplier
     var senna = new Driver("Ayrton Senna", svg, circuit);
     senna.setMultiplier(1.1922);
     senna.setAverageLapTime(131.6279);
-    senna.setFill("#0000FF");
+    senna.setFill("#7b0041");
     
     schumacher.startAnimation();
     vettel.startAnimation();

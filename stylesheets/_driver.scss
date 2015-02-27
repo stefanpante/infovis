@@ -1,4 +1,35 @@
-$driver-color:  #ed1e79;
-.driver{
-    fill-opacity: 0.5;
+$driver-color: #ed1e79;
+.driver {
+    fill-opacity: 0.8;
+}
+
+.drivertable {
+    padding: $default-padding;
+    //background-color: #111;
+    border-radius: 6px;
+    margin: 0 auto;
+    thead {
+        text-align: center;
+        font-size: 2em;
+        font-weight: bold;
+        border-bottom: 1px solid $circuit-color;
+        th{padding-bottom: $default-padding;}
+        
+    }
+    td {
+        padding: $default-padding * 0.5;
+        font-size: 1.5em;
+        vertical-align: center;
+        img {
+            border-radius: 50%;
+        }
+    }
+}
+
+.color {
+    background-color: $driver-color;
+    border-radius: 50%;
+    width: 75px;
+    display: inline-block;
+    height: 75px;
 }
