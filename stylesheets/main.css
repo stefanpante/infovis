@@ -1,15 +1,16 @@
-/* line 6, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+/* line 7, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 body {
   background-color: black;
   font-family: sans-serif;
   font-size: 16px; }
 
-/* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_circuit.scss */
+/* line 3, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_circuit.scss */
 path.circuit {
-  stroke: #444; }
+  stroke: #444;
+  stroke-width: 5; }
 
 /* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_driver.scss */
 .driver {
-  fill: #ed1e79; }
+  fill-opacity: 0.5; }
 
 /*# sourceMappingURL=main.css.map */
