@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Bars</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<!--https://spreadsheets.google.com/feeds/worksheets/1rYQEWe1Y0GW8IT4Sol_U4TBD6AzDj95wIA3kf8aAEDY/private/full/od6-->
+
+
+<script>
+
+
+    var data;
+
+
+
+
+    /*
+     lift off
+     */
+    function loadData() {
+
+        /* id toekomst best met treestruct werken, jaren als parents?*/
+        var teamA1 = {name:"Ferrari", color:"red", year:2000, nameA:"Schumacher", pointsA:87 , nameB:"Barichello", pointsB:40};
+        var teamA2 = {name:"Ferrari", color:"red", year:2001, nameA:"Schumacher", pointsA:80 , nameB:"Barichello", pointsB:41};
+
+
+        data = [];
+        data.push(teamA1);
+        data.push(teamA2);
+        generateVis(0,30);
+
+
+    }
+
+    /*hieronder staat nog veel bullshit, voor de test van deze maandag */
+    function generateVis(o_x,o_y){
+
+        var width = 1000;
+        var height = 550;
+
+        var widthScale = d3.scale.linear()
+                .domain([150,250])
+                .range([0,width]);
+
+        var axis = d3.svg.axis()
+                .ticks(10)
+                .scale(widthScale);
+
+        var canvas = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height",height)
+                .append("g")
+                .attr("transform", "translate(" + o_x +"," + o_y +")");
+
+
+        var bars = canvas.selectAll("rect")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("width",function(d) {return widthScale(100);})
+                .attr("height",30)
+                .attr("fill", function(d){return d.color;})
+                .attr("y",function(d,i) {return o_y+i*vertdist})
+                .attr("x",hordist);
+
+
+
+
+        canvas.append("g")
+                .attr("transform", "translate("+ hordist+",0)" )  /* reeds getranslated */
+                .call(axis);
+
+        /*text apart, new group*/
+        canvas.append("g").selectAll("text")
+                .data(data)
+                .enter().append("text")
+                .attr("fill","white")
+                .attr("y",function (d,i) {return i*vertdist+20+o_y})
+                .attr("x",hordist)
+                .text(function (d) {return  d.year+" "+ d.constructor;});
+        /*text apart, new group*/
+        canvas.append("g").selectAll("text")
+                .data(data)
+                .enter().append("text")
+                .attr("fill","black")
+                .attr("y",function (d,i) {return i*vertdist+50+o_y})
+                .attr("x",hordist)
+                .text(function (d) {return  "Laps: "+d.laps+" Circuit Length: "+ d.distance+" m";});
+
+        canvas.append("g").selectAll("text")
+                .data(data)
+                .enter().append("text")
+                .attr("fill","black")
+                .attr("y",function (d,i) {return i*vertdist+20+o_y})
+                .text(function (d) {return  d.name;});
+
+
+
+
+    }
+
+
+
+
+
+
+    loadData();
+
+
+</script>
+</body>
+</html>
