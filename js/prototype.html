@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Bars</title>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -13,7 +14,8 @@
 <script>
 
 
-    var data;
+    var dataTeam;
+    var dataDriver;
 
 
 
@@ -24,13 +26,22 @@
     function loadData() {
 
         /* id toekomst best met treestruct werken, jaren als parents?*/
-        var teamA1 = {name:"Ferrari", color:"red", year:2000, nameA:"Schumacher", pointsA:87 , nameB:"Barichello", pointsB:40};
-        var teamA2 = {name:"Ferrari", color:"red", year:2001, nameA:"Schumacher", pointsA:80 , nameB:"Barichello", pointsB:41};
+        /* bijv {year:2000, teams: <array teams>*/
+        var team1 = {name:"Ferrari", color:"red", year:2000, pointsA:120 };
+        var team2 = {name:"Ferrari", color:"red", year:2001, pointsA:130 };
+
+        var rider1 = { color:"black", year:2000, name:"Schumacher", pointsA:87 };
+        var rider2 = { color:"black", year:2001, name:"Schumacher", pointsA:80 };
 
 
-        data = [];
-        data.push(teamA1);
-        data.push(teamA2);
+        dataTeam = [];
+        dataTeam.push(team1);
+        dataTeam.push(team2);
+
+        dataDriver = [];
+        dataDriver.push(rider1);
+        dataDriver.push(rider2);
+
         generateVis(0,30);
 
 
@@ -40,15 +51,25 @@
     function generateVis(o_x,o_y){
 
         var width = 1000;
-        var height = 550;
+        var height = 1000;
 
         var widthScale = d3.scale.linear()
-                .domain([150,250])
+                .domain([1999,2014])
                 .range([0,width]);
 
-        var axis = d3.svg.axis()
-                .ticks(10)
+        var heightScale = d3.scale.linear()
+                .domain([0,250])
+                .range([0,height]);
+
+
+        /*x en y as*/
+        var xAxis = d3.svg.axis()
+                .ticks(1)
                 .scale(widthScale);
+
+        var yAxis= d3.svg.axis()
+                .ticks(10)
+                .scale(heightScale);
 
         var canvas = d3.select("body").append("svg")
                 .attr("width", width)
@@ -57,14 +78,14 @@
                 .attr("transform", "translate(" + o_x +"," + o_y +")");
 
 
-        var bars = canvas.selectAll("rect")
+        var barsTeam = canvas.selectAll("rect")
                 .data(data)
                 .enter()
                 .append("rect")
-                .attr("width",function(d) {return widthScale(100);})
+                .attr("width",30)
                 .attr("height",30)
                 .attr("fill", function(d){return d.color;})
-                .attr("y",function(d,i) {return o_y+i*vertdist})
+                .attr("y",function(d,i)  {return widthScale(100);})
                 .attr("x",hordist);
 
 
@@ -72,7 +93,7 @@
 
         canvas.append("g")
                 .attr("transform", "translate("+ hordist+",0)" )  /* reeds getranslated */
-                .call(axis);
+                .call(xAxis);
 
         /*text apart, new group*/
         canvas.append("g").selectAll("text")
