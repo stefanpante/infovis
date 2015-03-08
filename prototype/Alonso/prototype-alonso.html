@@ -46,8 +46,11 @@
 
 
     var color = {};
-    color["Ferrari"]="red";
-    color["Mercedes"] = "blue";
+    color["Minardi"] = "#363636" 
+    color["Renault"]= "#808033";
+    color["McLaren"] = "#17becf";
+    color["Ferrari"] = "#d62728";
+
 
     var xAxis = d3.svg.axis()
             .scale(x0)
@@ -70,7 +73,7 @@
 
 
         data.forEach(function(d) {
-            d.teams = teamNames.map(function(name) { return {name: name, value: +d[name]}; });
+            d.teams = teamNames.map(function(name) { return {name: name, value: +d[name] + 0.05}; });
         });
 
         /* definieer schalen */
@@ -91,7 +94,7 @@
                 .attr("y", 6)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
-                .text("Points");
+                .text("Wins");
 
 
         /* plaats in juist jaartal */
@@ -130,8 +133,8 @@
                 .style("text-anchor", "end")
                 .text(function(d) { return d; });
 
-        /* genereer barchart voor Michael Schumacher */
-        d3.csv("data_ms.csv", function(error, data) {
+        /* genereer barchart voor Fernando Alonso */
+        d3.csv("data_fa.csv", function(error, data) {
             var attr = d3.keys(data[0]);
             console.log(attr);
             data.forEach(function (d) {
@@ -141,43 +144,43 @@
             });
 
 
-            var ms = svg.selectAll(".state")
+            var fa = svg.selectAll(".state")
                     .data(data)
                     .enter().append("g")
                     .attr("class", "g");
 
 
-            ms.selectAll("rect")
+            fa.selectAll("rect")
                     .data(data)
                     .enter().append("rect")
                     .attr("width", x1.rangeBand()/2)
                     .attr("x", function(d) { return x1(d.Team); })
-                    .attr("y", function(d) { return y(d.Points); })
-                    .attr("height", function(d) { return height - y(d.Points); })
+                    .attr("y", function(d) { return y(d.Wins); })
+                    .attr("height", function(d) { return height - y(d.Wins); })
                     .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; })
-                    .style("fill", "yellow" ); /*momenteel geel, hard coded */
+                    .style("fill", "#E0E0D1" ); /*momenteel geel, hard coded */
 
 
 
             /* om het in de toekomst generieker te maken, mini poging */
 
-            var drivers = ["Michael Schumacher"];
+            var drivers = ["Fernando Alonso"];
             var color_drivers = {};
-            color_drivers[drivers[0]] = "yellow";
+            color_drivers[drivers[0]] = "#E0E0D1";
 
-            var legendMS = svg.selectAll(".legend2")
+            var legendFA = svg.selectAll(".legend2")
                     .data(drivers)
                     .enter().append("g")
                     .attr("class", "legend")
                     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-            legendMS.append("rect")
+            legendFA.append("rect")
                     .attr("x", width - 100)
                     .attr("width", 18)
                     .attr("height", 18)
                     .style("fill",  function(d) { return color_drivers[d]; });
 
-            legendMS.append("text")
+            legendFA.append("text")
                     .attr("x", width - 100)
                     .attr("y", 9)
                     .attr("dy", ".35em")
