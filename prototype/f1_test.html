@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Bars</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<!--https://spreadsheets.google.com/feeds/worksheets/1rYQEWe1Y0GW8IT4Sol_U4TBD6AzDj95wIA3kf8aAEDY/private/full/od6-->
+
+
+<script>
+
+
+var names;
+var year;
+var distance;
+var time;
+var laps;
+var technical_information;
+var data;
+
+
+
+
+/*
+ lift off
+ */
+function loadData() {
+
+    var schumacher = {name:"Michael Schumacher",year:2002,constructor:"Ferrari", color:"red",time:"1:21:20.634",place:1,distance:6963,technic:"foo",laps:44,time_val:81*60+20}; /* 1	1	Michael Schumacher	Ferrari	44	1	1:21:20.634	Finished	10*/
+    var senna = {name:"Ayrton Senna",year:1985,constructor:"Lotus",color:"Green",time:"1:34:19.893",place:1,distance:6940,technic:"foo",laps:43,time_val:94*60+20};
+
+    /* 1	12	Ayrton Senna	Team Lotus	43	2	1:34:19.893	Finished	9*/
+    var vettel = {name:"Sebastien Vettel",year:2013,constructor:"Red Bull",color:"blue",time:"1:23:42.196",place:1,distance:7004,technic:"foo",laps:44,time_val:83*60+42};/* 1	1	Sebastian Vettel	Red Bull	44	2	1:23:42.196	Finished	25*/
+
+
+
+    data = [];
+    data.push(schumacher);
+    data.push(vettel);
+    data.push(senna);
+    generateVis(0,30);
+
+
+}
+
+function generateVis(o_x,o_y){
+
+    var width = 1000;
+    var height = 550;
+    var vertdist = 100;
+    var hordist = 200;
+
+    var widthScale = d3.scale.linear()
+            .domain([150,250])
+            .range([0,width]);
+
+   /* var colorScale = d3.scale.linear()
+            .domain([160,190])
+            .range(["blue","red"]);
+*/
+    var axis = d3.svg.axis()
+            .ticks(10)
+            .scale(widthScale);
+
+    var canvas = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height",height)
+            .append("g")
+            .attr("transform", "translate(" + o_x +"," + o_y +")");
+
+
+    var bars = canvas.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("width",function(d) {return widthScale(d.laps* d.distance*0.001/(d.time_val/3600));})
+            .attr("height",30)
+            .attr("fill", function(d){return d.color;})
+            .attr("y",function(d,i) {return o_y+i*vertdist})
+            .attr("x",hordist);
+
+
+
+
+    canvas.append("g")
+            .attr("transform", "translate("+ hordist+",0)" )  /* reeds getranslated */
+            .call(axis);
+
+    /*text apart, new group*/
+    canvas.append("g").selectAll("text")
+            .data(data)
+            .enter().append("text")
+            .attr("fill","white")
+            .attr("y",function (d,i) {return i*vertdist+20+o_y})
+            .attr("x",hordist)
+            .text(function (d) {return  d.year+" "+ d.constructor;});
+    /*text apart, new group*/
+    canvas.append("g").selectAll("text")
+            .data(data)
+            .enter().append("text")
+            .attr("fill","black")
+            .attr("y",function (d,i) {return i*vertdist+50+o_y})
+            .attr("x",hordist)
+            .text(function (d) {return  "Laps: "+d.laps+" Circuit Length: "+ d.distance+" m";});
+
+    canvas.append("g").selectAll("text")
+            .data(data)
+            .enter().append("text")
+            .attr("fill","black")
+            .attr("y",function (d,i) {return i*vertdist+20+o_y})
+            .text(function (d) {return  d.name;});
+
+
+
+
+}
+
+
+
+
+
+
+loadData();
+
+
+</script>
+</body>
+</html>
