@@ -96,12 +96,25 @@ function makeBarCharts(data){
 console.log(data);
 //parent
     var time_line = d3.select("#timeline");
+    var time_line_nav = d3.select("#timelineNav")
+    var numberOfYears = data.length;
 
 //years
     years = time_line.selectAll(".year")
         .data(data).enter()
         .append("div")
         .attr('class','year');
+    
+    var relativeWidth = 100 / numberOfYears;
+    
+    var years2 = time_line_nav.selectAll(".year")
+        .data(data).enter()
+        .append("div")
+        .attr('class','year')
+        .text(function(d){
+            return d.Year;
+        })
+        .attr("style", "width:" + relativeWidth + "%");
 
 
     years.append("div").attr('class','head').text(function (d){return d.Year});
@@ -129,6 +142,7 @@ console.log(data);
             }
 
             return height -  y(d.value); })
+        .attr("class", "team")
         .style("fill", function(d) { return color[d.name]; });
 
 
@@ -149,7 +163,10 @@ console.log(data);
             }
 
             return height -  y(d.value); })
-        .style("fill", function(d) { return color[d.name]; });
+        .style("fill", function(d) {
+            console.log(d);
+        return color[d.Team]; })
+        .attr("class", "driver");
 
 
 
