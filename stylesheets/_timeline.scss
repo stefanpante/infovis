@@ -29,6 +29,11 @@ $timeline-bck: #0B0B0B;
             
         }
     }
+    
+    #wrap_timeline{
+        position: relative;
+        
+    }
 }
 
 #timelineNav{
@@ -44,7 +49,14 @@ $timeline-bck: #0B0B0B;
         text-align: center;
         line-height: 35px;
         display: inline-block;
-        z-index: 2;
+        -webkit-user-select: none; /* Chrome/Safari */        
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+ */
+        z-index: 1;
+/* Rules below not implemented in browsers yet */
+-o-user-select: none;
+user-select: none;
+
     }
     
     #selector{
@@ -52,8 +64,8 @@ $timeline-bck: #0B0B0B;
         height: 45px;
         width: 300px;
         top: -5px;
-        background-color: lighten($timeline-bck, 5%);
-        z-index: 1;
+        background-color: rgba(255,255,255,0.2);
+        z-index: 2;
         box-sizing: border-box;
         border: 1px solid lighten($timeline-bck, 35%);
         cursor: pointer;

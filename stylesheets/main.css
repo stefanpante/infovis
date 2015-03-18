@@ -121,6 +121,8 @@ path.circuit {
       font-weight: 100;
       background-color: transparent;
       color: #646464; }
+  #timeline #wrap_timeline {
+    position: relative; }
 
 #timelineNav {
   width: 100%;
@@ -134,14 +136,23 @@ path.circuit {
     text-align: center;
     line-height: 35px;
     display: inline-block;
-    z-index: 2; }
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    z-index: 1;
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none; }
   #timelineNav #selector {
     position: absolute;
     height: 45px;
     width: 300px;
     top: -5px;
-    background-color: #181818;
-    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 2;
     box-sizing: border-box;
     border: 1px solid #646464;
     cursor: pointer; }
