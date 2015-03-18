@@ -1,59 +1,87 @@
 $timeline-bck: #0B0B0B;
-#timeline {
-    height: 500px;
+
+#timeline{
+    height: 50vh;
     background-color: $timeline-bck;
     margin-top: 5vh;
     box-shadow: inset 0 0 10px black;
-    .year {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+
+    
+    .year{
         height: 100%;
-        width: 500px;
-        border-right: 1px dashed lighten($timeline-bck, 5%);
-        float: left;
+        width:  500px;
+        border-right: 1px dashed lighten($timeline-bck, 10%);
+        display: inline-block;
         position: relative;
-        .head {
+        
+        .head{
             position: absolute;
             top: 10px;
             right: 10px;
             font-size: 3em;
             font-weight: 100;
             background-color: transparent;
-            color: lighten($timeline-bck, 20%);
+            color: lighten($timeline-bck, 35%);
+            
         }
+    }
+    
+    #wrap_timeline{
+        position: relative;
+        
     }
 }
 
-#timeline-nav {
-    margin-top: 12px;
-    height: 50px;
-    background-color: darken($timeline-bck, 2%);
+#timelineNav{
+    width: 100%;
+    height: 35px;
+    box-sizing: border-box;
+    margin-top: 15px;
+    background-color: $timeline-bck;
     position: relative;
-    #selector {
-        height: 60px;
-        width: 14%;
-        top: -5px;
-        z-index: 2;
-        position: absolute;
-        border: 1px solid lighten($timeline-bck, 20%);
-        background-color: $timeline-bck;
-        display: block;
-        cursor: pointer;
-    }
-    .year {
+    
+    .year{
         position: relative;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        cursor: pointer;
-        user-select: none;
-        z-index: 3;
-        height: 100%;
-        width: 4.166%;
         text-align: center;
-        line-height: 5vh;
-        color: lighten($timeline-bck, 20%);
-        border-right: 1px dashed lighten($timeline-bck, 5%);
-        float: left;
+        line-height: 35px;
+        display: inline-block;
+        -webkit-user-select: none; /* Chrome/Safari */        
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+ */
+        z-index: 1;
+/* Rules below not implemented in browsers yet */
+-o-user-select: none;
+user-select: none;
+
     }
+    
+    #selector{
+        position: absolute;
+        height: 45px;
+        width: 300px;
+        top: -5px;
+        background-color: rgba(255,255,255,0.2);
+        z-index: 2;
+        box-sizing: border-box;
+        border: 1px solid lighten($timeline-bck, 35%);
+        cursor: pointer;
+    }
+    
+    
+}
+
+.team{
+    fill-opacity: 0.4;
+}
+
+.bar{
+    fill: #006ff0;
+}
+
+.driver{
+    fill-opacity: 1;
 }
