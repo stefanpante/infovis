@@ -103,20 +103,20 @@ path.circuit {
   display: inline-block;
   height: 75px; }
 
-/* line 3, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #timeline {
   height: 500px;
   background-color: #0B0B0B;
   margin-top: 5vh;
   box-shadow: inset 0 0 10px black; }
-  /* line 9, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+  /* line 7, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
   #timeline .year {
     height: 100%;
     width: 500px;
     border-right: 1px dashed #181818;
     float: left;
     position: relative; }
-    /* line 16, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+    /* line 13, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
     #timeline .year .head {
       position: absolute;
       top: 10px;
@@ -126,13 +126,13 @@ path.circuit {
       background-color: transparent;
       color: #3e3e3e; }
 
-/* line 29, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+/* line 25, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #timeline-nav {
   margin-top: 12px;
   height: 50px;
   background-color: #060606;
   position: relative; }
-  /* line 35, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+  /* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
   #timeline-nav #selector {
     height: 60px;
     width: 14%;
@@ -140,10 +140,19 @@ path.circuit {
     z-index: 2;
     position: absolute;
     border: 1px solid #3e3e3e;
-    background-color: #0B0B0B; }
-  /* line 44, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+    background-color: #0B0B0B;
+    display: block;
+    cursor: pointer; }
+  /* line 41, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
   #timeline-nav .year {
     position: relative;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+    user-select: none;
     z-index: 3;
     height: 100%;
     width: 4.166%;
