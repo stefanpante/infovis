@@ -169,8 +169,16 @@ function makeBarCharts(data) {
             
           drag: function(event){
               var position = $(event.target).position();
+              if(position.left < 0){
+                  position.left = 0;
+              }
+              if(position.left + 300 > width){
+                  position.left = width - 300;
+              }
               var factor = position.left / width;
               var offset = - factor * totalWidth;
+              
+
               $("#wrap_timeline").css({
                   "left": offset + "px"
               })
