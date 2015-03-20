@@ -24,11 +24,14 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 
+
+
 var color = {};
 color["Benetton"] = "#1f77b4";
 color["Ferrari"] = "#d62728";
 color["Mercedes"] = "#17becf";
 color["Schumacher"] = 'grey';
+var eventColor = 'yellow';
 
 var xAxis = d3.svg.axis()
     .scale(x0)
@@ -55,6 +58,7 @@ d3.csv("prototype/Schumacher/data.csv", function (error, data) { /*asynch http:/
             };
         });
         d.drivers = [];
+        d.events = [];
     });
 
 
@@ -98,11 +102,16 @@ function useTeamData(teamdata) {
 
 
         var combinedData = [];
+        var currentTeam = "no team";
         teamdata.forEach(function (d) {
 
             var temp = d;
 
             if (d.Year in mcdata) {
+                if(mcdata[d.Year].Team != currentTeam){
+                    temp.events.push(mcdata[d.Year].name+" joins team "+mcdata[d.Year].Team );
+                    currentTeam = mcdata[d.Year].Team;
+                }
                 temp.drivers.push(mcdata[d.Year])
             }
 
@@ -110,6 +119,10 @@ function useTeamData(teamdata) {
 
 
         });
+
+        //maybe change array of drivers into 1 driver...
+
+
 
 
         makeBarCharts(combinedData);
@@ -162,7 +175,7 @@ function makeBarCharts(data) {
                   "left": offset + "px"
               })
               
-          },
+          }
               
         
         });
@@ -204,6 +217,33 @@ function makeBarCharts(data) {
             return color[d.name];
         });
 
+    //EVENT
+    var event = svgs.append("g").selectAll("rect")
+        .data(function (d) {
+            return d.events;
+        })
+        .enter().append("rect")
+        .attr("width", 10)
+        .attr("x", -5)
+        .attr("y", 0)
+        .attr("height", 500)
+        .attr("class", "event")
+        .style("fill", eventColor);
+
+    svgs.append("g").selectAll("text")
+        .data(function (d) {
+            return d.events;
+        })
+        .enter().append("text")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; })
+        .attr("fill","red")
+        .attr("x", 250)
+        .attr("y", 10);
+
+
+
+
 
     svgs.append("g").selectAll("rect")
         .data(function (d) {
@@ -232,6 +272,19 @@ function makeBarCharts(data) {
             return color[d.Team];
         })
         .attr("class", "driver");
+
+
+    //AXIS
+    svgs.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .attr("stroke","#FFF")
+        .style("text-anchor", "end")
+        .text("Wins");
 
 
 
