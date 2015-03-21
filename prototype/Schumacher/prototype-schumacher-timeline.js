@@ -12,7 +12,7 @@ var margin = {
 
 /* scale x-as voor jaartallen */
 var x0 = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+            .rangeRoundBands([0, width], 0.1);
 
 var svgs;
 
@@ -24,13 +24,11 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 
-
-
+/* Colors */
 var color = {};
-color["Benetton"] = "#1f77b4";
-color["Ferrari"] = "#d62728";
-color["Mercedes"] = "#17becf";
-color["Schumacher"] = 'grey';
+color.Benetton = "#1f77b4";
+color.Ferrari = "#d62728";
+color.Mercedes = "#17becf";
 var eventColor = 'yellow';
 
 var xAxis = d3.svg.axis()
@@ -75,7 +73,6 @@ d3.csv("prototype/Schumacher/data.csv", function (error, data) { /*asynch http:/
 
 
 function useTeamData(teamdata) {
-
     d3.csv("prototype/Schumacher/data_ms.csv", function (error, data) {
         var attr = d3.keys(data[0]);
         console.log(attr);
@@ -108,7 +105,7 @@ function useTeamData(teamdata) {
             var temp = d;
 
             if (d.Year in mcdata) {
-                if(mcdata[d.Year].Team != currentTeam){
+                if (mcdata[d.Year].Team != currentTeam){
                     temp.events.push(mcdata[d.Year].name+" joins team "+mcdata[d.Year].Team );
                     currentTeam = mcdata[d.Year].Team;
                 }
@@ -130,19 +127,19 @@ function useTeamData(teamdata) {
 }
 
 
+
 function makeBarCharts(data) {
     console.log(data);
+    
     //parent
     var time_line = d3.select("#wrap_timeline");
     var time_line_nav = d3.select("#timelineNav")
+    
     var numberOfYears = data.length;
-    
-
-    
     var totalWidth = numberOfYears  * 500;
-    //var totalTimeLineLength = $('#timeline .year').css("width");
+    // var totalTimeLineLength = $('#timeline .year').css("width");
     // for now hardcoded;
-    //alert(totalTimeLineLength);
+    // alert(totalTimeLineLength);
 
     //years
     years = time_line.selectAll(".year")
@@ -178,14 +175,11 @@ function makeBarCharts(data) {
               var factor = position.left / width;
               var offset = - factor * totalWidth;
               
-
               $("#wrap_timeline").css({
                   "left": offset + "px"
-              })
-              
+              })     
           }
               
-        
         });
 
     years.append("div").attr('class', 'head').text(function (d) {
