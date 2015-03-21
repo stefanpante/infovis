@@ -1,6 +1,8 @@
 /**
  * Created by pepino on 15.03.15.
  */
+
+ /* Margin, width and height values */
 var margin = {
         top: 20,
         right: 20,
@@ -10,55 +12,57 @@ var margin = {
     width = 500 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
-/* scale x-as voor jaartallen */
+/* Scaling X-axis */
 var x0 = d3.scale.ordinal()
             .rangeRoundBands([0, width], 0.1);
+
+/* Scaling Y-axis */
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+/* X-axis */
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient("bottom");
+
+/* Y-axis */
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format(".2s"));
+
+/* Coloring of the different F1-constuctors */
+var color = {};
+color.Benetton = "#1f77b4";
+color.Ferrari = "#d62728";
+color.Mercedes = "#17becf";
+
+/* Color of the event bars */
+var eventColor = 'yellow';
 
 var svgs;
 
 var years;
 
 
-/* scale y-as */
-var y = d3.scale.linear()
-    .range([height, 0]);
 
-
-/* Colors */
-var color = {};
-color.Benetton = "#1f77b4";
-color.Ferrari = "#d62728";
-color.Mercedes = "#17becf";
-var eventColor = 'yellow';
-
-var xAxis = d3.svg.axis()
-    .scale(x0)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(d3.format(".2s"));
-
-
-
-d3.csv("prototype/Schumacher/data.csv", function (error, data) { /*asynch http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js*/
+/* Loading data from the CSV */
+d3.csv("prototype/Schumacher/data.csv", function (error, data) { 
+    // http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
     var teamNames = d3.keys(data[0]).filter(function (key) {
         return key !== "Year";
     });
-
 
     data.forEach(function (d) {
         d.teams = teamNames.map(function (name) {
             return {
                 name: name,
-                value: +d[name] + 0.05
+                value: +d[name] + 0.1
             };
         });
         d.drivers = [];
         d.events = [];
     });
-
 
     x0.domain(data[0].teams.map(function (d) {
         return d.name;
@@ -68,14 +72,22 @@ d3.csv("prototype/Schumacher/data.csv", function (error, data) { /*asynch http:/
             return d.value;
         });
     })]);
+
+    /* Call function for organizing the data */
     useTeamData(data);
 });
 
 
+
+/* Organizing the data for each team and the searched driver. 
+For now, we only focus on one driver, namely Michael Schumacher */
 function useTeamData(teamdata) {
     d3.csv("prototype/Schumacher/data_ms.csv", function (error, data) {
         var attr = d3.keys(data[0]);
-        console.log(attr);
+        // console.log(attr);
+        
+        // Collect the name of the F1-constructor 
+        // and number of wins for each team
         data.forEach(function (d) {
             d = attr.map(function (name) {
                 return {
@@ -83,53 +95,47 @@ function useTeamData(teamdata) {
                     value: d[name]
                 };
             });
-        });
+        });   
 
-      
-
-        //better?
-        var mcdata = {};
+        // Collects the data for Michael Schumacher
+        // That is the team name and number of wins for each year
+        var dataSchumacher = {};
         data.forEach(function (d) {
-            mcdata[d.Year] = {
+            dataSchumacher[d.Year] = {
                 name: "Schumacher",
                 value: d.Wins,
                 Team: d.Team
             };
         });
 
-
+        // Checks whether Schumacher changed team
+        // Used to add events to the timeline
         var combinedData = [];
         var currentTeam = "no team";
         teamdata.forEach(function (d) {
-
             var temp = d;
-
-            if (d.Year in mcdata) {
-                if (mcdata[d.Year].Team != currentTeam){
-                    temp.events.push(mcdata[d.Year].name+" joins team "+mcdata[d.Year].Team );
-                    currentTeam = mcdata[d.Year].Team;
+            if (d.Year in dataSchumacher) {
+                if (dataSchumacher[d.Year].Team != currentTeam){
+                    temp.events.push(dataSchumacher[d.Year].name+" joins team "+dataSchumacher[d.Year].Team );
+                    currentTeam = dataSchumacher[d.Year].Team;
                 }
-                temp.drivers.push(mcdata[d.Year])
+                temp.drivers.push(dataSchumacher[d.Year])
             }
-
             combinedData.push(temp);
-
-
         });
 
-        //maybe change array of drivers into 1 driver...
-
-
-
-
+        // Call function for creating the bar charts
+        // using the array holding the data of the different constructors
+        // as well as the data for Michael Schumacher
         makeBarCharts(combinedData);
     });
 }
 
 
 
+/* Creating the bar charts */
 function makeBarCharts(data) {
-    console.log(data);
+    // console.log(data);
     
     //parent
     var time_line = d3.select("#wrap_timeline");
@@ -149,6 +155,7 @@ function makeBarCharts(data) {
 
     var relativeWidth = 100 / numberOfYears;
 
+    // Draggable timeline displaying the years
     var years2 = time_line_nav.selectAll(".year")
         .data(data).enter()
         .append("div")
@@ -158,7 +165,7 @@ function makeBarCharts(data) {
         })
         .attr("style", "width:" + relativeWidth + "%");
     
-
+    // Some wizard magic to make the whole thing scalable and draggable
     var width = $("#timelineNav").width();
     
           $("#selector").draggable({
@@ -186,6 +193,8 @@ function makeBarCharts(data) {
         return d.Year
     });
 
+
+    /* Initialise the specifications of the combined SVG */
     svgs = years.append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -211,7 +220,6 @@ function makeBarCharts(data) {
             if (isNaN(d.value)) {
                 return 0;
             }
-
             return height - y(d.value);
         })
         .attr("class", "team")
@@ -219,7 +227,8 @@ function makeBarCharts(data) {
             return color[d.name];
         });
 
-    //EVENT
+    // SVG for bar charts (events)
+    // Drawing a vertical bar to indicate the driver changed team
     var event = svgs.append("g").selectAll("rect")
         .data(function (d) {
             return d.events;
@@ -232,6 +241,8 @@ function makeBarCharts(data) {
         .attr("class", "event")
         .style("fill", eventColor);
 
+    // SVG for the events text
+    // Displaying whether the driver changed team
     svgs.append("g").selectAll("text")
         .data(function (d) {
             return d.events;
@@ -243,10 +254,9 @@ function makeBarCharts(data) {
         .attr("x", 250)
         .attr("y", 10);
 
-
-
-
-
+    
+    // SVG for the bar charts (number of wins)
+    // Drawing the number of wins for the Formula 1 constructors
     svgs.append("g").selectAll("rect")
         .data(function (d) {
             return d.drivers;
@@ -266,17 +276,17 @@ function makeBarCharts(data) {
             if (isNaN(d.value)) {
                 return 0;
             }
-
             return height - y(d.value);
         })
         .style("fill", function (d) {
-            console.log(d);
+            // console.log(d);
             return color[d.Team];
         })
         .attr("class", "driver");
 
 
-    //AXIS
+    // SVG for the legend of the Y-axis (wins) per year
+    // Displaying the wins legend for each year
     svgs.append("g")
         .attr("class", "y axis")
         .call(yAxis)
@@ -288,8 +298,5 @@ function makeBarCharts(data) {
         .style("text-anchor", "end")
         .text("Wins");
 
-
-
-
-
 }
+
