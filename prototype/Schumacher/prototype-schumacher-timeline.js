@@ -51,8 +51,20 @@ var svgs;
 
 var years;
 
+var drivers;
+var constructors;
 
+function loadData() {
+    $.getJSON('datasheets/drivers.json', function(data){
+        drivers = data;
+    });
+    
+    $.getJSON('datasheets/constructsion.json', function(data){
+        constructor = data;
+    })
+}
 
+loadData();
 /* Loading data from the CSV */
 d3.csv("prototype/Schumacher/data.csv", function (error, data) { 
     // http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
@@ -172,7 +184,15 @@ function makeBarCharts(data) {
         })
         .attr("style", "width:" + relativeWidth + "%");
     
+    // change the selectorwidth to match the timeline portion that is visible.
+    var selectorWidth = parseInt($("#timelineNav").outerWidth()) * parseInt($("#timeline").outerWidth()) / totalWidth;
+    alert(selectorWidth);
+    $("#selector").css({
+        width: selectorWidth + "px"
+    })
     // Some wizard magic to make the whole thing scalable and draggable
+    
+    
     var width = $("#timelineNav").width();
     
           $("#selector").draggable({
@@ -182,6 +202,9 @@ function makeBarCharts(data) {
               var position = $(event.target).position();
               if(position.left < 0){
                   position.left = 0;
+                  $("#selector").css({
+                      "left": 0
+                  });
               }
               if(position.left + 300 > width){
                   position.left = width - 300;
