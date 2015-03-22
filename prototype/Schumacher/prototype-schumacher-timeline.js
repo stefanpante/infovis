@@ -177,7 +177,11 @@ function createTimeLineNav(data) {
 
             $("#wrap_timeline").css({
                 "left": offset + "px"
-            })
+            });
+            
+            $("#wrapperSVG").css({
+                "left": offset + "px"
+            });
         }
 
     });
@@ -189,7 +193,7 @@ function createTimeLineNav(data) {
 /* Creating the bar charts */
 function makeBarCharts(data) {
     createTimeLineNav(data);
-
+    console.log(data);
     // This code cannot be placed in a seperated function because of the async nature of js.
     //parent
     var time_line = d3.select("#wrap_timeline");
@@ -209,18 +213,26 @@ function makeBarCharts(data) {
     // create one global svg, so that the trend line can be drawn
     // other svg's for each year will be appended to this one instead of 
     // of being inserted into the year div
-    var wrapperSVG = time_line.append('svg')
+    var wrapperSVG = d3.select('#timeline').append('svg')
         .attr("width", totalWidth)
+        .attr("height", height)
         .attr("id", "wrapperSVG");
+    
 
     /* Initialise the specifications of the combined SVG */
-    var svgs = years.append("svg")
+    var svgs = wrapperSVG.selectAll("svg").data(data).enter().append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("x", function(d,i){
+            var left = width * i;
+            return left;
+        });
     
-    // draw all the elements of the barchart
+    //draw all the elements of the barchart
     drawConstructors(svgs);
     drawDrivers(svgs);
+    
+    drawTrendLine(wrapperSVG, data);
     drawEvents(svgs);
     drawAxis(svgs);
 
@@ -291,6 +303,55 @@ function drawDrivers(svgs){
         })
         */
         .attr("class", "driver");
+}
+
+
+function drawTrendLine(svg, data){
+    
+    // function to calculate the x position
+    var calculateX = function(d,i){
+        if(!d.drivers[0]){
+            return i * width;
+        }else{
+            return i * width + x0(d.drivers[0].Team) + x0.rangeBand()/2;
+        }
+    }
+    
+    // function to calculate the y position
+    var calculateY = function(d){
+        if(!d.drivers[0]){
+            return y(0)
+        }else{
+          var val = parseInt(d.drivers[0].value);
+        if(isNaN(val))
+            {
+           return 0;
+           }
+        return y(val);  
+        }
+    }
+    
+    
+    // add little circles to where the driver is located
+    svg.selectAll(".circle").data(data).enter()
+    .append("circle")
+    .attr("class", "circle")
+    .attr("cy", calculateY)
+    .attr("cx", calculateX)
+    .attr("r", 3);
+    
+    // function to draw the line
+    var lineFunction = d3.svg.line()
+    .x(calculateX)
+    .y(calculateY).interpolate("linear");
+    
+    // draw the line
+    svg.append("path")
+        .attr("class", "trendline")
+        .attr("d", lineFunction(data))
+        .attr("stroke", "blue")
+        .attr("stroke-width", 1)
+        .attr("fill", "none");
 }
 /*
  * Draw the events (change of team for now)

@@ -1,59 +1,9 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline; }
-
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block; }
-
-body {
-  line-height: 1; }
-
-ol, ul {
-  list-style: none; }
-
-blockquote, q {
-  quotes: none; }
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none; }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
 body {
   background-color: #111111;
   font-family: sans-serif;
   font-size: 16px;
   color: white;
   font-family: 'Roboto', sans-serif; }
-
-svg {
-  width: 100%; }
 
 #wrapper {
   width: 100%;
@@ -65,38 +15,6 @@ svg {
     width: 50%;
     padding: 12px;
     box-sizing: border-box; }
-
-path.circuit {
-  stroke: #444444;
-  stroke-width: 5; }
-
-.driver {
-  fill-opacity: 0.8; }
-
-.drivertable {
-  padding: 12px;
-  border-radius: 6px;
-  margin: 0 auto; }
-  .drivertable thead {
-    text-align: center;
-    font-size: 2em;
-    font-weight: bold;
-    border-bottom: 1px solid #444444; }
-    .drivertable thead th {
-      padding-bottom: 12px; }
-  .drivertable td {
-    padding: 6px;
-    font-size: 1.5em;
-    vertical-align: center; }
-    .drivertable td img {
-      border-radius: 50%; }
-
-.color {
-  background-color: #ed1e79;
-  border-radius: 50%;
-  width: 75px;
-  display: inline-block;
-  height: 75px; }
 
 #timeline {
   height: 50vh;
@@ -125,10 +43,11 @@ path.circuit {
     position: relative;
     position: absolute;
     top: 0;
-    left: 0; }
+    left: 0;
+    z-index: 20; }
 
 #wrapperSVG {
-  height: 100%; }
+  position: absolute; }
 
 #timelineNav {
   width: 100%;
@@ -170,8 +89,16 @@ path.circuit {
   fill: #006ff0; }
 
 .driver {
-  fill-opacity: 1;
-  stroke: red; }
+  fill-opacity: 1; }
 
 .event {
   fill: yellow; }
+
+.circle {
+  stroke-opacity: 1;
+  fill: #006ff0; }
+
+.trendline {
+  stroke: #006ff0;
+  stroke-dasharray: 5,5;
+  fill-opacity: 0; }

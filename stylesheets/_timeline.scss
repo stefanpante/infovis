@@ -29,11 +29,13 @@ $timeline-bck: #0B0B0B;
         position: absolute;
         top: 0;
         left: 0;
+        z-index: 20;
     }
 }
 
 #wrapperSVG {
-    height: 100%;
+    position: absolute;
+
 }
 
 #timelineNav {
@@ -86,9 +88,19 @@ $timeline-bck: #0B0B0B;
 
 .driver {
     fill-opacity: 1;
-    stroke: red;
 }
 
 .event{
     fill: yellow;
+}
+
+.circle{
+    stroke-opacity: 1;
+    fill: #006ff0;
+}
+
+.trendline{
+    stroke: #006ff0;
+    stroke-dasharray: 5,5;
+    fill-opacity: 0;
 }
