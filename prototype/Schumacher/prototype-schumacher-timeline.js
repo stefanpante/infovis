@@ -341,7 +341,7 @@ function drawTrendLine(svg, data) {
         // function to draw the line
         var lineFunction = d3.svg.line()
             .x(calculateX)
-            .y(calculateY).interpolate("linear");
+            .y(calculateY).interpolate("monotone");
 
         // draw the line
         svg.append("path")
