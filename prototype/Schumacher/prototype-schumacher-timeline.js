@@ -185,12 +185,67 @@ function createTimeLineNav(data) {
         }
 
     });
+
+    $("#timelineNav .year").click(function (event) {
+        var left = $(event.target).position().left;
+
+        var factor = left / width;
+        var offset = -factor * totalWidth;
+
+        $("#selector").css({
+            left: left + "px"
+        });
+
+        $("#wrap_timeline").css({
+            "left": offset + "px"
+        });
+
+        $("#wrapperSVG").css({
+            "left": offset + "px"
+        });
+    });
+
+    $("#wrap_timeline").draggable({
+        axis: 'x',
+
+        drag: function (event) {
+            var left = parseInt($(event.target).position().left);
+
+            $("#wrapperSVG").css({
+                left: left + "px"
+            });
+            var factor = -left / totalWidth;
+            console.log("factor: " + factor);
+            var left1 = width * factor;
+            console.log(left1);
+            $("#selector").css({
+                left: left1
+            })
+        },
+
+        end: function (event) {
+            var left = parseInt($(event.target).position().left);
+
+            $("#wrapperSVG").css({
+                left: left + "px"
+            });
+            var factor = -left / totalWidth;
+            console.log("factor: " + factor);
+            var left1 = width * factor;
+            console.log(left1);
+            $("#selector").css({
+                left: left1
+            })
+        }
+    });
+
+
 }
 
 
 /* Creating the bar charts */
 function makeBarCharts(data) {
-        createTimeLineNav(data);
+
         console.log(data);
         // This code cannot be placed in a seperated function because of the async nature of js.
         //parent
@@ -230,6 +285,8 @@ function makeBarCharts(data) {
             });
 
         //draw all the elements of the barchart
+
+        createTimeLineNav(data);
         drawConstructors(svgs);
         drawDrivers(svgs);
         drawTrendLine(wrapperSVG, data);
@@ -362,7 +419,7 @@ function drawEvents(svgs) {
         })
         .enter().append("rect")
         .attr("width", 2)
-        .attr("x",0)
+        .attr("x", 0)
         .attr("y", 0)
         .attr("height", height)
         .attr("class", "event")

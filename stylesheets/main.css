@@ -45,7 +45,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 20; }
+    z-index: 20;
+    cursor: all-scroll; }
 
 #wrapperSVG {
   position: absolute; }
@@ -62,6 +63,7 @@ body {
     text-align: center;
     line-height: 35px;
     display: inline-block;
+    cursor: pointer;
     -webkit-user-select: none;
     /* Chrome/Safari */
     -moz-user-select: none;
