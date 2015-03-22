@@ -14,6 +14,7 @@ $timeline-bck: #0B0B0B;
         border-right: 1px dashed lighten($timeline-bck, 10%);
         display: inline-block;
         position: relative;
+        box-sizing: border-box;
         .head {
             position: absolute;
             top: 10px;
@@ -92,7 +93,12 @@ $timeline-bck: #0B0B0B;
 }
 
 .event{
-    fill: yellow;
+    fill: lighten($timeline-bck, 35%);
+}
+
+.eventText{
+    text-anchor: start;
+    fill: lighten($timeline-bck, 35%);
 }
 
 .circle{
@@ -105,3 +111,4 @@ $timeline-bck: #0B0B0B;
     stroke-dasharray: 5,5;
     fill-opacity: 0;
 }
+

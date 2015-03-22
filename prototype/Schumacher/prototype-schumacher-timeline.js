@@ -361,10 +361,10 @@ function drawEvents(svgs) {
             return d.events;
         })
         .enter().append("rect")
-        .attr("width", 10)
-        .attr("x", -5)
+        .attr("width", 2)
+        .attr("x",0)
         .attr("y", 0)
-        .attr("height", 500)
+        .attr("height", height)
         .attr("class", "event")
 
     // SVG for the events text
@@ -374,13 +374,13 @@ function drawEvents(svgs) {
             return d.events;
         })
         .enter().append("text")
-        .style("text-anchor", "end")
+        //.style("text-anchor", "end")
         .text(function (d) {
             return d;
         })
-        .attr("fill", "red")
-        .attr("x", 250)
-        .attr("y", 10);
+        .attr("class", "eventText")
+        .attr("x", 10)
+        .attr("y", 25);
 }
 
 /*
@@ -392,10 +392,11 @@ function drawAxis(svgs) {
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("fill", 'white')
+        .attr("y", 10)
+        .attr("x", -40)
+        .attr("dy", "0.71em")
         .style("text-anchor", "end")
-        .text("Wins");
+        .text("Wins")
+        .attr("class", "eventText");
 
 }

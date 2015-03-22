@@ -30,7 +30,8 @@ body {
     width: 500px;
     border-right: 1px dashed #252525;
     display: inline-block;
-    position: relative; }
+    position: relative;
+    box-sizing: border-box; }
     #timeline .year .head {
       position: absolute;
       top: 10px;
@@ -92,7 +93,11 @@ body {
   fill-opacity: 1; }
 
 .event {
-  fill: yellow; }
+  fill: #646464; }
+
+.eventText {
+  text-anchor: start;
+  fill: #646464; }
 
 .circle {
   stroke-opacity: 1;
