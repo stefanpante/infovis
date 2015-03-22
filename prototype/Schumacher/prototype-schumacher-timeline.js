@@ -1,13 +1,5 @@
-/* Margin, width and height values */
-var margin = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 40
-    },
-    width = 500 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
+var width = 500;
+var height = $("#timeline").height();
 /* Scaling X-axis */
 var x0 = d3.scale.ordinal()
     .rangeRoundBands([0, width], 0.1);
@@ -164,7 +156,7 @@ function createTimeLineNav(data) {
     // make the navigation selector draggable
     $("#selector").draggable({
         axis: 'x',
-
+        containment: "parent",
         drag: function (event) {
             var position = $(event.target).position();
             var left = position.left;
@@ -212,7 +204,7 @@ function makeBarCharts(data) {
         return d.Year
     });
 
-    var totalWidth = data.length * 500;
+    var totalWidth = data.length * width;
     
     // create one global svg, so that the trend line can be drawn
     // other svg's for each year will be appended to this one instead of 
@@ -223,10 +215,8 @@ function makeBarCharts(data) {
 
     /* Initialise the specifications of the combined SVG */
     var svgs = years.append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("width", width)
+        .attr("height", height);
     
     // draw all the elements of the barchart
     drawConstructors(svgs);
@@ -236,14 +226,9 @@ function makeBarCharts(data) {
 
 
 }
-
-
-function createTimeline(data){
-    
-}
-/*
- * Draws the bars for the teams
- */
+ /*
+  * Draws the bars for the teams
+  */
 function drawConstructors(svgs) {
      svgs.selectAll("rect")
         .data(function (d) {
