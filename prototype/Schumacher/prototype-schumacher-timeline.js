@@ -32,10 +32,17 @@ var yAxis = d3.svg.axis()
     .tickFormat(d3.format(".2s"));
 
 /* Coloring of the different F1-constuctors */
-var color = {};
+colors = d3.scale.category20();
+
+/*
+var colors = [];
 color.Benetton = "#1f77b4";
 color.Ferrari = "#d62728";
 color.Mercedes = "#17becf";
+color.BMW = 'grey';
+color.Renault = 'orange';
+color.Honda = 'green';
+*/
 
 /* Color of the event bars */
 var eventColor = 'yellow';
@@ -223,9 +230,11 @@ function makeBarCharts(data) {
             return height - y(d.value);
         })
         .attr("class", "team")
-        .style("fill", function (d) {
-            return color[d.name];
+        .style("fill",function(d,i){return colors(i)});
+        /*.style("fill", function (d) {
+            return colors[d.name];
         });
+        */
 
     // SVG for bar charts (events)
     // Drawing a vertical bar to indicate the driver changed team
@@ -278,10 +287,13 @@ function makeBarCharts(data) {
             }
             return height - y(d.value);
         })
-        .style("fill", function (d) {
+        .style("fill",'white')
+        .style("fill-opacity", .2)
+        /* .style("fill", function (d) {
             // console.log(d);
-            return color[d.Team];
+            return colors[d.Team];
         })
+        */
         .attr("class", "driver");
 
 
@@ -294,9 +306,8 @@ function makeBarCharts(data) {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", ".71em")
-        .attr("stroke","#FFF")
+        .style("fill",'white')
         .style("text-anchor", "end")
         .text("Wins");
 
 }
-
