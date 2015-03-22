@@ -1,6 +1,5 @@
 $timeline-bck: #0B0B0B;
-
-#timeline{
+#timeline {
     height: 50vh;
     background-color: $timeline-bck;
     margin-top: 5vh;
@@ -9,16 +8,13 @@ $timeline-bck: #0B0B0B;
     white-space: nowrap;
     overflow: hidden;
     position: relative;
-
-    
-    .year{
+    .year {
         height: 100%;
-        width:  500px;
+        width: 500px;
         border-right: 1px dashed lighten($timeline-bck, 10%);
         display: inline-block;
         position: relative;
-        
-        .head{
+        .head {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -26,62 +22,73 @@ $timeline-bck: #0B0B0B;
             font-weight: 100;
             background-color: transparent;
             color: lighten($timeline-bck, 35%);
-            
         }
     }
-    
-    #wrap_timeline{
+    #wrap_timeline {
         position: relative;
-        
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
 
-#timelineNav{
+#wrapperSVG {
+    height: 100%;
+}
+
+#timelineNav {
     width: 100%;
     height: 35px;
     box-sizing: border-box;
     margin-top: 15px;
     background-color: $timeline-bck;
     position: relative;
-    
-    .year{
+    .year {
         position: relative;
         text-align: center;
         line-height: 35px;
         display: inline-block;
-        -webkit-user-select: none; /* Chrome/Safari */        
--moz-user-select: none; /* Firefox */
--ms-user-select: none; /* IE10+ */
+        -webkit-user-select: none;
+        /* Chrome/Safari */
+        
+        -moz-user-select: none;
+        /* Firefox */
+        
+        -ms-user-select: none;
+        /* IE10+ */
+        
         z-index: 1;
-/* Rules below not implemented in browsers yet */
--o-user-select: none;
-user-select: none;
-
+        /* Rules below not implemented in browsers yet */
+        
+        -o-user-select: none;
+        user-select: none;
     }
-    
-    #selector{
+    #selector {
         position: absolute;
         height: 45px;
         width: 300px;
         top: -5px;
-        background-color: rgba(255,255,255,0.2);
+        background-color: rgba(255, 255, 255, 0.2);
         z-index: 2;
         box-sizing: border-box;
         border: 1px solid lighten($timeline-bck, 35%);
         cursor: pointer;
     }
-    
-    
 }
 
-.team{
+.team {
     fill-opacity: 0.4;
 }
 
-.bar{
+.bar {
     fill: #006ff0;
 }
 
-.driver{
+.driver {
     fill-opacity: 1;
+    stroke: red;
+}
+
+.event{
+    fill: yellow;
 }

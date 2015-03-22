@@ -122,7 +122,13 @@ path.circuit {
       background-color: transparent;
       color: #646464; }
   #timeline #wrap_timeline {
-    position: relative; }
+    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0; }
+
+#wrapperSVG {
+  height: 100%; }
 
 #timelineNav {
   width: 100%;
@@ -164,4 +170,8 @@ path.circuit {
   fill: #006ff0; }
 
 .driver {
-  fill-opacity: 1; }
+  fill-opacity: 1;
+  stroke: red; }
+
+.event {
+  fill: yellow; }

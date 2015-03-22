@@ -1,8 +1,4 @@
-/**
- * Created by pepino on 15.03.15.
- */
-
- /* Margin, width and height values */
+/* Margin, width and height values */
 var margin = {
         top: 20,
         right: 20,
@@ -14,7 +10,7 @@ var margin = {
 
 /* Scaling X-axis */
 var x0 = d3.scale.ordinal()
-            .rangeRoundBands([0, width], 0.1);
+    .rangeRoundBands([0, width], 0.1);
 
 /* Scaling Y-axis */
 var y = d3.scale.linear()
@@ -34,39 +30,23 @@ var yAxis = d3.svg.axis()
 /* Coloring of the different F1-constuctors */
 colors = d3.scale.category20();
 
-/*
-var colors = [];
-color.Benetton = "#1f77b4";
-color.Ferrari = "#d62728";
-color.Mercedes = "#17becf";
-color.BMW = 'grey';
-color.Renault = 'orange';
-color.Honda = 'green';
-*/
-
-/* Color of the event bars */
-var eventColor = 'yellow';
-
-var svgs;
-
-var years;
 
 var drivers;
 var constructors;
 
 function loadData() {
-    $.getJSON('datasheets/drivers.json', function(data){
+    $.getJSON('datasheets/drivers.json', function (data) {
         drivers = data;
     });
-    
-    $.getJSON('datasheets/constructsion.json', function(data){
+
+    $.getJSON('datasheets/constructsion.json', function (data) {
         constructor = data;
     })
 }
 
 loadData();
 /* Loading data from the CSV */
-d3.csv("prototype/Schumacher/data.csv", function (error, data) { 
+d3.csv("prototype/Schumacher/data.csv", function (error, data) {
     // http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
     var teamNames = d3.keys(data[0]).filter(function (key) {
         return key !== "Year";
@@ -104,7 +84,7 @@ function useTeamData(teamdata) {
     d3.csv("prototype/Schumacher/data_ms.csv", function (error, data) {
         var attr = d3.keys(data[0]);
         // console.log(attr);
-        
+
         // Collect the name of the F1-constructor 
         // and number of wins for each team
         data.forEach(function (d) {
@@ -114,7 +94,7 @@ function useTeamData(teamdata) {
                     value: d[name]
                 };
             });
-        });   
+        });
 
         // Collects the data for Michael Schumacher
         // That is the team name and number of wins for each year
@@ -134,8 +114,8 @@ function useTeamData(teamdata) {
         teamdata.forEach(function (d) {
             var temp = d;
             if (d.Year in dataSchumacher) {
-                if (dataSchumacher[d.Year].Team != currentTeam){
-                    temp.events.push(dataSchumacher[d.Year].name+" joins team "+dataSchumacher[d.Year].Team );
+                if (dataSchumacher[d.Year].Team != currentTeam) {
+                    temp.events.push(dataSchumacher[d.Year].name + " joins team " + dataSchumacher[d.Year].Team);
                     currentTeam = dataSchumacher[d.Year].Team;
                 }
                 temp.drivers.push(dataSchumacher[d.Year])
@@ -151,31 +131,21 @@ function useTeamData(teamdata) {
 }
 
 
+function createTimeLineNav(data) {
+    // select the timeline navigation.
+    var time_line_nav = d3.select("#timelineNav");
+    var selector = $("#selector");
 
-/* Creating the bar charts */
-function makeBarCharts(data) {
-    // console.log(data);
-    
-    //parent
-    var time_line = d3.select("#wrap_timeline");
-    var time_line_nav = d3.select("#timelineNav")
-    
+    // get the total number of years to display
     var numberOfYears = data.length;
-    var totalWidth = numberOfYears  * 500;
-    // var totalTimeLineLength = $('#timeline .year').css("width");
-    // for now hardcoded;
-    // alert(totalTimeLineLength);
+    // Calculate the totalwidth of the timeline
+    var totalWidth = numberOfYears * 500;
 
-    //years
-    years = time_line.selectAll(".year")
-        .data(data).enter()
-        .append("div")
-        .attr('class', 'year');
-
+    // calculate the width of each year in the navigation in percentages 
     var relativeWidth = 100 / numberOfYears;
 
     // Draggable timeline displaying the years
-    var years2 = time_line_nav.selectAll(".year")
+    var years = time_line_nav.selectAll(".year")
         .data(data).enter()
         .append("div")
         .attr('class', 'year')
@@ -183,55 +153,99 @@ function makeBarCharts(data) {
             return d.Year;
         })
         .attr("style", "width:" + relativeWidth + "%");
-    
-    // change the selectorwidth to match the timeline portion that is visible.
+
+    // calculate the width that the selector has so that it corresponds to the displayed years
+    var width = $("#timelineNav").width();
     var selectorWidth = parseInt($("#timelineNav").outerWidth()) * parseInt($("#timeline").outerWidth()) / totalWidth;
-    alert(selectorWidth);
-    $("#selector").css({
+    selector.css({
         width: selectorWidth + "px"
     })
-    // Some wizard magic to make the whole thing scalable and draggable
-    
-    
-    var width = $("#timelineNav").width();
-    
-          $("#selector").draggable({
-            axis: 'x',
-            
-          drag: function(event){
-              var position = $(event.target).position();
-              if(position.left < 0){
-                  position.left = 0;
-                  $("#selector").css({
-                      "left": 0
-                  });
-              }
-              if(position.left + 300 > width){
-                  position.left = width - 300;
-              }
-              var factor = position.left / width;
-              var offset = - factor * totalWidth;
-              
-              $("#wrap_timeline").css({
-                  "left": offset + "px"
-              })     
-          }
-              
-        });
+
+    // make the navigation selector draggable
+    $("#selector").draggable({
+        axis: 'x',
+
+        drag: function (event) {
+            var position = $(event.target).position();
+            var left = position.left;
+            if (position.left < 0) {
+                left = 0;
+                $("#selector").css({
+                    "left": left
+                });
+            }
+            if (position.left + selectorWidth > width) {
+                left = width - selectorWidth;
+                $("#selector").css({
+                    "left": left
+                });
+            }
+            var factor = left / width;
+            var offset = -factor * totalWidth;
+
+            $("#wrap_timeline").css({
+                "left": offset + "px"
+            })
+        }
+
+    });
+
+
+}
+
+
+/* Creating the bar charts */
+function makeBarCharts(data) {
+    createTimeLineNav(data);
+
+    // This code cannot be placed in a seperated function because of the async nature of js.
+    //parent
+    var time_line = d3.select("#wrap_timeline");
+
+    //years
+    years = time_line.selectAll(".year")
+        .data(data).enter()
+        .append("div")
+        .attr('class', 'year');
 
     years.append("div").attr('class', 'head').text(function (d) {
         return d.Year
     });
 
+    var totalWidth = data.length * 500;
+    
+    // create one global svg, so that the trend line can be drawn
+    // other svg's for each year will be appended to this one instead of 
+    // of being inserted into the year div
+    var wrapperSVG = time_line.append('svg')
+        .attr("width", totalWidth)
+        .attr("id", "wrapperSVG");
 
     /* Initialise the specifications of the combined SVG */
-    svgs = years.append("svg")
+    var svgs = years.append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    // draw all the elements of the barchart
+    drawConstructors(svgs);
+    drawDrivers(svgs);
+    drawEvents(svgs);
+    drawAxis(svgs);
 
-    svgs.selectAll("rect")
+
+}
+
+
+function createTimeline(data){
+    
+}
+/*
+ * Draws the bars for the teams
+ */
+function drawConstructors(svgs) {
+     svgs.selectAll("rect")
         .data(function (d) {
             return d.teams;
         })
@@ -253,42 +267,16 @@ function makeBarCharts(data) {
             return height - y(d.value);
         })
         .attr("class", "team")
-        .style("fill",function(d,i){return colors(i)});
-        /*.style("fill", function (d) {
-            return colors[d.name];
+        .style("fill", function (d, i) {
+            return colors(i)
         });
-        */
-
-    // SVG for bar charts (events)
-    // Drawing a vertical bar to indicate the driver changed team
-    var event = svgs.append("g").selectAll("rect")
-        .data(function (d) {
-            return d.events;
-        })
-        .enter().append("rect")
-        .attr("width", 10)
-        .attr("x", -5)
-        .attr("y", 0)
-        .attr("height", 500)
-        .attr("class", "event")
-        .style("fill", eventColor);
-
-    // SVG for the events text
-    // Displaying whether the driver changed team
-    svgs.append("g").selectAll("text")
-        .data(function (d) {
-            return d.events;
-        })
-        .enter().append("text")
-        .style("text-anchor", "end")
-        .text(function(d) { return d; })
-        .attr("fill","red")
-        .attr("x", 250)
-        .attr("y", 10);
-
-    
-    // SVG for the bar charts (number of wins)
-    // Drawing the number of wins for the Formula 1 constructors
+}
+/*
+ * Draw the bars for the drivers on top of the teams bar.
+ */
+function drawDrivers(svgs){
+     // SVG for the bar charts (number of wins)
+    // Drawing the number of wins for the Formula 1 drivers
     svgs.append("g").selectAll("rect")
         .data(function (d) {
             return d.drivers;
@@ -310,7 +298,7 @@ function makeBarCharts(data) {
             }
             return height - y(d.value);
         })
-        .style("fill",'white')
+        .style("fill", 'white')
         .style("fill-opacity", .2)
         /* .style("fill", function (d) {
             // console.log(d);
@@ -318,10 +306,46 @@ function makeBarCharts(data) {
         })
         */
         .attr("class", "driver");
+}
+/*
+ * Draw the events (change of team for now)
+ */
+function drawEvents(svgs) {
 
+    
+    // SVG for bar charts (events)
+    // Drawing a vertical bar to indicate the driver changed team
+    var event = svgs.append("g").selectAll("rect")
+        .data(function (d) {
+            return d.events;
+        })
+        .enter().append("rect")
+        .attr("width", 10)
+        .attr("x", -5)
+        .attr("y", 0)
+        .attr("height", 500)
+        .attr("class", "event")
+    
+    // SVG for the events text
+    // Displaying whether the driver changed team
+    svgs.append("g").selectAll("text")
+        .data(function (d) {
+            return d.events;
+        })
+        .enter().append("text")
+        .style("text-anchor", "end")
+        .text(function (d) {
+            return d;
+        })
+        .attr("fill", "red")
+        .attr("x", 250)
+        .attr("y", 10);
+}
 
-    // SVG for the legend of the Y-axis (wins) per year
-    // Displaying the wins legend for each year
+/*
+ * Draws the number of wins axis on each year.
+ */
+function drawAxis(svgs) {
     svgs.append("g")
         .attr("class", "y axis")
         .call(yAxis)
@@ -329,7 +353,7 @@ function makeBarCharts(data) {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", ".71em")
-        .style("fill",'white')
+        .style("fill", 'white')
         .style("text-anchor", "end")
         .text("Wins");
 
