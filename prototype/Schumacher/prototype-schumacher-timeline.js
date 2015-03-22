@@ -379,8 +379,8 @@ function drawEvents(svgs) {
             return d;
         })
         .attr("class", "eventText")
-        .attr("x", 10)
-        .attr("y", 25);
+        .attr("x", 35)
+        .attr("y", 35);
 }
 
 /*
@@ -393,7 +393,7 @@ function drawAxis(svgs) {
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 10)
-        .attr("x", -40)
+        .attr("x", -23)
         .attr("dy", "0.71em")
         .style("text-anchor", "end")
         .text("Wins")
