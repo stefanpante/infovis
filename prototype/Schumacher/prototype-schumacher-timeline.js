@@ -291,8 +291,10 @@ function makeBarCharts(data) {
         drawConstructors(svgs);
         drawDrivers(svgs);
         drawTrendLine(wrapperSVG, data);
+        divideInBlocks(svgs);
         drawEvents(svgs);
-        drawAxis(svgs);
+//        drawAxis(svgs);
+
 
 
     }
@@ -421,11 +423,11 @@ function drawEvents(svgs) {
             return d.events;
         })
         .enter().append("rect")
-        .attr("width", 2)
+        .attr("width", 10)
         .attr("x", 0)
         .attr("y", 0)
         .attr("height", height)
-        .attr("class", "event")
+        .attr("class", "event");
 
     // SVG for the events text
     // Displaying whether the driver changed team
@@ -439,7 +441,7 @@ function drawEvents(svgs) {
             return d;
         })
         .attr("class", "eventText")
-        .attr("x", 35)
+        .attr("x", 45)
         .attr("y", 35);
 }
 
@@ -459,5 +461,69 @@ function drawAxis(svgs) {
         .style("text-anchor", "end")
         .text("Wins")
         .attr("class", "axisText");
+
+}
+
+/*
+ * Draws the number of wins axis on each year.
+ */
+function divideInBlocks(svgs) {
+    var domainY = y.domain();
+    var maxY = domainY[1]-1;
+    var linesDividers = [];
+    var linesAxisLeft = [];
+    var linesAxisRight = [];
+    var axisL = 10;
+    for (i = 1; i < maxY; i++) {
+        var lineData = [ { "x": 0,   "y": y(i+0.1)},  { "x": width,  "y": y(i+0.1)}];
+        linesDividers.push(lineData);
+
+        var lineData2 = [ { "x": 0,   "y": y(i+0.1)},  { "x": axisL,  "y": y(i+0.1)}];
+        linesAxisLeft.push(lineData2);
+
+        var lineData3 = [ { "x": width-axisL,   "y": y(i+0.1)},  { "x": width,  "y": y(i+0.1)}];
+        linesAxisRight.push(lineData3);
+    }
+
+
+
+
+    //This is the accessor function we talked about above
+    var lineFunction = d3.svg.line()
+                            .x(function(d) { return d.x; })
+                            .y(function(d) { return d.y; })
+                            .interpolate("linear");
+
+
+
+    //The line SVG Path we draw
+    for (i = 0; i < linesDividers.length; i++) {
+        var lineGraph = svgs.append("path")
+            .attr("d", lineFunction(linesDividers[i]))
+            .attr("stroke", "#0b0b0b")
+            .attr("stroke-width", 0.5)
+            .attr("fill", "none");
+
+        var lineGraph2 = svgs.append("path")
+            .attr("d", lineFunction(linesAxisLeft[i]))
+            .attr("stroke", "white")
+            .attr("stroke-width", 0.5)
+            .attr("fill", "none");
+
+        var lineGraph3 = svgs.append("path")
+            .attr("d", lineFunction(linesAxisRight[i]))
+            .attr("stroke", "white")
+            .attr("stroke-width", 0.5)
+            .attr("fill", "none");
+
+            svgs.append("text")
+            .attr("y", y(i+1.3))
+            .attr("x", 10)
+            .text(i+1)
+            .attr("class", "axisText");
+    }
+
+
+
 
 }

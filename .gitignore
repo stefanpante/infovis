@@ -1,4 +1,3 @@
 *.map
 scraper/node_modules
 **/.idea/**
-.sass-cache/
