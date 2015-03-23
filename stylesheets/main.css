@@ -99,19 +99,11 @@ body {
 
 .eventText {
   text-anchor: start;
-<<<<<<< HEAD
   fill: #960505; }
 
 .axisText {
   text-anchor: start;
   fill: #646464; }
-=======
-  fill:  #720303; } /* was #646464 */
-
-.axisText {
-    text-anchor: start;
-    fill:   #646464; }
->>>>>>> ee7b06db8365d20744ddd314e5a885b58756e10b
 
 .circle {
   stroke-opacity: 1;
