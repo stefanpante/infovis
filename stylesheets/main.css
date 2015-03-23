@@ -86,7 +86,7 @@ body {
     cursor: pointer; }
 
 .team {
-  fill-opacity: 0.2; }
+  fill-opacity: 0.35; }
 
 .bar {
   fill: #006ff0; }
@@ -95,9 +95,13 @@ body {
   fill-opacity: 1; }
 
 .event {
-  fill: #720303; }
+  fill: #960505; }
 
 .eventText {
+  text-anchor: start;
+  fill: #960505; }
+
+.axisText {
   text-anchor: start;
   fill: #646464; }
 
@@ -109,3 +113,8 @@ body {
   stroke: #006ff0;
   stroke-dasharray: 5,5;
   fill-opacity: 0; }
+
+.tooltip {
+  position: absolute;
+  background-color: white;
+  z-index: 10; }
