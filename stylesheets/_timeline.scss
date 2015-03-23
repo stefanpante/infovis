@@ -83,7 +83,7 @@ $timeline-bck: #0B0B0B;
 }
 
 .team {
-    fill-opacity: 0.2;
+    fill-opacity: 0.35;
 }
 
 .bar {
@@ -95,10 +95,15 @@ $timeline-bck: #0B0B0B;
 }
 
 .event{
-    fill: #720303;
+    fill: #960505;
 }
 
 .eventText{
+    text-anchor: start;
+    fill: #960505;
+}
+
+.axisText{
     text-anchor: start;
     fill: lighten($timeline-bck, 35%);
 }
@@ -114,3 +119,8 @@ $timeline-bck: #0B0B0B;
     fill-opacity: 0;
 }
 
+.tooltip{
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+}

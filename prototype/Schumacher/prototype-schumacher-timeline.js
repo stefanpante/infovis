@@ -124,6 +124,7 @@ function useTeamData(teamdata) {
 
 
 function createTimeLineNav(data) {
+    //console.log(JSON.stringify(data));
     // select the timeline navigation.
     var time_line_nav = d3.select("#timelineNav");
     var selector = $("#selector");
@@ -217,7 +218,7 @@ function createTimeLineNav(data) {
             var factor = -left / totalWidth;
             console.log("factor: " + factor);
             var left1 = width * factor;
-            console.log(left1);
+
             $("#selector").css({
                 left: left1
             })
@@ -322,7 +323,9 @@ function drawConstructors(svgs) {
                 }
                 return height - y(d.value);
             })
-            .attr("class", "team")
+            .attr("class", function(d,i){
+                return "team team-" + i;
+        })
             .style("fill", function (d, i) {
                 return colors(i)
             });
@@ -457,7 +460,7 @@ function drawAxis(svgs) {
         .attr("dy", "0.71em")
         .style("text-anchor", "end")
         .text("Wins")
-        .attr("class", "eventText");
+        .attr("class", "axisText");
 
 }
 
