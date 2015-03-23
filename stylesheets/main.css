@@ -99,7 +99,11 @@ body {
 
 .eventText {
   text-anchor: start;
-  fill: #646464; }
+  fill:  #720303; } /* was #646464 */
+
+.axisText {
+    text-anchor: start;
+    fill:   #646464; }
 
 .circle {
   stroke-opacity: 1;
