@@ -70,10 +70,21 @@ function makeBarCharts(data) {
         divideInBlocks(svgs);
         drawEvents(svgs);
 //        drawAxis(svgs);
+    
+        stopLoadingAnimation();
+    
+    
 
 
 
     }
+
+
+function stopLoadingAnimation(){
+    $("#loader").fadeOut(1500, function(event){
+        $(event.target).remove();
+    })
+}
     /*
      * Draws the bars for the teams
      */
