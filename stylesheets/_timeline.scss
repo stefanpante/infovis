@@ -2,12 +2,12 @@ $timeline-bck: #0B0B0B;
 #timeline {
     height: 50vh;
     background-color: $timeline-bck;
-    margin-top: 5vh;
     box-shadow: inset 0 0 10px black;
-    width: auto;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+    display: block;
     .year {
         height: 100%;
         width: 500px;
@@ -123,3 +123,4 @@ $timeline-bck: #0B0B0B;
     background-color: white;
     z-index: 10;
 }
+
