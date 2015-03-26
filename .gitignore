@@ -1,4 +1,6 @@
 *.map
 scraper/node_modules
+
 **/.idea/**
 .gitignore~
+**/.sass-cache/**
