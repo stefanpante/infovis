@@ -26,6 +26,7 @@ colors = d3.scale.category20();
 function makeBarCharts(data) {
         // This code cannot be placed in a seperated function because of the async nature of js.
         //parent
+        
         var time_line = d3.select("#wrap_timeline");
 
         //years
@@ -62,7 +63,8 @@ function makeBarCharts(data) {
             });
 
         //draw all the elements of the barchart
-
+        console.log("data");
+        console.log(data);
         createTimeLineNav(data);
         drawConstructors(svgs);
         drawDrivers(svgs);

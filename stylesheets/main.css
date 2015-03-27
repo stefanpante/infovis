@@ -139,40 +139,6 @@ body {
 #wrapperSVG {
   position: absolute; }
 
-#timelineNav {
-  width: 100%;
-  height: 35px;
-  box-sizing: border-box;
-  margin-top: 15px;
-  background-color: #0b0b0b;
-  position: relative; }
-  #timelineNav .year {
-    position: relative;
-    text-align: center;
-    line-height: 35px;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    /* Chrome/Safari */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* IE10+ */
-    z-index: 1;
-    /* Rules below not implemented in browsers yet */
-    -o-user-select: none;
-    user-select: none; }
-  #timelineNav #selector {
-    position: absolute;
-    height: 45px;
-    width: 300px;
-    top: -5px;
-    background-color: rgba(255, 255, 255, 0.2);
-    z-index: 2;
-    box-sizing: border-box;
-    border: 1px solid #646464;
-    cursor: pointer; }
-
 .team {
   fill-opacity: 0.35; }
 
@@ -206,3 +172,55 @@ body {
   position: absolute;
   background-color: white;
   z-index: 10; }
+
+#timelineNav {
+  width: 100%;
+  height: 35px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  background-color: #0b0b0b;
+  position: relative; }
+  #timelineNav .year {
+    position: relative;
+    text-align: center;
+    line-height: 35px;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    z-index: 1;
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none; }
+  #timelineNav #selector {
+    position: absolute;
+    height: 35px;
+    width: 300px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 2;
+    box-sizing: border-box;
+    cursor: pointer; }
+  #timelineNav #selector:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px #646464; }
+  #timelineNav #selector:before {
+    content: '';
+    width: 25px;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-image: url(../img/navigation/left.png);
+    float: left; }
+  #timelineNav #selector:after {
+    content: '';
+    width: 25px;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-image: url(../img/navigation/right.png);
+    float: right; }
