@@ -103,11 +103,12 @@ function createDrivers(){
             if(!drivers[driverId]) drivers[driverId] = {};
             drivers[driverId].name = name;
             drivers[driverId].driverId = driverId;
-            if(!drivers[driverId].career) drivers[driverId].career = {}
-            drivers[driverId].career[key] = {
+            if(!drivers[driverId].career) drivers[driverId].career = []
+            drivers[driverId].career.push({
+                year: key,
                 constructorId: constructor,
                 wins: wins
-            };
+            });
         }
 
     }
@@ -126,6 +127,8 @@ function createConstructor(){
     var constructors = {};
     for (key in constructorStandings){
         var yearStanding = constructorStandings[key];
+        
+        constructors[key] = [];
         for(var i = 0; i < yearStanding.length; i++){
             //get constructor data
             var constructor = yearStanding[i].Constructor;
@@ -134,13 +137,17 @@ function createConstructor(){
             // get the wins of the constructor
             var wins = yearStanding[i].wins;
             
-            if(!constructors[constructorId]) constructors[constructorId] = {};
-            constructors[constructorId].constructorId = constructorId;
-            constructors[constructorId].name = name;
-            if(!constructors[constructorId].career) constructors[constructorId].career = {};
-            constructors[constructorId].career[key] = {
+            var constructor = {
+                constructorId: constructorId,
+                name: name,
                 wins: wins
             }
+            
+            constructors[key].push(constructor);
+            
+            
+            
+            
         }
     }
     

@@ -19,7 +19,8 @@ function createTimeLineNav(data) {
         .append("div")
         .attr('class', 'year')
         .text(function (d) {
-            return d.Year;
+            // the key is the year
+            return d.year;
         })
         .attr("style", "width:" + relativeWidth + "%");
 
