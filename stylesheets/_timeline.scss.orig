@@ -107,7 +107,6 @@ $timeline-bck: #0B0B0B;
     text-anchor: start;
     fill: lighten($timeline-bck, 35%);
 }
-
 .circle{
     stroke-opacity: 1;
     fill: #006ff0;
@@ -119,8 +118,11 @@ $timeline-bck: #0B0B0B;
     fill-opacity: 0;
 }
 
+<<<<<<< HEAD
+=======
 .tooltip{
     position: absolute;
     background-color: white;
     z-index: 10;
 }
+>>>>>>> 3d1141ecc96144fe5146e074e79fdd38a16ef0a6

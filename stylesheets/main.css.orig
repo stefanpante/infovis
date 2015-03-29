@@ -1,5 +1,5 @@
 body {
-  background-color: #111111;
+  background-color: #111;
   font-family: sans-serif;
   font-size: 16px;
   color: white;
@@ -18,7 +18,7 @@ body {
 
 #timeline {
   height: 50vh;
-  background-color: #0b0b0b;
+  background-color: #0B0B0B;
   margin-top: 5vh;
   box-shadow: inset 0 0 10px black;
   width: auto;
@@ -56,7 +56,7 @@ body {
   height: 35px;
   box-sizing: border-box;
   margin-top: 15px;
-  background-color: #0b0b0b;
+  background-color: #0B0B0B;
   position: relative; }
   #timelineNav .year {
     position: relative;
@@ -100,23 +100,22 @@ body {
 .eventText {
   text-anchor: start;
 <<<<<<< HEAD
+  fill: #646464; }
 =======
-
->>>>>>> master
+<<<<<<< HEAD
   fill: #960505; }
 
 .axisText {
   text-anchor: start;
   fill: #646464; }
-<<<<<<< HEAD
 =======
-
   fill:  #720303; } /* was #646464 */
 
 .axisText {
     text-anchor: start;
     fill:   #646464; }
->>>>>>> master
+>>>>>>> ee7b06db8365d20744ddd314e5a885b58756e10b
+>>>>>>> 3d1141ecc96144fe5146e074e79fdd38a16ef0a6
 
 .circle {
   stroke-opacity: 1;
@@ -127,7 +126,11 @@ body {
   stroke-dasharray: 5,5;
   fill-opacity: 0; }
 
+<<<<<<< HEAD
+/*# sourceMappingURL=main.css.map */
+=======
 .tooltip {
   position: absolute;
   background-color: white;
   z-index: 10; }
+>>>>>>> 3d1141ecc96144fe5146e074e79fdd38a16ef0a6
