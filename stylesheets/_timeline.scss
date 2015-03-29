@@ -85,3 +85,17 @@ $timeline-bck: #0B0B0B;
     z-index: 10;
 }
 
+.changedriver{
+    padding: 6px;
+    background-color: #0B0B0B;
+    border-radius: 6px;
+    width: 100px;
+    margin: 12px;
+    float:left;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.changeDriver:hover{
+    background-color: lighten($timeline-bck, 5%);
+}

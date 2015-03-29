@@ -171,7 +171,7 @@ function drawDriver(svgs, selected_data) {
             return height - y(d.wins);
         })
         .style("fill", 'red')
-        .style("fill-opacity", .2)
+        .style("fill-opacity", .5)
         /* .style("fill", function (d) {
             // console.log(d);
             return colors[d.Team];
@@ -184,7 +184,7 @@ function drawDriver(svgs, selected_data) {
 function drawTrendLine(svg, data) {
     // function to calculate the x position
     var calculateX = function (d, i) {
-        return i * width + x0(d.constructorId);
+        return i * width + x0(d.constructorId) +x0.rangeBand()/2;
 
     }
 
@@ -259,16 +259,7 @@ function drawEvents(svgs) {
 function drawAxis(svgs) {
     svgs.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(10,0)")
         .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 10)
-        .attr("x", -23)
-        .attr("dy", "0.71em")
-        .style("text-anchor", "end")
-        .text("Wins")
-        .attr("class", "axisText");
 
 }
 
