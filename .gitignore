@@ -1,3 +1,7 @@
 *.map
-scraper/node_modules
+dataCollector/node_modules
+
 **/.idea/**
+.gitignore~
+**/.sass-cache/**
+dd

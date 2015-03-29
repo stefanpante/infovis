@@ -501,19 +501,19 @@ function divideInBlocks(svgs) {
         var lineGraph = svgs.append("path")
             .attr("d", lineFunction(linesDividers[i]))
             .attr("stroke", "#0b0b0b")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("fill", "none");
 
         var lineGraph2 = svgs.append("path")
             .attr("d", lineFunction(linesAxisLeft[i]))
             .attr("stroke", "white")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("fill", "none");
 
         var lineGraph3 = svgs.append("path")
             .attr("d", lineFunction(linesAxisRight[i]))
             .attr("stroke", "white")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("fill", "none");
 
             svgs.append("text")

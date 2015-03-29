@@ -3,19 +3,45 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="stylesheets/main.css">
+    
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<!--    <script src="js/lib/q.min.js"></script>-->
 </head>
 
 <body>
-    <div id="timeline">
-        <div id="wrap_timeline"></div>
+    <div id="wrapper">
+        <div id="title">
+            <div class="name">Vettel</div>
+<!--            <div class="name">Hamilton</div>-->
+        </div>
+
+        <div id="timeline">
+            <div id="wrap_timeline"></div>
+        </div>
+        <div id="timelineNav">
+            <div id="selector"></div>
+        </div>
     </div>
-    <div id="timelineNav">
-        <div id="selector"></div>
+<div class="changedriver" data-driver="hamilton">Hamilton</div>
+<div class="changedriver" data-driver="senna">Senna</div>
+<div class="changedriver" data-driver="vettel">Vettel</div>
+<!--
+    <div id="loader">
+        <div class='loader'>
+            <div class='bar one'></div>
+            <div class='bar two'></div>
+            <div class='bar three'></div>
+            <div class='bar four'></div>
+            <div class='bar five'></div>
+        </div>
     </div>
-    <script src="prototype/Schumacher/prototype-schumacher-timeline.js"></script>
+-->
+    <script src="js/timelineNav.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/dataLoader.js"></script>
+    <script src="js/bootstrap.js"></script>
 </body>
 
 </html>
