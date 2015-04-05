@@ -1,6 +1,6 @@
 $timeline-bck: #0B0B0B;
 #timeline {
-    height: 50vh;
+    height: 35vh;
     background-color: $timeline-bck;
     box-shadow: inset 0 0 10px black;
     width: 100%;
@@ -10,7 +10,7 @@ $timeline-bck: #0B0B0B;
     display: block;
     .year {
         height: 100%;
-        width: 500px;
+        width: 20vw;
         border-right: 1px dashed lighten($timeline-bck, 10%);
         display: inline-block;
         position: relative;
@@ -30,13 +30,15 @@ $timeline-bck: #0B0B0B;
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 20;
+        z-index: 3;
         cursor:all-scroll;
     }
 }
 
 #wrapperSVG {
     position: absolute;
+    z-index: 4;
+    cursor:all-scroll;
 
 }
 
@@ -44,10 +46,23 @@ $timeline-bck: #0B0B0B;
 
 .team {
     fill-opacity: 0.35;
+    pointer-events: all;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
 }
+
+.team:hover{
+    fill-opacity: 0.7;
+}
+
 
 .bar {
     fill: #006ff0;
+}
+
+.bar:hover{
+    fill: red;
 }
 
 .driver {
