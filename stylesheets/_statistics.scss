@@ -1,0 +1,34 @@
+$circle-radius: 7.5px;
+.position {
+    font-size: 2.5rem;
+    width: 100%;
+    color: red;
+    .two{
+        display: inline-block;
+        float: right;
+    }
+    
+    .one{
+        display: inline-block;
+    }
+}
+
+
+.circle{
+    width: 2 * $circle-radius;
+    height: 2* $circle-radius;
+    display: inline-block;
+    margin-right: $circle-radius;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.circle.two{
+    background-color: blue;
+}
+
+.wins,.snd,.thd{
+    width: 100%;
+    margin-top: $circle-radius;
+    
+}

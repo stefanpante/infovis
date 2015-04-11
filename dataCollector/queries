@@ -1,0 +1,3 @@
+SELECT driverId, driverRef FROM `drivers`
+
+SELECT drivers.driverId, drivers.driverRef, results.points, results.position, races.year FROM drivers inner join results on results.driverId = drivers.driverId inner join races on races.raceId = results.raceId where drivers.driverRef = 'hamilton'

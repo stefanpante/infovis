@@ -16,6 +16,7 @@ var driverStandings = {};
 var constructors = {};
 var constructorStandings = {};
 var result = {};
+var drivers = {};
 
 
 /*
@@ -34,23 +35,49 @@ function getSeasons() {
 
 function getDrivers() {
     var d = Q.defer();
-    var res = request('get', base_url + "drivers.json?limit=834");
+    var res = request('get', base_url + "drivers.json?limit=100");
     var json = JSON.parse(res.getBody());
     json = json.MRData.DriverTable.Drivers;
-    var drivers = {};
     for (var i = 0; i < json.length; i++) {
         var name = json[i].givenName + " " + json[i].familyName;
         var driverId = json[i].driverId;
-        console.log(name);
+        //console.log(driverId);
         drivers[driverId] = {
             name: name,
-            driverId: driverId
+            driverId: driverId,
+            career: []
         };
     }
-    
+
     d.resolve();
     return d.promise;
 }
+
+function getDriversCareer() {
+        var d = Q.defer();
+        console.log("Get drivers career");
+        for (key in drivers) {
+            console.log(key);
+            var res = request('get', base_url + "drivers/" + key + "/driverStandings.json");
+            var json = JSON.parse(res.getBody());
+
+            json = json.MRData.StandingsTable.StandingsLists;
+                    for(var i = 0; i < json.length; i++){
+                        var year = json[i].year;
+                        var points = json[i].DriverStandings[0].points;
+                        var wins = json[i].DriverStandings[0].wins;
+                        
+                        var ob = {
+                            year: year,
+                            points: points,
+                            wins: wins
+                        }
+                        console.log(ob);
+                    }
+        }
+        d.resolve();
+        return d.promise;
+    }
     /*
      * get the driver standings from 1960 onwards (inconsistent state before 1960)
      */
@@ -188,7 +215,7 @@ function writeResults(name) {
     })
 }
 
-getDrivers();
+Q.fcall(getDrivers).then(getDriversCareer);
 /*
  * Execute the data collection.
  */
