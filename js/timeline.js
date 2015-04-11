@@ -69,8 +69,9 @@ function makeBarCharts(data, driver) {
             return d.year;
         });
 
+    width = parseInt($("#timeline .year").width());
     var totalWidth = d3.entries(selected_driver).length * width;
-
+    
     // create one global svg, so that the trend line can be drawn
     // other svg's for each year will be appended to this one instead of 
     // of being inserted into the year div
@@ -153,31 +154,38 @@ function drawConstructors(svgs, selected_constructors) {
 function drawDriver(svgs, selected_data) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
-    svgs.selectAll("rect2")
-        .data(selected_data)
-        .enter()
+    var bars = svgs.selectAll("rect2")
+        .data(selected_data);
+    
+    bars.attr('fill', 'red');
+    
+    bars.enter()
         .append("rect")
         .attr("width", x0.rangeBand())
         .attr("x", function (d, i) {
-            console.log(d);
-            console.log(d.constructorId);
             return width * i + x0(d.constructorId);
         })
         .attr("y", function (d) {
             var wins = parseInt(d.wins);
             return y(wins);
         })
+        .style("fill", 'red')
+        .style("fill-opacity", .5);
+    
+    bars.exit()
+        .transition()
+        .duration(300)
+        .ease('exp')
+        .attr('height', 0)
+        .remove();
+    
+    bars.transition()
+        .duration(300)
+        .ease("exp")
         .attr("height", function (d) {
             return height - y(d.wins);
         })
-        .style("fill", 'red')
-        .style("fill-opacity", .5)
-        /* .style("fill", function (d) {
-            // console.log(d);
-            return colors[d.Team];
-        })
-        */
-        //.attr("class", "driver");
+
 }
 
 

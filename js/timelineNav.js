@@ -8,7 +8,8 @@ function createTimeLineNav(data) {
     // get the total number of years to display
     var numberOfYears = data.length;
     // Calculate the totalwidth of the timeline
-    var totalWidth = numberOfYears * 500;
+    var width = $("#timeline .year").width();
+    var totalWidth = numberOfYears * width ;
 
     // calculate the width of each year in the navigation in percentages 
     var relativeWidth = 100 / numberOfYears;
@@ -83,13 +84,13 @@ function createTimeLineNav(data) {
         });
     });
 
-    $("#wrap_timeline").draggable({
+    $("#wrapperSVG").draggable({
         axis: 'x',
 
         drag: function (event) {
             var left = parseInt($(event.target).position().left);
 
-            $("#wrapperSVG").css({
+            $("#wrap_timeline").css({
                 left: left + "px"
             });
             var factor = -left / totalWidth;

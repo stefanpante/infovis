@@ -1,5 +1,8 @@
 $(document).ready(function(){
+    //var loader = new LoaderAnimation('body');
+//    loader.startAnimation();
     //loadData();
+    //loaderAnimation.insertAnimation('body');
     loadJSON()/*.then(function(){
         console.log("promise");
     })*/;
