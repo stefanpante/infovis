@@ -72,14 +72,14 @@ function makeBarCharts(data, driver) {
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return data.drivers[d.ids.first].name + "\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.firstWins + "</span>";
+            return data.drivers[d.ids.first].name + "\r\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.firstWins + "</span>";
         });
 
     tip2 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return data.drivers[d.ids.second].name + "\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.secondWins + "</span>";
+            return data.drivers[d.ids.second].name + "\r\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.secondWins + "</span>";
         });
 
     tipSelectedDriver= d3.tip()
