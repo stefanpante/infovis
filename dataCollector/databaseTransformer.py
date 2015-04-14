@@ -2,12 +2,14 @@ import mysql.connector
 import json
 
 
-def saveToFile(data):
-	with open('drivers.json', 'wb') as fp:
+def saveToFile(name, data):
+	with open(name, 'wb') as fp:
 		json.dump(data, fp)
 
+constructorTeams = {}
 
-def getDriverStanding(results):
+
+def getDriverStanding(results, driverRef):
 	career = {}
 	for tup in results:
 		points = tup[0]
@@ -17,6 +19,7 @@ def getDriverStanding(results):
 		rank = tup[4]
 		if not(year in career):
 			career[year] = {
+				"year": year,
 				"points": 0,
 				"wins": 0,
 				"snd": 0,
@@ -24,6 +27,19 @@ def getDriverStanding(results):
 				"position": 25,
 				"constructorId": constructor
 			}
+		if not(constructor in constructorTeams):
+			constructorTeams[constructor] = {
+				"teams": {}
+			}
+
+		if not( year in constructorTeams[constructor]["teams"]):
+			constructorTeams[constructor]["teams"][year] = []
+			constructorTeams[constructor]["teams"][year].append(driverRef)
+		else:
+			if not(driverRef in constructorTeams[constructor]["teams"][year]):
+				constructorTeams[constructor]["teams"][year].append(driverRef)
+
+
 		if position == 1:
 			career[year]["wins"] += 1
 		if position == 2:
@@ -35,45 +51,66 @@ def getDriverStanding(results):
 
 		career[year]["points"] += points
 
-	return career
+	career2 = []
+	for year in career:
+		career2.append(career[year])
+
+	return career2
+
+
+
+
+def openConnection():
+	connection = mysql.connector.connect(user='root', password='', host='127.0.0.1', database='f1')
+	cursor = connection.cursor() 
+	return cursor, connection
+
+# first fetch all drivers
+def getDrivers(cursor):
+	cursor.execute("SELECT driverId, driverRef, forename, surname FROM `drivers`")
+	result = cursor.fetchall()
+	return result
+
+def getConstructors(cursor):
+	cursor.execute("SELECT constructorId, constructorRef FROM `constructors`")
+	result = cursor.fetchall()
+	return result
+
+def getDriverResults(drivers, cursor):
+	driver_results = {}
+	for driver in drivers:
+		cursor.execute("""SELECT results.points, results.position, races.year, constructors.constructorRef, results.rank 
+						  FROM drivers inner join results on results.driverId = drivers.driverId 
+						  inner join races on races.raceId = results.raceId 
+						  inner join constructors on results.constructorId = constructors.constructorId 
+						  where drivers.driverRef = \'""" + str(driver[1]) + "\'")
+		results = cursor.fetchall()
+		fullname = driver[2] + " " +  driver[3]
+		career = getDriverStanding(results, driver[1])
+		driver_result = {
+			"name" : fullname,
+			"driverId": driver[1],
+			"career": career
+		}
+		k = str(driver[1])
+		driver_results[k] = driver_result
+	return driver_results;
+
+
 
 
 print "Connect to database"
-connection = mysql.connector.connect(user='root', password='', host='127.0.0.1', database='f1')
+cursor, connection = openConnection()
+print "Get all drivers"
+drivers = getDrivers(cursor)
+print "get driver results"
+driver_results = getDriverResults(drivers, cursor)
+print "Save drivers to file"
+saveToFile('drivers.json', driver_results)
+print "Drivers saved to file"
 
-# first fetch all drivers
-cursor = connection.cursor()
-cursor.execute("SELECT driverId, driverRef, forename, surname FROM `drivers`")
-result = cursor.fetchall()
-drivers = result
+print "save team composition to file"
+saveToFile("teamcomp.json", constructorTeams)
+print " team composition saved to file"
 
-
-driver_results = {}
-for driver in drivers:
-	cursor.execute("""SELECT results.points, results.position, races.year, constructors.constructorRef, results.rank 
-					  FROM drivers inner join results on results.driverId = drivers.driverId 
-					  inner join races on races.raceId = results.raceId 
-					  inner join constructors on results.constructorId = constructors.constructorId 
-					  where drivers.driverRef = \'""" + str(driver[1]) + "\'")
-	results = cursor.fetchall()
-	fullname = driver[2] + " " +  driver[3]
-	career = getDriverStanding(results)
-	driver_result = {
-		"name" : fullname,
-		"driverId": driver[1],
-		"career": career
-	}
-	k = str(driver[1])
-	driver_results[k] = driver_result
-
-print "Save to file"
-saveToFile(driver_results)
-print "saved to file"
-
-# cursor.execute("""SELECT results.points, results.position, races.year, results.constructorId, results.rank 
-# 	FROM drivers inner join results on results.driverId = drivers.driverId 
-# 	inner join races on races.raceId = results.raceId where drivers.driverRef = \'michael_schumacher\'""")
-# results = cursor.fetchall()
-
-# getDriverStanding(results)
 
