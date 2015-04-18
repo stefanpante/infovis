@@ -24,6 +24,7 @@ body{
 #title{
     width: 100%;
     display: block;
+  z-index: -1;
     .name{
         font-size: 3vw;
         font-weight: 300;
@@ -33,6 +34,7 @@ body{
         padding-right: 0;
         width: 50%;
         color: #006ff0;
+
     }
     
     .name:nth-child(2){
