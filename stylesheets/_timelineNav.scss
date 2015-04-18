@@ -20,19 +20,42 @@
         -ms-user-select: none;
         /* IE10+ */
         
-        z-index: 1;
+        z-index: 3;
         /* Rules below not implemented in browsers yet */
         
         -o-user-select: none;
         user-select: none;
     }
+
+  .year2 {
+    position: absolute;
+    text-align: center;
+    line-height: 35px;
+    display: inline-block;
+    cursor: pointer;
+    color: #006ff0;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+
+    -moz-user-select: none;
+    /* Firefox */
+
+    -ms-user-select: none;
+    /* IE10+ */
+
+    z-index: 4;
+    /* Rules below not implemented in browsers yet */
+
+    -o-user-select: none;
+    user-select: none;
+  }
     #selector {
         position: absolute;
         height: 35px;
         width: 300px;
         top: 0;
         background-color: rgba(255, 255, 255, 0.2);
-        z-index: 2;
+        z-index: 4;
         box-sizing: border-box;
         transition: background-color 0.5s;
         cursor: pointer;
