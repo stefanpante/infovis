@@ -130,10 +130,20 @@ function makeBarCharts(data, driver) {
         .attr("height", height)
         .attr("id", "wrapperSVG");
 
+
+
+
     wrapperSVG.call(tip1);
     wrapperSVG.call(tip2);
 
     wrapperSVG.call(tipSelectedDriver);
+
+
+    // create another global svg,for navigator
+//    var wrapperSVGNav = d3.select('#timelineNav').append('svg')
+//        .attr("width", totalWidth)
+//        .attr("height", 100)
+//        .attr("id", "wrapperSVGNav");
 
     /* Initialise the specifications of the combined SVG */
     var svgs = wrapperSVG.selectAll("svg").data(selected_driver).enter().append("svg")
@@ -151,6 +161,15 @@ function makeBarCharts(data, driver) {
     drawDriver(wrapperSVG, selected_driver);
     divideInBlocks(wrapperSVG);
 
+
+//
+//    drawTrendLine(wrapperSVGNav, selected_driver);
+//    drawConstructors(wrapperSVGNav, selected_constructors,data,driver);
+//    drawDriver(wrapperSVGNav, selected_driver);
+
+
+
+    //putInNavigator(wrapperSVG);
     //         divideInBlocks(svgs);
     //        drawEvents(svgs);
     //drawAxis(svgs);
@@ -163,6 +182,13 @@ function makeBarCharts(data, driver) {
 
 }
 
+//
+//function putInNavigator(wrapperSVG){
+//    d3.select("#timelineNav").select(function() {
+//        return this.appendChild(document.getElementById("wrapperSVG"));
+//    });
+//
+//}
 
 
 function stopLoadingAnimation() {
