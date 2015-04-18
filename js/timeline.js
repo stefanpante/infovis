@@ -13,18 +13,6 @@ var xAxis = d3.svg.axis()
     .scale(x0)
     .orient("bottom");
 
-/* Y-axis */
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(d3.format(".2s"))
-    .innerTickSize(-width)
-    .outerTickSize(0)
-    .tickpadding(-10);
-
-/* Coloring of the different F1-constuctors */
-colors = d3.scale.category20();
-
 var namesDrivers = {};
 
 var tip1;
@@ -39,14 +27,9 @@ function changeDriver(data,driver){
     $("#wrap_timeline").empty();
     $("#wrapperSVG").remove();
     $("#timelineNav .year").remove();
-    tip1.hide();
-    tip2.hide();
-    tipSelectedDriver.hide();
+    $(".d3-tip").hide();
     makeBarCharts(data, driver);
 }
-
-
-
 
 function updateXAxis(constructors_data) {
         var constructors = [];
@@ -58,13 +41,12 @@ function updateXAxis(constructors_data) {
                 if (constructors.indexOf(constructorId) < 0) {
                     constructors.push(constructorId);
                 }
-
             }
-
         }
         console.log(constructors);
         x0.domain(constructors);
-    }
+}
+
     /* Creating the bar charts */
 function makeBarCharts(data, driver) {
 
@@ -72,21 +54,24 @@ function makeBarCharts(data, driver) {
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return data.drivers[d.ids.first].name + "\r\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.firstWins + "</span>";
+            return "<center> <br>" + data.drivers[d.ids.first].name + "<br>\r\n<strong>Wins:</strong> <span style='color:blue'>" + d.ids.firstWins + "</span></center>";
         });
 
     tip2 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return data.drivers[d.ids.second].name + "\r\n<strong>Wins:</strong> <span style='color:red'>" + d.ids.secondWins + "</span>";
+            return "<center> <br>" + data.drivers[d.ids.second].name + "<br>\r\n<strong>Wins:</strong> <span style='color:blue'>" + d.ids.secondWins + "</span></center>";
         });
 
     tipSelectedDriver= d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return "<strong>Wins:</strong> <span style='color:red'>" + d.wins + "</span>";
+            var myUpper = function(match){  
+                return match.replace(/[\s_]+/,' ').toUpperCase();
+            }
+            return  "<center> Team " + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + "<br>\r\n<strong>Total Wins:</strong> <span style='color:red'>" + d.wins + "</span> </center>";
         });
 
 
@@ -99,13 +84,12 @@ function makeBarCharts(data, driver) {
     // get the constructors for the years that the driver was active
     for (var i = 0; i < selected_driver.length; i++) {
         var year = data.constructors[selected_driver[i].year];
-
         var year2 = newConstructorDataTypes(selected_driver[i].year,year,data.drivers);
-
         selected_constructors.push(year2);
     }
 
     updateXAxis(selected_constructors);
+    
     //years
     years = time_line.selectAll(".year")
         .data(selected_driver).enter()
@@ -144,22 +128,18 @@ function makeBarCharts(data, driver) {
             return left;
         });
 
-    //        //draw all the elements of the barchart
+    // draw all the elements of the barchart
     createTimeLineNav(selected_driver);
     drawTrendLine(wrapperSVG, selected_driver);
     drawConstructors(wrapperSVG, selected_constructors,data,driver);
     drawDriver(wrapperSVG, selected_driver);
     divideInBlocks(wrapperSVG);
 
-    //         divideInBlocks(svgs);
-    //        drawEvents(svgs);
-    //drawAxis(svgs);
+    // divideInBlocks(svgs);
+    // drawEvents(svgs);
+    // drawAxis(svgs);
     //    
-    //        stopLoadingAnimation();
-
-
-
-
+    // stopLoadingAnimation();
 
 }
 
@@ -170,15 +150,13 @@ function stopLoadingAnimation() {
             $(event.target).remove();
         })
     }
-    /*
-     * Draws the bars for the teams
-     */
+
+
+
+
+// Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
-
-
-
-
-        var gs = svgs.selectAll("years")
+    var gs = svgs.selectAll("years")
             .data(selected_constructors)
             .enter()
             .append("svg")
@@ -198,13 +176,11 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
                 if(d.ids.second == selectedDriverID){
                     return 0;
                 }
-                return y(d.wins) - 2; //TODO :in 1994 loopt iets mis
             })
             .attr("height", function (d) {
                 if(d.ids.second == selectedDriverID){
                     return 0;
                 }
-                return 2 + height - y(d.ids.secondWins);
             })
             .attr("class", function (d, i) {
                 return "team team-" + i;
@@ -215,9 +191,6 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
             })
             .on('mouseover', tip2.show)
             .on('mouseout', tip2.hide);
-            //            .style("fill", function (d, i) {
-            //                return colors(i)
-            //            });
 
     gs.selectAll("rect3").data(function (d) {
         return d;
@@ -229,16 +202,15 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
         })
         .attr("y", function (d) {
             if( d.ids.second == selectedDriverID){
-                return y(d.wins) - 2;
+                return y(d.wins);
             }
-            return y(d.ids.firstWins) - 2;
+            return y(d.ids.firstWins);
         })
         .attr("height", function (d) {
             if(d.ids.first == selectedDriverID ){
 
                 return 0;
             }
-            return 2 + height - y(d.ids.firstWins);
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
@@ -251,8 +223,6 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
         .on('mouseout', tip1.hide);
 
 
-
-    }
     /*
      * Draw the bars for the drivers on top of the teams bar.
      */
@@ -378,93 +348,6 @@ function drawAxis(svgs) {
 
 }
 
-/*
- * Draws the number of wins axis on each year.
- */
-function divideInBlocks(svgs) {
-    var domainY = y.domain();
-    var maxY = domainY[1] - 1;
-    var linesDividers = [];
-    var linesAxisLeft = [];
-    var linesAxisRight = [];
-    var axisL = 10;
-    for (i = 1; i < maxY; i++) {
-        var lineData = [{
-            "x": 0,
-            "y": y(i + 0.1)
-        }, {
-            "x": width,
-            "y": y(i + 0.1)
-        }];
-        linesDividers.push(lineData);
-
-        var lineData2 = [{
-            "x": 0,
-            "y": y(i + 0.1)
-        }, {
-            "x": axisL,
-            "y": y(i + 0.1)
-        }];
-        linesAxisLeft.push(lineData2);
-
-        var lineData3 = [{
-            "x": width - axisL,
-            "y": y(i + 0.1)
-        }, {
-            "x": width,
-            "y": y(i + 0.1)
-        }];
-        linesAxisRight.push(lineData3);
-    }
-
-
-
-
-    //This is the accessor function we talked about above
-    var lineFunction = d3.svg.line()
-        .x(function (d) {
-            return d.x;
-        })
-        .y(function (d) {
-            return d.y;
-        })
-        .interpolate("linear");
-
-
-
-    //The line SVG Path we draw
-    for (i = 0; i < linesDividers.length; i++) {
-        var lineGraph = svgs.append("path")
-            .attr("d", lineFunction(linesDividers[i]))
-            .attr("stroke", "#0b0b0b")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "none");
-
-        var lineGraph2 = svgs.append("path")
-            .attr("d", lineFunction(linesAxisLeft[i]))
-            .attr("stroke", "white")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "none");
-
-        var lineGraph3 = svgs.append("path")
-            .attr("d", lineFunction(linesAxisRight[i]))
-            .attr("stroke", "white")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "none");
-
-        svgs.append("text")
-            .attr("y", y(i + 1.3))
-            .attr("x", 10)
-            .text(i + 1)
-            .attr("class", "axisText");
-    }
-
-
-
-
-}
-
-
 function newConstructorDataTypes(year,constructors,drivers){
 
     var constructors2 = [];
@@ -505,20 +388,14 @@ function getDrivers(year,constructorid,drivers){
                     reqDrivers["second"] = d;
                     reqDrivers["secondWins"] = wins;
                 }
-
             }
             else{
                 reqDrivers["first"] = d;
                 reqDrivers["firstWins"] = wins;
             }
         }
-
-
-
     }
-
     return reqDrivers;
-
 }
 
 
@@ -526,15 +403,9 @@ function getDrivers(year,constructorid,drivers){
  * Draws the number of wins axis on each year.
  */
 function divideInBlocks(svgs) {
-    var svgs2=svgs.selectAll("svg")
-        .append("svg")
-        .attr("width", width);
     var domainY = y.domain();
     var maxY = domainY[1] - 1;
     var linesDividers = [];
-    var linesAxisLeft = [];
-    var linesAxisRight = [];
-    var axisL = 10;
     for (i = 1; i < maxY; i++) {
         var lineData = [{
             "x": 0,
@@ -548,20 +419,10 @@ function divideInBlocks(svgs) {
             "x": 0,
             "y": y(i + 0.1)
         }, {
-            "x": axisL,
+        }];
             "y": y(i + 0.1)
         }];
-        linesAxisLeft.push(lineData2);
-        var lineData3 = [{
-            "x": width - axisL,
-            "y": y(i + 0.1)
-        }, {
-            "x": width,
-            "y": y(i + 0.1)
-        }];
-        linesAxisRight.push(lineData3);
     }
-//This is the accessor function we talked about above
     var lineFunction = d3.svg.line()
         .x(function (d) {
             return d.x;
@@ -572,23 +433,14 @@ function divideInBlocks(svgs) {
         .interpolate("linear");
 //The line SVG Path we draw
     for (i = 0; i < linesDividers.length; i++) {
-        var lineGraph = svgs2.append("path")
             .attr("d", lineFunction(linesDividers[i]))
             .attr("stroke", "#0b0b0b")
             .attr("stroke-width", 0.5)
             .attr("fill", "none");
-        var lineGraph2 = svgs2.append("path")
-            .attr("d", lineFunction(linesAxisLeft[i]))
-            .attr("stroke", "white")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "none");
-        var lineGraph3 = svgs2.append("path")
-            .attr("d", lineFunction(linesAxisRight[i]))
             .attr("stroke", "white")
             .attr("stroke-width", 0.5)
             .attr("fill", "none");
         svgs2.append("text")
-            .attr("y", y(i + 1.3))
             .attr("x", 10)
             .text(i + 1)
             .attr("class", "axisText");
