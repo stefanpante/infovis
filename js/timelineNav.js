@@ -26,6 +26,7 @@ function createTimeLineNav(data) {
         })
         .attr("style", "width:" + relativeWidth + "%");
 
+    mini_timeline.select(".year2").remove();
     var years2 = mini_timeline
         .append("div")
         .attr('class', 'year2')
