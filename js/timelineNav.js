@@ -30,7 +30,7 @@ function createTimeLineNav(data) {
     var years2 = mini_timeline
         .append("div")
         .attr('class', 'year2')
-        .html("<svg width="+totalWidth+" height=\"100\"><use transform=\"scale("+$("#timelineNav").outerWidth()/totalWidth+","+0.12+")\" xlink:href=\"#wrapperSVG\"/></svg>");
+        .html("<svg width="+totalWidth+" height=\"30\"><use transform=\"scale("+$("#timelineNav").outerWidth()/totalWidth+","+0.12+")\" xlink:href=\"#wrapperSVG\"/></svg>");
 
     // calculate the width that the selector has so that it corresponds to the displayed years
     var width = $("#timelineNav").width();
