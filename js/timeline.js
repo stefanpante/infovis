@@ -152,8 +152,6 @@ function stopLoadingAnimation() {
     }
 
 
-
-
 // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
     var gs = svgs.selectAll("years")
@@ -176,11 +174,13 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
                 if(d.ids.second == selectedDriverID){
                     return 0;
                 }
+                return y(d.wins);
             })
             .attr("height", function (d) {
                 if(d.ids.second == selectedDriverID){
                     return 0;
                 }
+                return height - y(d.ids.secondWins);
             })
             .attr("class", function (d, i) {
                 return "team team-" + i;
@@ -208,9 +208,9 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
         })
         .attr("height", function (d) {
             if(d.ids.first == selectedDriverID ){
-
                 return 0;
             }
+            return height - y(d.ids.firstWins);
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
@@ -221,11 +221,11 @@ function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
+    }
 
 
-    /*
-     * Draw the bars for the drivers on top of the teams bar.
-     */
+// Draw the bars for the drivers on top of the teams bar.
+// This is the red bar.
 function drawDriver(svgs, selected_data) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
@@ -244,6 +244,7 @@ function drawDriver(svgs, selected_data) {
             var wins = parseInt(d.wins);
             return y(wins);
         })
+        .attr("height", 22)
         .style("fill", 'red')
         .style("fill-opacity", .5)
         .on('mouseover', tipSelectedDriver.show)
@@ -276,7 +277,7 @@ function drawTrendLine(svg, data) {
     // function to calculate the y position
     var calculateY = function (d) {
         var wins = parseInt(d.wins);
-        return y(wins);
+        return y(wins + 0.3);
 
     }
 
@@ -304,8 +305,7 @@ function drawTrendLine(svg, data) {
 
 
 /*
- * Draw the events (change of team for now)
- */
+Draw the events (change of team for now) 
 function drawEvents(svgs) {
 
 
@@ -336,7 +336,7 @@ function drawEvents(svgs) {
         .attr("class", "eventText")
         .attr("x", 45)
         .attr("y", 35);
-}
+}*/
 
 /*
  * Draws the number of wins axis on each year.
@@ -403,26 +403,35 @@ function getDrivers(year,constructorid,drivers){
  * Draws the number of wins axis on each year.
  */
 function divideInBlocks(svgs) {
+    var svgs2 = svgs.selectAll("svg")
+                    .append("svg")
+                    .attr("width", width);
     var domainY = y.domain();
-    var maxY = domainY[1] - 1;
+    var maxY = domainY[1] - 2;
     var linesDividers = [];
+    var linesAxis = [];
+    var axisLength = 4;
+    
     for (i = 1; i < maxY; i++) {
         var lineData = [{
             "x": 0,
-            "y": y(i + 0.1)
+            "y": y(i - 0.7)
         }, {
             "x": width,
-            "y": y(i + 0.1)
+            "y": y(i - 0.7)
         }];
         linesDividers.push(lineData);
+        
         var lineData2 = [{
             "x": 0,
-            "y": y(i + 0.1)
+            "y": y(i - 0.7)
         }, {
+            "x": axisLength,
+            "y": y(i - 0.7)
         }];
-            "y": y(i + 0.1)
-        }];
+        linesAxis.push(lineData2);
     }
+
     var lineFunction = d3.svg.line()
         .x(function (d) {
             return d.x;
@@ -431,18 +440,26 @@ function divideInBlocks(svgs) {
             return d.y;
         })
         .interpolate("linear");
-//The line SVG Path we draw
+
+    
     for (i = 0; i < linesDividers.length; i++) {
+        var lineGraphDividers = svgs2.append("path")
             .attr("d", lineFunction(linesDividers[i]))
             .attr("stroke", "#0b0b0b")
             .attr("stroke-width", 0.5)
             .attr("fill", "none");
+        var lineGraph = svgs2.append("path")
+            .attr("d", lineFunction(linesAxis[i]))
             .attr("stroke", "white")
             .attr("stroke-width", 0.5)
             .attr("fill", "none");
+    }
+    
+    for (i = 1; i < linesDividers.length; i++) {
         svgs2.append("text")
+            .attr("y", y(i))
             .attr("x", 10)
-            .text(i + 1)
+            .text(i)
             .attr("class", "axisText");
     }
 }
