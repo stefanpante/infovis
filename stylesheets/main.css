@@ -76,6 +76,16 @@ body {
   z-index: 4;
   cursor: all-scroll; }
 
+#wrapperSVGMINI {
+  position: absolute;
+  z-index: 2;
+  cursor: all-scroll; }
+
+#miniTimeline {
+  position: absolute;
+  z-index: 2;
+  cursor: all-scroll; }
+
 .team {
   fill-opacity: 0.35;
   pointer-events: all;

@@ -14,6 +14,7 @@ $(".changedriver").click(function(event){
     $("#title .name").text(name);
     $("#wrap_timeline").empty();
     $("#wrapperSVG").remove();
+    $("#wrapperSVGMINI").remove();
     $("#timelineNav .year").remove();
     makeBarCharts(window.dat1, driver);
 })
