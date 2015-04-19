@@ -117,6 +117,7 @@ $timeline-bck: #0B0B0B;
     background-color: rgba(0,0,0,0.8);
     width: 175px;
     text-align: center;
+    transition: all 0.5s;
 }
 
 rect.one{
@@ -125,10 +126,16 @@ rect.one{
 
 .team{
     fill: #EEE;
+    transition: all 0.4s ease;
+}
+
+.team:hover, .team2:hover{
+    fill: white;
 }
 
 .team2{
     fill: #777;
+        transition: all 0.4s ease;
 }
 
 

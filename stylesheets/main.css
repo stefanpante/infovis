@@ -157,19 +157,26 @@ body {
   padding: 12px;
   background-color: rgba(0, 0, 0, 0.8);
   width: 175px;
-  text-align: center; }
+  text-align: center;
+  transition: all 0.5s; }
 
-/* line 122, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+/* line 123, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 rect.one {
   fill: #006ff0; }
 
-/* line 126, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+/* line 127, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team {
-  fill: #EEE; }
+  fill: #EEE;
+  transition: all 0.4s ease; }
 
-/* line 130, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+/* line 132, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team:hover, .team2:hover {
+  fill: white; }
+
+/* line 136, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team2 {
-  fill: #777; }
+  fill: #777;
+  transition: all 0.4s ease; }
 
 /* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
 #timelineNav {
