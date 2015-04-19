@@ -21,11 +21,12 @@ def getDriverStanding(results, driverRef, positions):
 		points = tup[0]
 		
 		year = tup[2]
-		position = 25
+		position = tup[1]
+		position2 = 25
 		
 		if(str(year) in positions["seasons"]):
 			if(str(driverRef) in positions["seasons"][str(year)]):
-				position = positions["seasons"][str(year)][str(driverRef)]
+				position2 = positions["seasons"][str(year)][str(driverRef)]
 
 
 		constructor = tup[3]
@@ -37,7 +38,7 @@ def getDriverStanding(results, driverRef, positions):
 				"wins": 0,
 				"snd": 0,
 				"thd": 0,
-				"position": position,
+				"position": position2,
 				"constructorId": constructor
 			}
 		if not(constructor in constructorTeams):
