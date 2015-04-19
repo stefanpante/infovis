@@ -13,14 +13,7 @@ var xAxis = d3.svg.axis()
     .scale(x0)
     .orient("bottom");
 
-/* Y-axis */
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(d3.format(".2s"))
-    .innerTickSize(-width)
-    .outerTickSize(0)
-    .tickpadding(-10);
+
 
 /* Coloring of the different F1-constuctors */
 colors = d3.scale.category20();
@@ -31,6 +24,21 @@ var tip1;
 var tip2;
 var tipSelectedDriver;
 
+
+
+
+var navWidth =  300; //temp
+
+var navHeight = 30;//temp
+
+/* Scaling X-axis */
+var x0Nav= d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
+
+/* Scaling Y-axis */
+var yNav = d3.scale.linear().range([navHeight, 0]);
+
+var xScale;
+var yScale;
 
 function changeDriver(data,driver){
 
@@ -132,11 +140,7 @@ function makeBarCharts(data, driver) {
     wrapperSVG.call(tipSelectedDriver);
 
 
-    // create another global svg,for navigator
-//    var wrapperSVGNav = d3.select('#timelineNav').append('svg')
-//        .attr("width", totalWidth)
-//        .attr("height", 100)
-//        .attr("id", "wrapperSVGNav");
+
 
     /* Initialise the specifications of the combined SVG */
     var svgs = wrapperSVG.selectAll("svg").data(selected_driver).enter().append("svg")
@@ -147,11 +151,15 @@ function makeBarCharts(data, driver) {
             return left;
         });
 
+
+
+
     // draw all the elements of the barchart
-    createTimeLineNav(selected_driver);
+    createTimeLineNav2(selected_driver,selected_constructors,data,driver);
     drawTrendLine(wrapperSVG, selected_driver);
     drawConstructors(wrapperSVG, selected_constructors,data,driver);
     drawDriver(wrapperSVG, selected_driver);
+
     divideInBlocks(wrapperSVG);
 
     // divideInBlocks(svgs);
@@ -180,6 +188,7 @@ function stopLoadingAnimation() {
 
 // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors,data,selectedDriverID) {
+
     var gs = svgs.selectAll("years")
             .data(selected_constructors)
             .enter()
@@ -488,4 +497,265 @@ function divideInBlocks(svgs) {
             .text(i)
             .attr("class", "axisText");
     }
+}
+
+
+function createTimeLineNav2(data,selected_constructors,Alldata,driver) {
+    //console.log(JSON.stringify(data));
+    // select the timeline navigation.
+    var time_line_nav = d3.select("#timelineNav");
+    var mini_timeline = d3.select("#miniTimeline");
+    var selector = $("#selector");
+
+    // get the total number of years to display
+    var numberOfYears = data.length;
+    // Calculate the totalwidth of the timeline
+    var width1 = $("#timeline .year").width();
+    var totalWidth = numberOfYears * width1 ;
+
+
+    // calculate scales
+    var relativeWidth = 100 / numberOfYears;
+    navWidth = $("#timelineNav").width()/numberOfYears;
+    navHeight = $("#timelineNav").height()-10;
+    xScale = $("#timelineNav").width()/totalWidth;
+    yScale = navHeight/height;
+
+
+
+
+    // Draggable timeline displaying the years
+    var years = time_line_nav.selectAll(".year")
+        .data(data).enter()
+        .append("div")
+        .attr('class', 'year')
+        .text(function (d) {
+            // the key is the year
+            return d.year;
+        })
+        .attr("style", "width:" + relativeWidth + "%");
+
+    mini_timeline.selectAll("#wrapperSVGMINI").remove();
+    var wrapperSVG = mini_timeline.append('svg')
+        .attr("width", $("#timelineNav").width())
+        .attr("height", 30)
+        .attr("id", "wrapperSVGMINI");
+
+
+
+    var svgs = wrapperSVG.selectAll("svg").data(data).enter().append("svg")
+        .attr("width", navWidth)
+        .attr("height", 30)
+        .attr("x", function (d, i) {
+            var left = navWidth * i;
+            return left;
+        });
+
+    drawConstructorsOnNav2(wrapperSVG, selected_constructors,Alldata,driver);
+    drawDriverOnNav2(wrapperSVG, data);
+
+//    mini_timeline.select(".year2").remove();
+//    var years2 = mini_timeline
+//        .append("div")
+//        .attr('class', 'year2')
+//        .html("<svg width="+totalWidth+" height=\"30\"><use transform=\"scale("+$("#timelineNav").outerWidth()/totalWidth+","+0.12+")\" xlink:href=\"#wrapperSVG\"/></svg>");
+
+    // calculate the width that the selector has so that it corresponds to the displayed years
+
+
+    var width = $("#timelineNav").width();
+    var selectorWidth = parseInt($("#timelineNav").outerWidth()) * parseInt($("#timeline").outerWidth()) / totalWidth;
+    selector.css({
+        width: selectorWidth + "px"
+    })
+
+    // make the navigation selector draggable
+    $("#selector").draggable({
+        axis: 'x',
+        containment: "parent",
+        drag: function (event) {
+            var position = $(event.target).position();
+            var left = position.left;
+            if (position.left < 0) {
+                left = 0;
+                $("#selector").css({
+                    "left": left
+                });
+            }
+            if (position.left + selectorWidth > width) {
+                left = width - selectorWidth;
+                $("#selector").css({
+                    "left": left
+                });
+            }
+            var factor = left / width;
+            var offset = -factor * totalWidth;
+
+            $("#wrap_timeline").css({
+                "left": offset + "px"
+            });
+
+            $("#wrapperSVG").css({
+                "left": offset + "px"
+            });
+        }
+
+    });
+
+    $("#timelineNav .year").click(function (event) {
+        var left = $(event.target).position().left;
+
+        var factor = left / width;
+        var offset = -factor * totalWidth;
+
+        $("#selector").css({
+            left: left + "px"
+        });
+
+        $("#wrap_timeline").css({
+            "left": offset + "px"
+        });
+
+        $("#wrapperSVG").css({
+            "left": offset + "px"
+        });
+    });
+
+    $("#wrapperSVG").draggable({
+        axis: 'x',
+
+        drag: function (event) {
+            var left = parseInt($(event.target).position().left);
+
+            $("#wrap_timeline").css({
+                left: left + "px"
+            });
+            var factor = -left / totalWidth;
+            console.log("factor: " + factor);
+            var left1 = width * factor;
+
+            $("#selector").css({
+                left: left1
+            })
+        },
+
+        end: function (event) {
+            var left = parseInt($(event.target).position().left);
+
+            $("#wrapperSVG").css({
+                left: left + "px"
+            });
+            var factor = -left / totalWidth;
+            console.log("factor: " + factor);
+            var left1 = width * factor;
+            console.log(left1);
+            $("#selector").css({
+                left: left1
+            })
+        }
+    });
+
+
+}
+
+// Draw the bars for the constructors
+function drawConstructorsOnNav2(svgs, selected_constructors,data,selectedDriverID) {
+    var gs = svgs.selectAll("years2")
+        .data(selected_constructors)
+        .enter()
+        .append("svg")
+        .attr("x", function (d, i) {
+            return i * navWidth;
+        }).attr("width", navWidth);
+
+    gs.selectAll("rect5").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("width", xScale*x0.rangeBand())
+        .attr("x", function (d, i) {
+            return  xScale*x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            if(d.ids.second == selectedDriverID){
+                return 0;
+            }
+            return yScale * y(d.wins);
+        })
+        .attr("height", function (d) {
+            if(d.ids.second == selectedDriverID){
+                return 0;
+            }
+            return yScale*(height -  y(d.ids.secondWins));
+        })
+        .attr("class", function (d, i) {
+            return "team team-" + i;
+        })
+        .attr("fill", "white");
+
+    gs.selectAll("rect4").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("width", xScale * x0.rangeBand())
+        .attr("x", function (d, i) {
+            return xScale *x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            if( d.ids.second == selectedDriverID){
+                return yScale*y(d.wins);
+            }
+            return yScale*y(d.ids.firstWins);
+        })
+        .attr("height", function (d) {
+            if(d.ids.first == selectedDriverID ){
+                return 0;
+            }
+            return yScale*(height -  y(d.ids.firstWins));
+        })
+        .attr("class", function (d, i) {
+            return "team team-" + i;
+        })
+        .attr("fill", "blue");
+}
+
+
+// Draw the bars for the drivers on top of the teams bar.
+// This is the red bar.
+function drawDriverOnNav2(svgs, selected_data) {
+    // SVG for the bar charts (number of wins)
+    // Drawing the number of wins for the Formula 1 drivers
+    var bars = svgs.selectAll("rect2")
+        .data(selected_data);
+
+    bars.attr('fill', 'red');
+
+    bars.enter()
+        .append("rect")
+        .attr("width", xScale * x0.rangeBand())
+        .attr("x", function (d, i) {
+            return navWidth * i + xScale*x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d.wins);
+            return yScale*y(wins);
+        })
+        .attr("height", 22)
+        .style("fill", 'red')
+        .style("fill-opacity", .5);
+
+    bars.exit()
+        .transition()
+        .duration(300)
+        .ease('exp')
+        .attr('height', 0)
+        .remove();
+
+    bars.transition()
+        .duration(300)
+        .ease("exp")
+        .attr("height", function (d) {
+            return navHeight - yScale*y(d.wins);
+        })
+
 }

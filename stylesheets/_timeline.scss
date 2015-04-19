@@ -42,6 +42,20 @@ $timeline-bck: #0B0B0B;
 
 }
 
+#wrapperSVGMINI {
+  position: absolute;
+  z-index: 2;
+  cursor:all-scroll;
+
+}
+
+#miniTimeline {
+  position: absolute;
+  z-index: 2;
+  cursor:all-scroll;
+
+}
+
 
 
 .team {
