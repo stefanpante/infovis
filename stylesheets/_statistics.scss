@@ -5,8 +5,7 @@ $circle-radius: 7.5px;
     color: $one-color;
 }
 
-
-.circle{
+.circle {
     width: 2 * $circle-radius;
     height: 2* $circle-radius;
     display: inline-block;
@@ -15,65 +14,96 @@ $circle-radius: 7.5px;
     background-color: $one-color;
 }
 
-.circle.two{
+.circle.two {
     background-color: blue;
 }
 
-.wins,.snd,.thd{
+.wins,
+.snd,
+.thd {
     width: 100%;
     margin-top: $circle-radius;
-    
 }
 
-#wrap-stats{
-        position: absolute;
-        top: 0;
-        z-index: 3;
-        cursor:all-scroll;
-        float: left; 
-        white-space: nowrap;
-
+#wrap-stats {
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    cursor: all-scroll;
+    float: left;
+    white-space: nowrap;
+        overflow-x: hidden;
 }
 
-#stats{
+#stats {
     margin-top: $default-padding;
     position: relative;
+
 }
 
-.circles{
+.circles {
     height: 2 * $circle-radius;
     line-height: 2 * $circle-radius;
 }
-.stat{
+
+.stat {
     display: inline-block;
     box-sizing: border-box;
     padding: $default-padding;
-    .title{
+    .title {
         font-size: 1.25rem;
         color: #9a9a9a;
         margin-bottom: $default-padding;
         margin-top: $default-padding;
     }
-    
-    .one{
+    .one {
         color: $one-color;
     }
 }
 
-.medal{
+.medal {
     height: 3.5rem;
     width: 3.5rem;
     line-height: 3rem;
     font-size: 1.5rem;
     padding: 0;
     text-align: center;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     border: 5px solid black;
     border-radius: 50%;
     box-sizing: border-box;
-    
 }
-.medal[position="1"]{
-    background-color: gold;
-    border: 5px solid darken(#be8300, 15%);
+
+.medal[position="1"] {
+    background: rgba(241, 231, 103, 1);
+    background: -moz-linear-gradient(-45deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(241, 231, 103, 1)), color-stop(21%, rgba(241, 231, 103, 1)), color-stop(41%, rgba(252, 238, 88, 1)), color-stop(60%, rgba(255, 249, 168, 1)), color-stop(77%, rgba(241, 232, 103, 1)), color-stop(100%, rgba(241, 232, 103, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
+    background: linear-gradient(135deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
+    border: 5px solid #ffbd63;
+}
+
+.medal[position="2"]{
+    background: rgba(226,226,226,1);
+background: -moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(226,226,226,1)), color-stop(50%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
+background: -webkit-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -o-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -ms-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: linear-gradient(135deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+    border: 5px solid #bbb;
+}
+
+.medal[position="3"]{
+background: rgba(205,127,50,1);
+background: -moz-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(205,127,50,1)), color-stop(50%, rgba(242,173,109,1)), color-stop(51%, rgba(230,155,85,1)), color-stop(100%, rgba(254,254,254,1)));
+background: -webkit-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
+background: -o-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
+background: -ms-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
+background: linear-gradient(135deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cd7f32', endColorstr='#fefefe', GradientType=1 );
+    border: 5px solid rgba(205,127,50,1);
 }
