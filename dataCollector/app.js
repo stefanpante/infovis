@@ -36,40 +36,79 @@ function getSeasons() {
 
 function getDrivers() {
     var d = Q.defer();
-    result.drivers = JSON.parse(fs.readFileSync("drivers.json",'utf8'));
+    result.drivers = JSON.parse(fs.readFileSync("drivers.json", 'utf8'));
     d.resolve();
     return d.promise;
 }
 
-function getTeamComposition(){
+function getTeamComposition() {
     var d = Q.defer();
-    teamComposition = JSON.parse(fs.readFileSync("teamcomp.json",'utf8'));
+    teamComposition = JSON.parse(fs.readFileSync("teamcomp.json", 'utf8'));
     d.resolve();
     return d.promise;
 }
 
-    /*
-     * get the driver standings from 1960 onwards (inconsistent state before 1960)
-     */
-//function getDriverStandings() {
-//    var d = Q.defer();
+/*
+ * get the driver standings from 1960 onwards (inconsistent state before 1960)
+ */
+function getDriverStandings() {
+    var d = Q.defer();
+
+    for (var i = 0; i < seasons.length; i++) {
+        var season = seasons[i];
+        if (season.season > 1959) {
+
+            console.log("getting Driver Standings for the season of " + season.season);
+            var res = request('GET', base_url + season.season + "/driverStandings.json");
+            var json = JSON.parse(res.getBody());
+            driverStandings[season.season] = json.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+        }
+    }
+
+    d.resolve();
+
+    return d.promise;
+
+}
+
+var positions = {
+    seasons: {}
+};
+
+function buildPositions() {
+    console.log("building positions");
+    var d = Q.defer();
+    for (year in driverStandings) {
+        console.log("standings for " + year);
+        var standing = driverStandings[year];
+        positions.seasons[year] = {};
+        for (var i = 0; i < standing.length; i++) {
+            var driver = standing[i].Driver.driverId;
+            var position = standing[i].position;
+            positions.seasons[year][driver] = position;
 //
-//    for (var i = 0; i < seasons.length; i++) {
-//        var season = seasons[i];
-//        if (season.season > 1959) {
-//
-//            console.log("getting Driver Standings for the season of " + season.season);
-//            var res = request('GET', base_url + season.season + "/driverStandings.json");
-//            var json = JSON.parse(res.getBody());
-//            driverStandings[season.season] = json.MRData.StandingsTable.StandingsLists[0].DriverStandings;
-//        }
-//    }
-//
-//    d.resolve();
-//
-//    return d.promise;
-//
-//}
+//           //console.log(standings[i].Driver.driverId);
+//            //positions.seasons[year][driverId] = position;
+        }
+
+    }
+    console.log("finished building");
+    d.resolve();
+    return d.promise;
+
+}
+
+function writePositions() {
+    console.log("write positions");
+    var d = Q.defer();
+    fs.writeFile("positions.json", JSON.stringify(positions), 'utf8', function (err) {
+        if (err) throw err;
+        console.log("results saved to file")
+        d.resolve();
+    })
+
+    return d.promise;
+}
 
 /*
  * get the constructor standings from 1960 onwards (inconsistent state before 1960)
@@ -149,7 +188,7 @@ function createConstructor() {
 
         constructors[key] = [];
         for (var i = 0; i < yearStanding.length; i++) {
-            
+
             //get constructor data
             var constructor = yearStanding[i].Constructor;
             var constructorId = constructor.constructorId;
@@ -192,6 +231,9 @@ function writeResults(name) {
  * Execute the data collection.
  */
 Q.fcall(getSeasons)
+//    .then(getDriverStandings)
+//    .then(buildPositions)
+//    .then(writePositions);
     .then(getDrivers)
     .then(getTeamComposition)
     .then(getConstructorStandings)

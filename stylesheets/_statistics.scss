@@ -3,14 +3,6 @@ $circle-radius: 7.5px;
     font-size: 2rem;
     width: 100%;
     color: $one-color;
-    .two{
-        display: inline-block;
-        float: right;
-    }
-    
-    .one{
-        display: inline-block;
-    }
 }
 
 
@@ -18,7 +10,7 @@ $circle-radius: 7.5px;
     width: 2 * $circle-radius;
     height: 2* $circle-radius;
     display: inline-block;
-    margin-right: $circle-radius;
+    margin-right: 0.25 *$circle-radius;
     border-radius: 50%;
     background-color: $one-color;
 }
@@ -50,6 +42,7 @@ $circle-radius: 7.5px;
 
 .circles{
     height: 2 * $circle-radius;
+    line-height: 2 * $circle-radius;
 }
 .stat{
     display: inline-block;
@@ -59,14 +52,23 @@ $circle-radius: 7.5px;
         font-size: 1.25rem;
         color: #9a9a9a;
         margin-bottom: $default-padding;
+        margin-top: $default-padding;
+    }
+    
+    .one{
+        color: $one-color;
     }
 }
 
 .medal{
-    height: 3rem;
-    width: 3rem;
+    height: 3.5rem;
+    width: 3.5rem;
+    line-height: 3rem;
+    font-size: 1.5rem;
+    padding: 0;
     text-align: center;
-    
+    background-color: rgba(0,0,0,0.5);
+    border: 5px solid black;
     border-radius: 50%;
     box-sizing: border-box;
     

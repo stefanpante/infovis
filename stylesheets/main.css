@@ -244,33 +244,26 @@ rect.one {
   font-size: 2rem;
   width: 100%;
   color: #006ff0; }
-  /* line 6, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
-  .position .two {
-    display: inline-block;
-    float: right; }
-  /* line 11, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
-  .position .one {
-    display: inline-block; }
 
-/* line 17, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 9, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circle {
   width: 15px;
   height: 15px;
   display: inline-block;
-  margin-right: 7.5px;
+  margin-right: 1.875px;
   border-radius: 50%;
   background-color: #006ff0; }
 
-/* line 26, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 18, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circle.two {
   background-color: blue; }
 
-/* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 22, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .wins, .snd, .thd {
   width: 100%;
   margin-top: 7.5px; }
 
-/* line 36, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 #wrap-stats {
   position: absolute;
   top: 0;
@@ -279,35 +272,45 @@ rect.one {
   float: left;
   white-space: nowrap; }
 
-/* line 46, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 38, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 #stats {
   margin-top: 12px;
   position: relative; }
 
-/* line 51, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 43, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circles {
-  height: 15px; }
+  height: 15px;
+  line-height: 15px; }
 
-/* line 54, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 47, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .stat {
   display: inline-block;
   box-sizing: border-box;
   padding: 12px; }
-  /* line 58, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+  /* line 51, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
   .stat .title {
     font-size: 1.25rem;
     color: #9a9a9a;
-    margin-bottom: 12px; }
+    margin-bottom: 12px;
+    margin-top: 12px; }
+  /* line 58, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+  .stat .one {
+    color: #006ff0; }
 
-/* line 65, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 63, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal {
-  height: 3rem;
-  width: 3rem;
+  height: 3.5rem;
+  width: 3.5rem;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  padding: 0;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 5px solid black;
   border-radius: 50%;
   box-sizing: border-box; }
 
-/* line 74, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+/* line 76, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal[position="1"] {
   background-color: gold;
   border: 5px solid #724e00; }

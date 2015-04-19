@@ -8,13 +8,26 @@ def saveToFile(name, data):
 
 constructorTeams = {}
 
+def getDriverStandings():
+	data = None
+	with open('positions.json') as file:
+		data = json.load(file)
 
-def getDriverStanding(results, driverRef):
+	return data
+
+def getDriverStanding(results, driverRef, positions):
 	career = {}
 	for tup in results:
 		points = tup[0]
-		position = tup[1]
+		
 		year = tup[2]
+		position = 25
+		
+		if(str(year) in positions["seasons"]):
+			if(str(driverRef) in positions["seasons"][str(year)]):
+				position = positions["seasons"][str(year)][str(driverRef)]
+
+
 		constructor = tup[3]
 		rank = tup[4]
 		if not(year in career):
@@ -24,7 +37,7 @@ def getDriverStanding(results, driverRef):
 				"wins": 0,
 				"snd": 0,
 				"thd": 0,
-				"position": 25,
+				"position": position,
 				"constructorId": constructor
 			}
 		if not(constructor in constructorTeams):
@@ -57,6 +70,8 @@ def getDriverStanding(results, driverRef):
 
 	return career2
 
+# def getPosition(year, driverRef):
+
 
 
 
@@ -76,7 +91,7 @@ def getConstructors(cursor):
 	result = cursor.fetchall()
 	return result
 
-def getDriverResults(drivers, cursor):
+def getDriverResults(drivers, cursor, positions):
 	driver_results = {}
 	for driver in drivers:
 		cursor.execute("""SELECT results.points, results.position, races.year, constructors.constructorRef, results.rank 
@@ -86,7 +101,7 @@ def getDriverResults(drivers, cursor):
 						  where drivers.driverRef = \'""" + str(driver[1]) + "\'")
 		results = cursor.fetchall()
 		fullname = driver[2] + " " +  driver[3]
-		career = getDriverStanding(results, driver[1])
+		career = getDriverStanding(results, driver[1], positions)
 		driver_result = {
 			"name" : fullname,
 			"driverId": driver[1],
@@ -98,13 +113,14 @@ def getDriverResults(drivers, cursor):
 
 
 
-
+positions = getDriverStandings()
+print positions["seasons"]["2003"]["webber"]
 print "Connect to database"
 cursor, connection = openConnection()
 print "Get all drivers"
 drivers = getDrivers(cursor)
 print "get driver results"
-driver_results = getDriverResults(drivers, cursor)
+driver_results = getDriverResults(drivers, cursor, positions)
 print "Save drivers to file"
 saveToFile('drivers.json', driver_results)
 print "Drivers saved to file"
