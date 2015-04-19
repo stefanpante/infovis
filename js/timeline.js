@@ -48,6 +48,8 @@ function changeDriver(data, driver) {
     $("#wrapperSVG").remove();
     $("#timelineNav .year").remove();
     $(".d3-tip").hide();
+    
+    $("#wrap-stats").empty();
     makeBarCharts(data, driver);
 }
 
@@ -72,26 +74,26 @@ function makeBarCharts(data, driver) {
 
     tip1 = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([-10, 90])
         .html(function (d) {
-            return "<center> <br>" + data.drivers[d.ids.first].name + "<br>\r\n<strong>Wins:</strong> <span style='color:blue'>" + d.ids.firstWins + "</span></center>";
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name +'</div><div class="wins"> ' + d.ids.firstWins + ' wins </div></div>'
         });
 
     tip2 = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([-10, 90])
         .html(function (d) {
-            return "<center> <br>" + data.drivers[d.ids.second].name + "<br>\r\n<strong>Wins:</strong> <span style='color:blue'>" + d.ids.secondWins + "</span></center>";
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name  +'</div><div class="wins"> ' + d.ids.secondWins  + ' wins </div></div>'
         });
 
     tipSelectedDriver = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([-10, 90])
         .html(function (d) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            return "<center> Team " + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + "<br>\r\n<strong>Total Wins:</strong> <span style='color:red'>" + d.wins + "</span> </center>";
+            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) +'</div><div class="wins"> Total wins <span style="color:red">' + d.wins  +  '</div></div>';
         });
 
 
@@ -298,8 +300,9 @@ function drawDriver(svgs, selected_data) {
             return y(wins);
         })
         .attr("height", 22)
-        .style("fill", 'red')
-        .style("fill-opacity", .5)
+        .attr("class", "one")
+        //.style("fill", 'red')
+        //.style("fill-opacity", .5)
         .on('mouseover', tipSelectedDriver.show)
         .on('mouseout', tipSelectedDriver.hide);
 

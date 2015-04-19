@@ -4,6 +4,7 @@ $circuit-width: 5;
 $font-family: 'Roboto', sans-serif;
 $font-size: 16px;
 $default-padding: 12px;
+$one-color: #006ff0;
 
 body{
     background-color: $background-color;
@@ -33,7 +34,7 @@ body{
         padding-left: 0;
         padding-right: 0;
         width: 50%;
-        color: #006ff0;
+        color: $one-color;
 
     }
     

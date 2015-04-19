@@ -34,13 +34,7 @@ $timeline-bck: #0B0B0B;
     }
 }
 
-#wrap-stats{
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 3;
-        cursor:all-scroll;
-}
+
 
 #wrapperSVG {
     position: absolute;
@@ -106,32 +100,26 @@ $timeline-bck: #0B0B0B;
 
 .circle{
     stroke-opacity: 1;
-    fill: #006ff0;
+    fill: $one-color;
 }
 
 .trendline{
-    stroke: #006ff0;
+    stroke: $one-color;
     stroke-dasharray: 5,5;
     fill-opacity: 0;
 }
 
 .tooltip{
-    position: absolute;
-    background-color: white;
+    position: relative;
     z-index: 10;
+    box-sizing: border-box;
+    padding: $default-padding;
+    background-color: rgba(0,0,0,0.8);
+    width: 175px;
+    text-align: center;
 }
 
-.changedriver{
-    padding: 6px;
-    background-color: #0B0B0B;
-    border-radius: 6px;
-    width: 100px;
-    margin: 12px;
-    float:left;
-    cursor: pointer;
-    transition: all 0.5s;
+rect.one{
+    fill: $one-color;
 }
 
-.changeDriver:hover{
-    background-color: lighten($timeline-bck, 5%);
-}

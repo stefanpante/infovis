@@ -2,7 +2,7 @@ $circle-radius: 7.5px;
 .position {
     font-size: 2rem;
     width: 100%;
-    color: red;
+    color: $one-color;
     .two{
         display: inline-block;
         float: right;
@@ -20,7 +20,7 @@ $circle-radius: 7.5px;
     display: inline-block;
     margin-right: $circle-radius;
     border-radius: 50%;
-    background-color: red;
+    background-color: $one-color;
 }
 
 .circle.two{
@@ -44,6 +44,7 @@ $circle-radius: 7.5px;
 }
 
 #stats{
+    margin-top: $default-padding;
     position: relative;
 }
 
