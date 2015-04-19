@@ -154,6 +154,10 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
             $("#selector").css({
                 left: left1
             })
+            
+            $("#wrap-stats").css({
+                left: left + "px"
+            })
         },
 
         end: function (event) {

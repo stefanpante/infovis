@@ -26,13 +26,20 @@ $timeline-bck: #0B0B0B;
         }
     }
     #wrap_timeline {
-        position: relative;
         position: absolute;
         top: 0;
         left: 0;
         z-index: 3;
         cursor:all-scroll;
     }
+}
+
+#wrap-stats{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        cursor:all-scroll;
 }
 
 #wrapperSVG {
