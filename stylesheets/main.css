@@ -10,7 +10,7 @@ body {
 /* line 19, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 #wrapper {
   width: 100%;
-  margin-top: 35px;
+  margin-top: 15px;
   position: relative; }
 
 /* line 26, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
@@ -162,6 +162,14 @@ body {
 /* line 122, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 rect.one {
   fill: #006ff0; }
+
+/* line 126, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team {
+  fill: #EEE; }
+
+/* line 130, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team2 {
+  fill: #777; }
 
 /* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
 #timelineNav {

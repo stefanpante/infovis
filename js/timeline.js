@@ -240,7 +240,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID) {
         .attr("class", function (d, i) {
             return "team team-" + i;
         })
-        .attr("fill", "white")
         .on("click", function (d) {
             changeDriver(data, d.ids.second);
         })
@@ -268,9 +267,9 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID) {
             return height - y(d.ids.firstWins);
         })
         .attr("class", function (d, i) {
-            return "team team-" + i;
+            return "team2 team-" + i;
         })
-        .attr("fill", "blue")
+        .attr("fill-opacity", 0.5)
         .on("click", function (d) {
             changeDriver(data, d.ids.first);
         })
