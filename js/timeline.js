@@ -107,7 +107,7 @@ function changeDriver(data, driver) {
 
 }
 
-function updateXAxis(constructors_data) {
+function updateXAxis(constructors_data, width) {
     var constructors = [];
     for (var i = 0; i < constructors_data.length; i++) {
         var year = constructors_data[i];
@@ -121,6 +121,7 @@ function updateXAxis(constructors_data) {
     }
     console.log(constructors);
     x0.domain(constructors);
+    x0.rangeRoundBands([0, width], 0.1);
 }
 
 /* Creating the bar charts */
@@ -230,7 +231,7 @@ function makeBarCharts(data, driver1, driver2) {
     //    console.log(selected_driver_2);
 
 
-    updateXAxis(selected_constructors);
+    
 
     //years
     years = time_line.selectAll(".year")
@@ -247,6 +248,8 @@ function makeBarCharts(data, driver1, driver2) {
 
     width = parseInt($("#timeline .year").width());
     var totalWidth = d3.entries(dummy).length * width;
+    
+    updateXAxis(selected_constructors, width);
 
     // create one global svg, so that the trend line can be drawn
     // other svg's for each year will be appended to this one instead of 
