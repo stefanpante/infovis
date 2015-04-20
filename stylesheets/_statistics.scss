@@ -1,4 +1,4 @@
-$circle-radius: 7.5px;
+$circle-radius: 5px;
 .position {
     font-size: 2rem;
     width: 100%;
@@ -43,6 +43,7 @@ $circle-radius: 7.5px;
     height: 2 * $circle-radius;
     line-height: 2 * $circle-radius;
     margin-top: 0.5 * $default-padding;
+    white-space: normal;
 }
 
 .stat {
@@ -64,15 +65,16 @@ $circle-radius: 7.5px;
     }
     
     .position{
-        height: 3.5rem;
+        height: 2.5rem;
     }
 }
 
 .medal {
-    height: 3.5rem;
-    width: 3.5rem;
-    line-height: 3rem;
-    font-size: 1.5rem;
+    height: 2rem;
+    width: 2rem;
+    display: table-cell;
+    line-height: 1.5rem;
+    font-size: 1.125rem;
     padding: 0;
     float: left;
     text-align: center;
