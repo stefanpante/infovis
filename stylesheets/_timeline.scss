@@ -98,15 +98,26 @@ $timeline-bck: #0B0B0B;
     fill: lighten($timeline-bck, 35%);
 }
 
-.circle{
+.circle1{
     stroke-opacity: 1;
     fill: $one-color;
 }
 
-.trendline{
+.trendline1{
     stroke: $one-color;
     stroke-dasharray: 5,5;
     fill-opacity: 0;
+}
+
+.circle2{
+  stroke-opacity: 1;
+  fill: $two-color;
+}
+
+.trendline2{
+  stroke: $two-color;
+  stroke-dasharray: 5,5;
+  fill-opacity: 0;
 }
 
 .tooltip{
@@ -122,6 +133,12 @@ $timeline-bck: #0B0B0B;
 
 rect.one{
     fill: $one-color;
+    fill-opacity: 0.7;
+}
+
+rect.two{
+  fill: $two-color;
+  fill-opacity: 0.7;
 }
 
 .team{

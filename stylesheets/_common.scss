@@ -8,6 +8,7 @@ $default-border-radius: 6px;
 $one-color: #006ff0;
 $two-color: #f00066;
 
+
 body{
     background-color: $background-color;
     font-family: $font-family;
@@ -101,8 +102,9 @@ body{
         padding: 6px;
         padding-left: 0;
         padding-right: 0;
-        width: 50%;
+        width: calc(50% - 3px);
         color: $one-color;
+        display: inline-block;
 
     }
     

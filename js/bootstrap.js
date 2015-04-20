@@ -16,5 +16,6 @@ $(".changedriver").click(function(event){
     $("#wrapperSVG").remove();
     $("#wrapperSVGMINI").remove();
     $("#timelineNav .year").remove();
-    makeBarCharts(window.dat1, driver);
+    makeBarCharts(window.dat1, oldestDriver,driver);
+    oldestDriver = driver;
 })
