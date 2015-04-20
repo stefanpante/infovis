@@ -44,18 +44,66 @@ var yScale;
 var oldestDriver = "alonso";
 
 function changeDriver(data, driver) {
+
     var name = data.drivers[driver].name;
-    var name2 = data.drivers[oldestDriver].name;
-    $("#title .name.two").text(name);
-    $("#title .name.one").text(name2);
-    $("#wrap_timeline").empty();
-    $("#wrapperSVG").remove();
-    $("#timelineNav .year").remove();
-    $(".d3-tip").hide();
+    var name2 = data.drivers[window.driver1].name;
+    var name3 = data.drivers[window.driver2].name;
+    var html = new EJS({
+        url: 'tpl/chooser.ejs'
+    }).render({
+        driver3: {
+            driverId: driver,
+            name: name
+        },
+
+        driver2: {
+            driverId: driver1,
+            name: name2
+        },
+
+        driver1: {
+            driverId: driver2,
+            name: name3
+        }
+    });
     
-    $("#wrap-stats").empty();
-    makeBarCharts(data, oldestDriver,driver);
-    oldestDriver = driver;
+    $("#misc").hide().append(html);
+    $("#misc").fadeIn(200);
+    $("#cancel").on('click', function(event){
+        $("#chooser").fadeOut(500, function(){
+            $("#chooser").remove();
+        })
+    })
+    
+    $("#change").on('click', function(event){
+        var driverId = $('input[type="radio"]:not(:checked)').get(0).val();
+        if(driverId == window.driver1){
+            window.driver2 = driver;
+        } else{
+            window.driver1 = driver;
+        }
+        
+        
+        var n1 = data.drivers[window.driver1].name;
+        var n2 = data.drivers[window.driver2].name;
+        
+        $("#title .name.two").text(n1);
+        $("#title .name.one").text(n2);
+        $("#wrap_timeline").empty();
+        $("#wrapperSVG").remove();
+        $("#timelineNav .year").remove();
+        $(".d3-tip").hide();
+        
+        $("#wrap-stats").empty();
+        makeBarCharts(data, window.driver1,window.driver2);
+        
+         $("#chooser").fadeOut(500, function(){
+            $("#chooser").remove();
+        })
+    });
+
+    
+
 
 }
 
@@ -76,20 +124,22 @@ function updateXAxis(constructors_data) {
 }
 
 /* Creating the bar charts */
-function makeBarCharts(data, driver1,driver2) {
-
+function makeBarCharts(data, driver1, driver2) {
+    window.driver1 = driver1;
+    window.driver2 = driver2;
+    
     tip1 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 90])
         .html(function (d) {
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name +'</div><div class="wins"> ' + d.ids.firstWins + ' wins </div></div>'
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name + '</div><div class="wins"> ' + d.ids.firstWins + ' wins </div></div>'
         });
 
     tip2 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 90])
         .html(function (d) {
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name  +'</div><div class="wins"> ' + d.ids.secondWins  + ' wins </div></div>'
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name + '</div><div class="wins"> ' + d.ids.secondWins + ' wins </div></div>'
         });
 
     tipSelectedDriver = d3.tip()
@@ -99,7 +149,7 @@ function makeBarCharts(data, driver1,driver2) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) +'</div><div class="wins"> wins <span style="color:red">' + d.wins  +  '</div></div>';
+            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> wins <span style="color:red">' + d.wins + '</div></div>';
         });
 
     tipTotal = d3.tip()
@@ -109,7 +159,7 @@ function makeBarCharts(data, driver1,driver2) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) +'</div><div class="wins"> Total wins <span style="color:red">' + d.wins  +  '</div></div>';
+            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total wins <span style="color:red">' + d.wins + '</div></div>';
         });
 
 
@@ -124,38 +174,36 @@ function makeBarCharts(data, driver1,driver2) {
     var minYear_1 = selected_driver_1[0].year;
     var minYear_2 = selected_driver_2[0].year;
 
-    var maxYear_1 = selected_driver_1[selected_driver_1.length-1].year;
-    var maxYear_2 = selected_driver_2[selected_driver_2.length-1].year;
+    var maxYear_1 = selected_driver_1[selected_driver_1.length - 1].year;
+    var maxYear_2 = selected_driver_2[selected_driver_2.length - 1].year;
 
     var minY; //abs min
     var maxMinY; //voor doorsnede, toch niet gebruikt
-    if(minYear_1<minYear_2){
+    if (minYear_1 < minYear_2) {
         minY = minYear_1;
         maxMinY = minYear_2;
-    }
-    else{
+    } else {
         minY = minYear_2;
         maxMinY = minYear_1;
     }
 
     var maxY; //absoluut max
     var minMaxY; //voor doorsnede, toch niet gebruikt
-    if(maxYear_2<maxYear_1){
+    if (maxYear_2 < maxYear_1) {
         maxY = maxYear_1;
         minMaxY = maxYear_2;
-    }
-    else{
+    } else {
         maxY = maxYear_2;
-        minMaxY =maxYear_1;
+        minMaxY = maxYear_1;
     }
 
-    var dummy =[];
+    var dummy = [];
     // get the constructors for the years that the driver was active
     for (var yearI = minY; yearI < maxY; yearI++) {
-        if(yearI in data.constructors){
+        if (yearI in data.constructors) {
             dummy.push(yearI);
             var constructors = data.constructors[yearI];
-            var year2= newConstructorDataTypes(yearI, constructors, data.drivers);
+            var year2 = newConstructorDataTypes(yearI, constructors, data.drivers);
 
 
             selected_constructors.push(year2);
@@ -163,13 +211,13 @@ function makeBarCharts(data, driver1,driver2) {
 
     }
 
-    console.log(maxY-minY);
+    console.log(maxY - minY);
     console.log(selected_driver_1.length);
     console.log(selected_driver_2.length);
     console.log(selected_driver_1);
     console.log(selected_driver_2);
-    selected_driver_1 = fill_career_advanced(minY,maxY,selected_driver_1);
-    selected_driver_2 = fill_career_advanced(minY,maxY,selected_driver_2);
+    selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
+    selected_driver_2 = fill_career_advanced(minY, maxY, selected_driver_2);
     console.log(selected_driver_1);
     console.log(selected_driver_2);
 
@@ -218,46 +266,28 @@ function makeBarCharts(data, driver1,driver2) {
         });
 
 
-//    var stats = d3.select("#wrap-stats");
-//
-//    var driver_stats = stats.selectAll("div")
-//        .data(selected_driver_1)
-//        .enter()
-//        .append("div")
-//        .attr("class", "stat")
-//        .attr("style", "width:" + width + "px")
-//        .html(function (d, i) {
-//            var html = new EJS({
-//                url: 'tpl/stats2.ejs'
-//            }).render({
-//                driver1: d
-//            })
-//
-//            return html;
-//
-//        });
-    
-    for(var i = 0; i < selected_driver_1.length; i++){
+
+    for (var i = 0; i < selected_driver_1.length; i++) {
         var html = new EJS({
-                url: 'tpl/stats2.ejs'
-            }).render({
-                driver1: selected_driver_1[i],
-                driver2: selected_driver_2[i],
-                width: width
-            });
+            url: 'tpl/stats2.ejs'
+        }).render({
+            driver1: selected_driver_1[i],
+            driver2: selected_driver_2[i],
+            width: width
+        });
         $("#wrap-stats").append(html);
     }
 
 
     // draw all the elements of the barchart
-    createTimeLineNav2(selected_driver_1,selected_driver_2, selected_constructors, data, driver1,driver2);
-    drawTrendLine(wrapperSVG, selected_driver_1,1);
-    drawTrendLine(wrapperSVG, selected_driver_2,2);
+    createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
+    drawTrendLine(wrapperSVG, selected_driver_1, 1);
+    drawTrendLine(wrapperSVG, selected_driver_2, 2);
     console.log(driver1);
     console.log(driver2);
-    drawConstructors(wrapperSVG, selected_constructors, data, driver1,driver2);
-    drawDriver(wrapperSVG, selected_driver_1,1);
-    drawDriver(wrapperSVG, selected_driver_2,2);
+    drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
+    drawDriver(wrapperSVG, selected_driver_1, 1);
+    drawDriver(wrapperSVG, selected_driver_2, 2);
 
     divideInBlocks(wrapperSVG);
 
@@ -286,7 +316,7 @@ function stopLoadingAnimation() {
 
 
 // Draw the bars for the constructors
-function drawConstructors(svgs, selected_constructors, data, selectedDriverID1,selectedDriverID2) {
+function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
 
     var gs = svgs.selectAll("years")
         .data(selected_constructors)
@@ -297,21 +327,21 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1,s
         }).attr("width", width);
 
     gs.selectAll("rectTeam").data(function (d) {
-        return d;
-    }).enter()
+            return d;
+        }).enter()
         .append("rect")
         .attr("width", x0.rangeBand())
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) &&(d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)  ) {
+            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
                 return y(d.wins);
             }
             return 0;
         })
         .attr("height", function (d) {
-            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) &&(d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) ) {
+            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
                 return height - y(d.wins);
             }
             return 0;
@@ -331,13 +361,13 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1,s
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2 ) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return 0;
             }
             return y(d.wins);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return 0;
             }
             return height - y(d.ids.secondWins);
@@ -360,13 +390,13 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1,s
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return y(d.wins);
             }
             return y(d.ids.firstWins);
         })
         .attr("height", function (d) {
-            if (d.ids.first == selectedDriverID1||d.ids.first == selectedDriverID2) {
+            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
                 return 0;
             }
             return height - y(d.ids.firstWins);
@@ -385,16 +415,16 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1,s
 
 // Draw the bars for the drivers on top of the teams bar.
 // This is the red bar.
-function drawDriver(svgs, selected_data,nr) {
+function drawDriver(svgs, selected_data, nr) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
-    var bars = svgs.selectAll("rect"+nr)
+    var bars = svgs.selectAll("rect" + nr)
         .data(selected_data);
 
     var className;
-    if(nr == 1){
+    if (nr == 1) {
         className = "one";
-    }else{
+    } else {
         className = "two";
     }
 
@@ -404,13 +434,13 @@ function drawDriver(svgs, selected_data,nr) {
         .append("rect")
         .attr("width", x0.rangeBand())
         .attr("x", function (d, i) {
-            if("dummy" in d){
-                return i * width + width/2;
+            if ("dummy" in d) {
+                return i * width + width / 2;
             }
             return width * i + x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if(d == "nothing"){
+            if (d == "nothing") {
                 return y(0);
             }
             var wins = parseInt(d.wins);
@@ -434,7 +464,7 @@ function drawDriver(svgs, selected_data,nr) {
         .duration(300)
         .ease("exp")
         .attr("height", function (d) {
-            if(d == "nothing"){
+            if (d == "nothing") {
                 return height - y(0);
             }
             return height - y(d.wins);
@@ -443,19 +473,19 @@ function drawDriver(svgs, selected_data,nr) {
 }
 
 
-function drawTrendLine(svg, data,nr) {
+function drawTrendLine(svg, data, nr) {
     // function to calculate the x position
 
     var className;
-    if(nr == 1){
+    if (nr == 1) {
         className = "one";
-    }else{
+    } else {
         className = "two";
     }
 
     var calculateX = function (d, i) {
-        if("dummy" in d){
-            return i * width + width/2;
+        if ("dummy" in d) {
+            return i * width + width / 2;
         }
         return i * width + x0(d.constructorId) + x0.rangeBand() / 2;
 
@@ -463,8 +493,8 @@ function drawTrendLine(svg, data,nr) {
 
     // function to calculate the y position
     var calculateY = function (d) {
-        if(d == "nothing"){
-            return y( 0.3);
+        if (d == "nothing") {
+            return y(0.3);
         }
         var wins = parseInt(d.wins);
         return y(wins + 0.3);
@@ -472,15 +502,15 @@ function drawTrendLine(svg, data,nr) {
     }
 
     // add little circles to where the driver is located
-    svg.selectAll(".circle"+nr).data(data).enter()
+    svg.selectAll(".circle" + nr).data(data).enter()
         .append("circle")
-        .attr("class", "circle"+nr)
+        .attr("class", "circle" + nr)
         .attr("cy", calculateY)
         .attr("cx", calculateX)
         .attr("id", function (d) {
-            if(d == "nothing"){
+            if (d == "nothing") {
                 "nothing";
-            }else{
+            } else {
                 d.key
             }
 
@@ -494,7 +524,7 @@ function drawTrendLine(svg, data,nr) {
 
     // draw the line
     svg.append("path")
-        .attr("class", "trendline"+nr)
+        .attr("class", "trendline" + nr)
         .attr("d", lineFunction(data));
 }
 
@@ -664,7 +694,7 @@ function divideInBlocks(svgs) {
 }
 
 
-function createTimeLineNav2(data1,data2, selected_constructors, Alldata, driver1,driver2) {
+function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver1, driver2) {
     //console.log(JSON.stringify(data));
     // select the timeline navigation.
     var time_line_nav = d3.select("#timelineNav");
@@ -715,9 +745,9 @@ function createTimeLineNav2(data1,data2, selected_constructors, Alldata, driver1
             return left;
         });
 
-    drawConstructorsOnNav2(wrapperSVG, selected_constructors, Alldata, driver1,driver2);
-    drawDriverOnNav2(wrapperSVG, data1,1);
-    drawDriverOnNav2(wrapperSVG, data2,2);
+    drawConstructorsOnNav2(wrapperSVG, selected_constructors, Alldata, driver1, driver2);
+    drawDriverOnNav2(wrapperSVG, data1, 1);
+    drawDriverOnNav2(wrapperSVG, data2, 2);
 
     //    mini_timeline.select(".year2").remove();
     //    var years2 = mini_timeline
@@ -832,7 +862,7 @@ function createTimeLineNav2(data1,data2, selected_constructors, Alldata, driver1
 }
 
 // Draw the bars for the constructors
-function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDriverID1,selectedDriverID2) {
+function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
     var gs = svgs.selectAll("years2")
         .data(selected_constructors)
         .enter()
@@ -850,13 +880,13 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return 0;
             }
             return yScale * y(d.wins);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return 0;
             }
             return yScale * (height - y(d.ids.secondWins));
@@ -875,13 +905,13 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return yScale * y(d.wins);
             }
             return yScale * y(d.ids.firstWins);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 ||d.ids.second == selectedDriverID2) {
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return 0;
             }
             return yScale * (height - y(d.ids.firstWins));
@@ -895,16 +925,16 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
 
 // Draw the bars for the drivers on top of the teams bar.
 // This is the red bar.
-function drawDriverOnNav2(svgs, selected_data,nr) {
+function drawDriverOnNav2(svgs, selected_data, nr) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
-    var bars = svgs.selectAll("rect2"+nr)
+    var bars = svgs.selectAll("rect2" + nr)
         .data(selected_data);
 
     var className;
-    if(nr == 1){
+    if (nr == 1) {
         className = 'blue';
-    }else{
+    } else {
         className = 'red';
     }
 
@@ -916,8 +946,8 @@ function drawDriverOnNav2(svgs, selected_data,nr) {
         .append("rect")
         .attr("width", xScale * x0.rangeBand())
         .attr("x", function (d, i) {
-            if("dummy" in d){
-                return i * navWidth + navWidth/2;
+            if ("dummy" in d) {
+                return i * navWidth + navWidth / 2;
             }
             return navWidth * i + xScale * x0(d.constructorId);
         })
@@ -946,7 +976,7 @@ function drawDriverOnNav2(svgs, selected_data,nr) {
 
 }
 
-function fill_career(min,max,career) {
+function fill_career(min, max, career) {
     var interval = max - min;
     var size = career.length;
     var newCareer = [];
@@ -956,13 +986,31 @@ function fill_career(min,max,career) {
 
         }
         for (var j = size; j < interval; j++) {
-            newCareer.push({constructorId: career[size - 1].constructorId, points: 0, position: "NA", snd: 0, thd: 0, wins: 0, year: max - j, dummy: "DUMMY"});
+            newCareer.push({
+                constructorId: career[size - 1].constructorId,
+                points: 0,
+                position: "NA",
+                snd: 0,
+                thd: 0,
+                wins: 0,
+                year: max - j,
+                dummy: "DUMMY"
+            });
 
         }
 
     } else {
         for (var i2 = 0; i2 < interval - size; i2++) {
-            newCareer.push({constructorId: career[0].constructorId, points: 0, position: "NA", snd: 0, thd: 0, wins: 0, year: min + i2, dummy: "DUMMY"});
+            newCareer.push({
+                constructorId: career[0].constructorId,
+                points: 0,
+                position: "NA",
+                snd: 0,
+                thd: 0,
+                wins: 0,
+                year: min + i2,
+                dummy: "DUMMY"
+            });
 
         }
         for (var j2 = 0; j2 < size; j2++) {
@@ -975,25 +1023,43 @@ function fill_career(min,max,career) {
 
 }
 
-    function fill_career_advanced(min,max,career){
-        var interval = max+1 - min;
-        var size = career.length;
-        var newCareer = [];
-        //newCareer.push({constructorId:career[0].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:min+i2,dummy:"DUMMY"});
-        //newCareer.push({constructorId:career[size-1].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:max-j,dummy:"DUMMY"});
-        var i = 0;
-        for (var y = min; y<max+1;y++){
-            if(career[i].year < y){
-                newCareer.push({constructorId: career[i].constructorId, points: 0, position: "NA", snd: 0, thd: 0, wins: 0, year: y, dummy: "DUMMY"});
-            }else if(career[i].year > y){
-                newCareer.push({constructorId: career[i].constructorId, points: 0, position: "NA", snd: 0, thd: 0, wins: 0, year: y, dummy: "DUMMY"});
-            }else{
-                newCareer.push(career[i]);
-                if(i<size-1){
-                    i++;
-                }
+function fill_career_advanced(min, max, career) {
+    var interval = max + 1 - min;
+    var size = career.length;
+    var newCareer = [];
+    //newCareer.push({constructorId:career[0].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:min+i2,dummy:"DUMMY"});
+    //newCareer.push({constructorId:career[size-1].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:max-j,dummy:"DUMMY"});
+    var i = 0;
+    for (var y = min; y < max + 1; y++) {
+        if (career[i].year < y) {
+            newCareer.push({
+                constructorId: career[i].constructorId,
+                points: 0,
+                position: "NA",
+                snd: 0,
+                thd: 0,
+                wins: 0,
+                year: y,
+                dummy: "DUMMY"
+            });
+        } else if (career[i].year > y) {
+            newCareer.push({
+                constructorId: career[i].constructorId,
+                points: 0,
+                position: "NA",
+                snd: 0,
+                thd: 0,
+                wins: 0,
+                year: y,
+                dummy: "DUMMY"
+            });
+        } else {
+            newCareer.push(career[i]);
+            if (i < size - 1) {
+                i++;
             }
         }
-        return newCareer;
-
     }
+    return newCareer;
+
+}

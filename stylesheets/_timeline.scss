@@ -11,18 +11,19 @@ $timeline-bck: #0B0B0B;
     .year {
         height: 100%;
         width: 20vw;
-        border-right: 1px dashed lighten($timeline-bck, 10%);
+        border-right: 1px dashed lighten($timeline-bck, 35%);
         display: inline-block;
         position: relative;
         box-sizing: border-box;
         .head {
             position: absolute;
+            display: inline-block;
             top: 10px;
             right: 10px;
             font-size: 3em;
             font-weight: 100;
             background-color: transparent;
-            color: lighten($timeline-bck, 35%);
+            color: lighten($timeline-bck, 65%);
         }
     }
     #wrap_timeline {

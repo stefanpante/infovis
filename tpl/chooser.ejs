@@ -2,8 +2,8 @@
     <div id="dialog">
         <div class="head"> Substitute <%= driver3.name %> with:</div>
         <div class="bod">
-           <div class="option"><input type="radio" value="<%= driver2.driverId %>"><%= driver2.name %></div>
-            <div class="option"><input type="radio" value="<%= driver1.driverId %>"><%= driver1.name %></div>
+           <div class="option"><input type="radio" id="radio1" name="driver" value="<%= driver2.driverId %>" class="radio"  checked = "checked"><label for="radio1"><%= driver2.name %></label></div>
+            <div class="option"><input type="radio" id="radio2"  name="driver" value="<%= driver1.driverId %>" class="radio"><label for="radio2"><%= driver1.name %></label></div>
         <button id="cancel">Cancel</button>
         <button id="change">Change</button>
             
