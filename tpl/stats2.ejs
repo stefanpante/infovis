@@ -6,7 +6,13 @@
             <%} else { %>
             <%=driver1.position %>
             <% } %>
+            
+            
         </div>
+        
+        <% if(driver1.constructorId){ %>
+                <div class="constructor one"><%= driver1.constructorId.replace("_", " ") %></div>
+            <% } %>
 
         <div class="medal two" position="<%= driver2.position %>">
            <% if(driver2.position == "NA"){%>
@@ -15,6 +21,10 @@
             <%=driver2.position %>
             <% } %>
         </div>
+        
+        <% if(driver1.constructorId){ %>
+               <div class="constructor two"> <%= driver2.constructorId.replace("_", " ") %> </div>
+            <% } %>
     </div>
     <div class="wins">
         <div class="title">First</div>

@@ -36,7 +36,6 @@ $circle-radius: 5px;
 #stats {
     margin-top: $default-padding;
     position: relative;
-
 }
 
 .circles {
@@ -44,6 +43,7 @@ $circle-radius: 5px;
     line-height: 2 * $circle-radius;
     margin-top: 0.5 * $default-padding;
     white-space: normal;
+    text-transform: capitalize;
 }
 
 .stat {
@@ -54,18 +54,32 @@ $circle-radius: 5px;
     .title {
         font-size: 1.25rem;
         color: #9a9a9a;
+        text-transform: capitalize;
         margin-bottom: $default-padding;
-        
     }
     .one {
         color: $one-color;
     }
-    .two{
+    .two {
         color: $two-color;
     }
-    
-    .position{
+    .position {
         height: 2.5rem;
+    }
+    .constructor {
+        height: 2.5rem;
+        line-height: 2.2rem;
+        box-sizing: border-box;
+        font-size: 1rem;
+        text-transform: capitalize;
+    }
+    .constructor.one {
+        float: left;
+        padding-left: $default-padding;
+    }
+    .constructor.two {
+        float: right;
+        padding-right: $default-padding;
     }
 }
 
@@ -84,17 +98,17 @@ $circle-radius: 5px;
     box-sizing: border-box;
 }
 
-.medal.two{
+.medal.two {
     float: right;
 }
 
-.medal[position="NA"]{
+.medal[position="NA"] {
     width: auto;
     background-color: transparent;
     border: 0;
     border-radius: 0;
-    
 }
+
 .medal[position="1"] {
     background: rgba(241, 231, 103, 1);
     background: -moz-linear-gradient(-45deg, rgba(241, 231, 103, 1) 0%, rgba(241, 231, 103, 1) 21%, rgba(252, 238, 88, 1) 41%, rgba(255, 249, 168, 1) 60%, rgba(241, 232, 103, 1) 77%, rgba(241, 232, 103, 1) 100%);
@@ -106,25 +120,24 @@ $circle-radius: 5px;
     border: 5px solid #ffbd63;
 }
 
-.medal[position="2"]{
-    background: rgba(226,226,226,1);
-background: -moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(226,226,226,1)), color-stop(50%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
-background: -webkit-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-background: -o-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-background: -ms-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-background: linear-gradient(135deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+.medal[position="2"] {
+    background: rgba(226, 226, 226, 1);
+    background: -moz-linear-gradient(-45deg, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(226, 226, 226, 1)), color-stop(50%, rgba(219, 219, 219, 1)), color-stop(51%, rgba(209, 209, 209, 1)), color-stop(100%, rgba(254, 254, 254, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: linear-gradient(135deg, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);
     border: 5px solid #bbb;
 }
 
-.medal[position="3"]{
-background: rgba(205,127,50,1);
-background: -moz-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
-background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(205,127,50,1)), color-stop(50%, rgba(242,173,109,1)), color-stop(51%, rgba(230,155,85,1)), color-stop(100%, rgba(254,254,254,1)));
-background: -webkit-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
-background: -o-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
-background: -ms-linear-gradient(-45deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
-background: linear-gradient(135deg, rgba(205,127,50,1) 0%, rgba(242,173,109,1) 50%, rgba(230,155,85,1) 51%, rgba(254,254,254,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cd7f32', endColorstr='#fefefe', GradientType=1 );
-    border: 5px solid rgba(205,127,50,1);
+.medal[position="3"] {
+    background: rgba(205, 127, 50, 1);
+    background: -moz-linear-gradient(-45deg, rgba(205, 127, 50, 1) 0%, rgba(242, 173, 109, 1) 50%, rgba(230, 155, 85, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(205, 127, 50, 1)), color-stop(50%, rgba(242, 173, 109, 1)), color-stop(51%, rgba(230, 155, 85, 1)), color-stop(100%, rgba(254, 254, 254, 1)));
+    background: -webkit-linear-gradient(-45deg, rgba(205, 127, 50, 1) 0%, rgba(242, 173, 109, 1) 50%, rgba(230, 155, 85, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(205, 127, 50, 1) 0%, rgba(242, 173, 109, 1) 50%, rgba(230, 155, 85, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(205, 127, 50, 1) 0%, rgba(242, 173, 109, 1) 50%, rgba(230, 155, 85, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    background: linear-gradient(135deg, rgba(205, 127, 50, 1) 0%, rgba(242, 173, 109, 1) 50%, rgba(230, 155, 85, 1) 51%, rgba(254, 254, 254, 1) 100%);
+    border: 5px solid rgba(205, 127, 50, 1);
 }

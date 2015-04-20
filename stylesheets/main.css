@@ -258,6 +258,9 @@ rect.two {
   fill: #CCC;
   transition: all 0.4s ease; }
 
+.teamname {
+  fill: white; }
+
 #timelineNav {
   width: 100%;
   height: 35px;
@@ -365,7 +368,8 @@ rect.two {
   height: 10px;
   line-height: 10px;
   margin-top: 6px;
-  white-space: normal; }
+  white-space: normal;
+  text-transform: capitalize; }
 
 .stat {
   display: inline-block;
@@ -375,6 +379,7 @@ rect.two {
   .stat .title {
     font-size: 1.25rem;
     color: #9a9a9a;
+    text-transform: capitalize;
     margin-bottom: 12px; }
   .stat .one {
     color: #006ff0; }
@@ -382,6 +387,18 @@ rect.two {
     color: #f00066; }
   .stat .position {
     height: 2.5rem; }
+  .stat .constructor {
+    height: 2.5rem;
+    line-height: 2.2rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+    text-transform: capitalize; }
+  .stat .constructor.one {
+    float: left;
+    padding-left: 12px; }
+  .stat .constructor.two {
+    float: right;
+    padding-right: 12px; }
 
 .medal {
   height: 2rem;
@@ -434,7 +451,6 @@ rect.two {
   background: -o-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
   background: -ms-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
   background: linear-gradient(135deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cd7f32', endColorstr='#fefefe', GradientType=1 );
   border: 5px solid #cd7f32; }
 
 /*# sourceMappingURL=main.css.map */

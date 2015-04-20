@@ -66,43 +66,43 @@ function changeDriver(data, driver) {
             name: name3
         }
     });
-    
+
     $("#misc").hide().append(html);
     $("#misc").fadeIn(200);
-    $("#cancel").on('click', function(event){
-        $("#chooser").fadeOut(500, function(){
+    $("#cancel").on('click', function (event) {
+        $("#chooser").fadeOut(500, function () {
             $("#chooser").remove();
         })
     })
-    
-    $("#change").on('click', function(event){
+
+    $("#change").on('click', function (event) {
         var driverId = $('input[type="radio"]:not(:checked)').val();
-        if(driverId == window.driver1){
+        if (driverId == window.driver1) {
             window.driver2 = driver;
-        } else{
+        } else {
             window.driver1 = driver;
         }
-        
-        
+
+
         var n1 = data.drivers[window.driver1].name;
         var n2 = data.drivers[window.driver2].name;
-        
+
         $("#title .name.two").text(n2);
         $("#title .name.one").text(n1);
         $("#wrap_timeline").empty();
         $("#wrapperSVG").remove();
         $("#timelineNav .year").remove();
         $(".d3-tip").hide();
-        
+
         $("#wrap-stats").empty();
-        makeBarCharts(data, window.driver1,window.driver2);
-        
-         $("#chooser").fadeOut(500, function(){
+        makeBarCharts(data, window.driver1, window.driver2);
+
+        $("#chooser").fadeOut(500, function () {
             $("#chooser").remove();
         })
     });
 
-    
+
 
 
 }
@@ -127,19 +127,27 @@ function updateXAxis(constructors_data) {
 function makeBarCharts(data, driver1, driver2) {
     window.driver1 = driver1;
     window.driver2 = driver2;
-    
+
     tip1 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 90])
         .html(function (d) {
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name + '</div><div class="wins"> ' + d.ids.firstWins + ' wins </div></div>'
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+            
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name + '</div><div class="wins"> ' + d.ids.firstWins + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>'
         });
+
 
     tip2 = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 90])
         .html(function (d) {
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name + '</div><div class="wins"> ' + d.ids.secondWins + ' wins </div></div>'
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name + '</div><div class="wins"> ' + d.ids.secondWins + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>'
         });
 
     tipSelectedDriver = d3.tip()
@@ -211,15 +219,15 @@ function makeBarCharts(data, driver1, driver2) {
 
     }
 
-    console.log(maxY - minY);
-    console.log(selected_driver_1.length);
-    console.log(selected_driver_2.length);
-    console.log(selected_driver_1);
-    console.log(selected_driver_2);
+    //    console.log(maxY - minY);
+    //    console.log(selected_driver_1.length);
+    //    console.log(selected_driver_2.length);
+    //    console.log(selected_driver_1);
+    //    console.log(selected_driver_2);
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
     selected_driver_2 = fill_career_advanced(minY, maxY, selected_driver_2);
-    console.log(selected_driver_1);
-    console.log(selected_driver_2);
+    //    console.log(selected_driver_1);
+    //    console.log(selected_driver_2);
 
 
     updateXAxis(selected_constructors);
@@ -283,8 +291,8 @@ function makeBarCharts(data, driver1, driver2) {
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
     drawTrendLine(wrapperSVG, selected_driver_1, 1);
     drawTrendLine(wrapperSVG, selected_driver_2, 2);
-    console.log(driver1);
-    console.log(driver2);
+    //    console.log(driver1);
+    //    console.log(driver2);
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
@@ -311,31 +319,31 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return i * width;
         }).attr("width", width);
 
-//    gs.selectAll("rectTeam").data(function (d) {
-//            return d;
-//        }).enter()
-//        .append("rect")
-//        .attr("width", x0.rangeBand())
-//        .attr("x", function (d, i) {
-//            return x0(d.constructorId);
-//        })
-//        .attr("y", function (d) {
-////            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
-////                return y(d.wins);
-////            }
-//            return  y(d.wins) + y(0.3);
-//        })
-//        .attr("height", function (d) {
-//            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
-//                return height - y(d.wins);
-//            }
-//            return height - y(0.3);
-//        })
-//        .attr("class", function (d, i) {
-//            return "team team-" + i;
-//        })
-//        .on('mouseover', tipTotal.show)
-//        .on('mouseout', tipTotal.hide);
+    //    gs.selectAll("rectTeam").data(function (d) {
+    //            return d;
+    //        }).enter()
+    //        .append("rect")
+    //        .attr("width", x0.rangeBand())
+    //        .attr("x", function (d, i) {
+    //            return x0(d.constructorId);
+    //        })
+    //        .attr("y", function (d) {
+    ////            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
+    ////                return y(d.wins);
+    ////            }
+    //            return  y(d.wins) + y(0.3);
+    //        })
+    //        .attr("height", function (d) {
+    //            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
+    //                return height - y(d.wins);
+    //            }
+    //            return height - y(0.3);
+    //        })
+    //        .attr("class", function (d, i) {
+    //            return "team team-" + i;
+    //        })
+    //        .on('mouseover', tipTotal.show)
+    //        .on('mouseout', tipTotal.hide);
 
     gs.selectAll("rect").data(function (d) {
             return d;
@@ -366,6 +374,10 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         .on('mouseover', tip2.show)
         .on('mouseout', tip2.hide);
 
+
+
+
+
     gs.selectAll("rect3").data(function (d) {
             return d;
         }).enter()
@@ -395,6 +407,17 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
+
+    //    gs.selectAll("teamtext").data(function (d) {
+    //            return d;
+    //        }).enter()
+    //        .append("text")
+    //        .attr("x", function (d, i) {
+    //            return x0(d.constructorId);
+    //        })
+    //        .attr("class", "teamname")
+    //        .attr("y", height - 20)
+    //        .text("test");
 }
 
 
@@ -426,7 +449,7 @@ function drawDriver(svgs, selected_data, nr) {
         })
         .attr("y", function (d) {
             var wins = parseInt(d.wins);
-            return y(wins + 0.3) ;
+            return y(wins + 0.3);
         })
         .attr("height", 22)
         .attr("class", className)
@@ -812,7 +835,7 @@ function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver
                 left: left + "px"
             });
             var factor = -left / totalWidth;
-            console.log("factor: " + factor);
+            //console.log("factor: " + factor);
             var left1 = width * factor;
 
             $("#selector").css({
@@ -831,7 +854,7 @@ function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver
                 left: left + "px"
             });
             var factor = -left / totalWidth;
-            console.log("factor: " + factor);
+            //console.log("factor: " + factor);
             var left1 = width * factor;
             console.log(left1);
             $("#selector").css({
