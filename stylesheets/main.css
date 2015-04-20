@@ -26,17 +26,18 @@ body {
     padding: 6px;
     padding-left: 0;
     padding-right: 0;
-    width: 50%;
-    color: #006ff0; }
-  /* line 43, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+    width: calc(50% - 3px);
+    color: #006ff0;
+    display: inline-block; }
+  /* line 44, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
   #title .name:nth-child(2) {
     text-align: right;
     color: #9a0303; }
-  /* line 48, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+  /* line 49, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
   #title .picture {
     border-radius: 50%; }
 
-/* line 54, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+/* line 55, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 #loader {
   background-color: #111;
   z-index: 100;

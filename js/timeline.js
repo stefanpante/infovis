@@ -44,12 +44,10 @@ var yScale;
 var oldestDriver = "alonso";
 
 function changeDriver(data, driver) {
-    var html = new EJS({
-        url: ''
-    })
     var name = data.drivers[driver].name;
-
-    $("#title .name").text(name);
+    var name2 = data.drivers[oldestDriver].name;
+    $("#title .name.two").text(name);
+    $("#title .name.one").text(name2);
     $("#wrap_timeline").empty();
     $("#wrapperSVG").remove();
     $("#timelineNav .year").remove();
