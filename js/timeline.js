@@ -338,13 +338,13 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
                 return y(d.wins);
             }
-            return 0;
+            return y(0.3);
         })
         .attr("height", function (d) {
             if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
                 return height - y(d.wins);
             }
-            return 0;
+            return height - y(0.3);
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
@@ -362,13 +362,13 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .attr("y", function (d) {
             if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return 0;
+                return y(0.3);
             }
             return y(d.wins);
         })
         .attr("height", function (d) {
             if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return 0;
+                return y(0.3);
             }
             return height - y(d.ids.secondWins);
         })
@@ -397,7 +397,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .attr("height", function (d) {
             if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
-                return 0;
+                return y(0.3);
             }
             return height - y(d.ids.firstWins);
         })
