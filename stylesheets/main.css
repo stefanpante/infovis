@@ -1,24 +1,20 @@
-/* line 9, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 body {
   background-color: #111;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: white;
   position: relative;
   overflow: hidden; }
 
-/* line 19, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 #wrapper {
   width: 100%;
   margin-top: 15px;
   position: relative; }
 
-/* line 26, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 #title {
   width: 100%;
   display: block;
   z-index: -1; }
-  /* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
   #title .name {
     font-size: 3vw;
     font-weight: 300;
@@ -28,15 +24,12 @@ body {
     padding-right: 0;
     width: 50%;
     color: #006ff0; }
-  /* line 42, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
   #title .name:nth-child(2) {
     text-align: right;
     color: #9a0303; }
-  /* line 47, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
   #title .picture {
     border-radius: 50%; }
 
-/* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 #loader {
   background-color: #111;
   z-index: 100;
@@ -47,7 +40,6 @@ body {
   height: 100vh;
   overflow: hidden; }
 
-/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #timeline {
   height: 35vh;
   background-color: #0B0B0B;
@@ -57,7 +49,6 @@ body {
   overflow: hidden;
   position: relative;
   display: block; }
-  /* line 11, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
   #timeline .year {
     height: 100%;
     width: 20vw;
@@ -65,7 +56,6 @@ body {
     display: inline-block;
     position: relative;
     box-sizing: border-box; }
-    /* line 18, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
     #timeline .year .head {
       position: absolute;
       top: 10px;
@@ -74,7 +64,6 @@ body {
       font-weight: 100;
       background-color: transparent;
       color: #646464; }
-  /* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
   #timeline #wrap_timeline {
     position: absolute;
     top: 0;
@@ -82,25 +71,21 @@ body {
     z-index: 3;
     cursor: all-scroll; }
 
-/* line 39, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #wrapperSVG {
   position: absolute;
   z-index: 4;
   cursor: all-scroll; }
 
-/* line 46, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #wrapperSVGMINI {
   position: absolute;
   z-index: 2;
   cursor: all-scroll; }
 
-/* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 #miniTimeline {
   position: absolute;
   z-index: 2;
   cursor: all-scroll; }
 
-/* line 62, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team {
   fill-opacity: 0.35;
   pointer-events: all;
@@ -108,48 +93,47 @@ body {
   cursor: pointer;
   transition: all 0.2s; }
 
-/* line 70, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team:hover {
   fill-opacity: 0.7; }
 
-/* line 75, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .bar {
   fill: #006ff0; }
 
-/* line 79, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .bar:hover {
   fill: red; }
 
-/* line 83, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .driver {
   fill-opacity: 1; }
 
-/* line 87, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .event {
   fill: #960505; }
 
-/* line 91, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .eventText {
   text-anchor: start;
   fill: #960505; }
 
-/* line 96, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .axisText {
   text-anchor: start;
   fill: #646464; }
 
-/* line 101, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
-.circle {
+.circle1 {
   stroke-opacity: 1;
   fill: #006ff0; }
 
-/* line 106, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
-.trendline {
+.trendline1 {
   stroke: #006ff0;
   stroke-dasharray: 5,5;
   fill-opacity: 0; }
 
-/* line 112, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.circle2 {
+  stroke-opacity: 1;
+  fill: #ff0000; }
+
+.trendline2 {
+  stroke: #ff0000;
+  stroke-dasharray: 5,5;
+  fill-opacity: 0; }
+
 .tooltip {
   position: relative;
   z-index: 10;
@@ -160,25 +144,25 @@ body {
   text-align: center;
   transition: all 0.5s; }
 
-/* line 123, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 rect.one {
-  fill: #006ff0; }
+  fill: #006ff0;
+  fill-opacity: 0.7; }
 
-/* line 127, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+rect.two {
+  fill: #ff0000;
+  fill-opacity: 0.7; }
+
 .team {
   fill: #EEE;
   transition: all 0.4s ease; }
 
-/* line 132, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team:hover, .team2:hover {
   fill: white; }
 
-/* line 136, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .team2 {
   fill: #777;
   transition: all 0.4s ease; }
 
-/* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
 #timelineNav {
   width: 100%;
   height: 35px;
@@ -186,7 +170,6 @@ rect.one {
   margin-top: 15px;
   background-color: #0B0B0B;
   position: relative; }
-  /* line 8, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav .year {
     position: relative;
     text-align: center;
@@ -203,7 +186,6 @@ rect.one {
     /* Rules below not implemented in browsers yet */
     -o-user-select: none;
     user-select: none; }
-  /* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav .year2 {
     position: absolute;
     text-align: center;
@@ -221,7 +203,6 @@ rect.one {
     /* Rules below not implemented in browsers yet */
     -o-user-select: none;
     user-select: none; }
-  /* line 55, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector {
     position: absolute;
     height: 35px;
@@ -232,11 +213,9 @@ rect.one {
     box-sizing: border-box;
     transition: background-color 0.5s;
     cursor: pointer; }
-  /* line 66, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:hover {
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 5px #646464; }
-  /* line 70, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:before {
     content: '';
     width: 25px;
@@ -245,7 +224,6 @@ rect.one {
     background-position: center;
     background-image: url(../img/navigation/left.png);
     float: left; }
-  /* line 79, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:after {
     content: '';
     width: 25px;
@@ -255,13 +233,11 @@ rect.one {
     background-image: url(../img/navigation/right.png);
     float: right; }
 
-/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .position {
   font-size: 2rem;
   width: 100%;
   color: #006ff0; }
 
-/* line 8, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circle {
   width: 15px;
   height: 15px;
@@ -270,16 +246,15 @@ rect.one {
   border-radius: 50%;
   background-color: #006ff0; }
 
-/* line 17, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circle.two {
   background-color: blue; }
 
-/* line 23, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
-.wins, .snd, .thd {
+.wins,
+.snd,
+.thd {
   width: 100%;
   margin-top: 7.5px; }
 
-/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 #wrap-stats {
   position: absolute;
   top: 0;
@@ -289,32 +264,26 @@ rect.one {
   white-space: nowrap;
   overflow-x: hidden; }
 
-/* line 38, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 #stats {
   margin-top: 12px;
   position: relative; }
 
-/* line 44, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .circles {
   height: 15px;
   line-height: 15px; }
 
-/* line 49, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .stat {
   display: inline-block;
   box-sizing: border-box;
   padding: 12px; }
-  /* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
   .stat .title {
     font-size: 1.25rem;
     color: #9a9a9a;
     margin-bottom: 12px;
     margin-top: 12px; }
-  /* line 59, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
   .stat .one {
     color: #006ff0; }
 
-/* line 64, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal {
   height: 3.5rem;
   width: 3.5rem;
@@ -327,7 +296,6 @@ rect.one {
   border-radius: 50%;
   box-sizing: border-box; }
 
-/* line 77, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal[position="1"] {
   background: #f1e767;
   background: -moz-linear-gradient(-45deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
@@ -338,7 +306,6 @@ rect.one {
   background: linear-gradient(135deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
   border: 5px solid #ffbd63; }
 
-/* line 88, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal[position="2"] {
   background: #e2e2e2;
   background: -moz-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
@@ -349,7 +316,6 @@ rect.one {
   background: linear-gradient(135deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
   border: 5px solid #bbb; }
 
-/* line 99, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
 .medal[position="3"] {
   background: #cd7f32;
   background: -moz-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);

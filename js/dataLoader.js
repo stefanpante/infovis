@@ -2,7 +2,7 @@ function loadJSON(){
     d3.json("data/data.json", function(err,data){
        setUpAxis(data, function(){
            window.dat1 = data;
-           makeBarCharts(data, "vettel");
+           makeBarCharts(data, "vettel","alonso");
        })
     });
     
