@@ -1,40 +1,96 @@
-<div class="position">
-    <div class="medal one" position="<%= driver1.position %>">
-        <%=driver1.position %>
+<div class="stat" style="width: <%= width %>px">
+    <div class="position">
+        <div class="medal one" position="<%= driver1.position %>">
+           <% if(driver1.position == "NA"){%>
+                Not active
+            <%} else { %>
+            <%=driver1.position %>
+            <% } %>
+        </div>
+
+        <div class="medal two" position="<%= driver2.position %>">
+           <% if(driver2.position == "NA"){%>
+                Not active
+            <%} else { %>
+            <%=driver2.position %>
+            <% } %>
+        </div>
     </div>
-</div>
-<div class="wins one">
-   <div class="title">First</div>
-   <div class="circles">
-   <% if(driver1.wins == 0){%>
-       <div class="one">no wins</div>
-   <%}%>
-    <% for(var i=0 ; i < driver1.wins; i++){%>
-        <div class="circle one"></div>
-        <% } %>
+    <div class="wins">
+        <div class="title">First</div>
+        <div class="circles">
+            <% if(driver1.dummy){ %>
+                <div class="one">did not compete</div>
+                <% } else if(driver1.wins==0 ){%>
+                    <div class="one">no wins</div>
+                    <%}%>
+                        <% for(var i=0 ; i < driver1.wins; i++){%>
+                            <div class="circle one"></div>
+                            <% } %>
         </div>
-</div>
+        <div class="circles">
+            <% if(driver2.dummy){ %>
+                <div class="two">did not compete</div>
 
-<div class="snd one">
-   <div class="title">Second</div>
-   <div class="circles">
-      <% if(driver1.snd == 0){%>
-       <div class="one">no second places</div>
-   <%}%>
-    <% for(var i=0 ; i < driver1.snd; i++){%>
-        <div class="circle one"></div>
-        <% } %>
+                <% } else if(driver2.wins==0 ){%>
+                    <div class="two">no wins</div>
+                    <%}%>
+                        <% for(var i=0 ; i < driver2.wins; i++){%>
+                            <div class="circle two"></div>
+                            <% } %>
         </div>
-</div>
+    </div>
 
-<div class="thd one">
-   <div class="title">third</div>
-   <div class="circles">
-      <% if(driver1.thd == 0){%>
-       <div class="one">no third places</div>
-   <%}%>
-    <% for(var i=0 ; i < driver1.thd; i++){%>
-        <div class="circle one"></div>
-        <% } %>
+
+    <div class="snd">
+        <div class="title">Second</div>
+        <div class="circles">
+            <% if(driver1.dummy){ %>
+                <div class="one">did not compete</div>
+                <% } else if(driver1.snd==0 ){%>
+                    <div class="one">no second places</div>
+                    <%}%>
+                        <% for(var i=0 ; i < driver1.snd; i++){%>
+                            <div class="circle one"></div>
+                            <% } %>
         </div>
+
+        <div class="circles">
+            <% if(driver2.dummy){ %>
+                <div class="two">did not compete</div>
+
+                <% } else if(driver2.snd==0 ){%>
+                <div class="two">no second places</div>
+                <%}%>
+                    <% for(var i=0 ; i < driver2.snd; i++){%>
+                        <div class="circle two"></div>
+                        <% } %>
+        </div>
+    </div>
+
+    <div class="thd">
+        <div class="title">third</div>
+        <div class="circles">
+            <% if(driver1.dummy){ %>
+                <div class="one">did not compete</div>
+                <% } else if(driver1.thd==0 ){%>
+                    <div class="one">no third places</div>
+                    <%}%>
+                        <% for(var i=0 ; i < driver1.thd; i++){%>
+                            <div class="circle one"></div>
+                            <% } %>
+        </div>
+
+        <div class="circles">
+            <% if(driver2.dummy){ %>
+                <div class="two">did not compete</div>
+
+                <% } else if(driver2.thd==0 ){%>
+                <div class="two">no third places</div>
+                <%}%>
+                    <% for(var i=0 ; i < driver2.thd; i++){%>
+                        <div class="circle two"></div>
+                        <% } %>
+        </div>
+    </div>
 </div>

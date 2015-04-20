@@ -44,7 +44,9 @@ var yScale;
 var oldestDriver = "alonso";
 
 function changeDriver(data, driver) {
-
+    var html = new EJS({
+        url: ''
+    })
     var name = data.drivers[driver].name;
 
     $("#title .name").text(name);
@@ -221,7 +223,7 @@ function makeBarCharts(data, driver1,driver2) {
 //    var stats = d3.select("#wrap-stats");
 //
 //    var driver_stats = stats.selectAll("div")
-//        .data(selected_driver)
+//        .data(selected_driver_1)
 //        .enter()
 //        .append("div")
 //        .attr("class", "stat")
@@ -236,6 +238,17 @@ function makeBarCharts(data, driver1,driver2) {
 //            return html;
 //
 //        });
+    
+    for(var i = 0; i < selected_driver_1.length; i++){
+        var html = new EJS({
+                url: 'tpl/stats2.ejs'
+            }).render({
+                driver1: selected_driver_1[i],
+                driver2: selected_driver_2[i],
+                width: width
+            });
+        $("#wrap-stats").append(html);
+    }
 
 
     // draw all the elements of the barchart
