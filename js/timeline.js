@@ -76,7 +76,7 @@ function changeDriver(data, driver) {
     })
     
     $("#change").on('click', function(event){
-        var driverId = $('input[type="radio"]:not(:checked)').get(0).val();
+        var driverId = $('input[type="radio"]:not(:checked)').val();
         if(driverId == window.driver1){
             window.driver2 = driver;
         } else{
@@ -87,8 +87,8 @@ function changeDriver(data, driver) {
         var n1 = data.drivers[window.driver1].name;
         var n2 = data.drivers[window.driver2].name;
         
-        $("#title .name.two").text(n1);
-        $("#title .name.one").text(n2);
+        $("#title .name.two").text(n2);
+        $("#title .name.one").text(n1);
         $("#wrap_timeline").empty();
         $("#wrapperSVG").remove();
         $("#timelineNav .year").remove();
