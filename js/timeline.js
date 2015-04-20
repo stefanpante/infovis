@@ -404,7 +404,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         .attr("class", function (d, i) {
             return "team2 team-" + i;
         })
-        .attr("fill-opacity", 0.5)
         .on("click", function (d) {
             changeDriver(data, d.ids.first);
         })
