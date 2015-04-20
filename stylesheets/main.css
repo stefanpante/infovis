@@ -1,0 +1,461 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/* line 18, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+/* line 31, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+body {
+  line-height: 1; }
+
+/* line 34, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+ol, ul {
+  list-style: none; }
+
+/* line 37, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+blockquote, q {
+  quotes: none; }
+
+/* line 41, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none; }
+
+/* line 45, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_reset.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* line 11, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+body {
+  background-color: #111;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: white;
+  position: relative;
+  overflow: hidden; }
+
+/* line 21, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+#wrapper {
+  width: 100%;
+  margin-top: 15px;
+  position: relative; }
+
+/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+#chooser {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999; }
+  /* line 37, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+  #chooser #dialog {
+    box-sizing: border-box;
+    background-color: #222;
+    border-radius: 6px;
+    width: 500px;
+    height: 220px;
+    position: absolute;
+    top: calc(50% - 110px);
+    left: calc(50% - 250px); }
+    /* line 46, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+    #chooser #dialog .head {
+      padding: 12px;
+      font-size: 1.5rem;
+      background-color: #333;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px; }
+    /* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+    #chooser #dialog .bod {
+      padding: 12px; }
+      /* line 56, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod .option {
+        box-sizing: border-box;
+        padding: 12px; }
+      /* line 61, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod button {
+        margin-top: 12px;
+        box-sizing: border-box;
+        padding: 12px;
+        width: calc(50% - 6px);
+        color: white;
+        font-weight: bold;
+        border: 0;
+        border-radius: 3px;
+        transition: background 0.3s; }
+      /* line 74, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod #cancel {
+        background-color: #f00066; }
+      /* line 78, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod #cancel:hover {
+        background-color: #a30045; }
+      /* line 82, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod #change {
+        background-color: #006ff0; }
+      /* line 86, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+      #chooser #dialog .bod #change:hover {
+        background-color: #004ca3; }
+
+/* line 93, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+#title {
+  width: 100%;
+  display: block;
+  z-index: -1; }
+  /* line 97, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+  #title .name {
+    font-size: 3vw;
+    font-weight: 300;
+    box-sizing: border-box;
+    padding: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    width: 50%;
+    color: #006ff0; }
+  /* line 109, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+  #title .name:nth-child(2) {
+    text-align: right;
+    color: #9a0303; }
+  /* line 114, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+  #title .picture {
+    border-radius: 50%; }
+
+/* line 120, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+#loader {
+  background-color: #111;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; }
+
+/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+#timeline {
+  height: 35vh;
+  background-color: #0B0B0B;
+  box-shadow: inset 0 0 10px black;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  display: block; }
+  /* line 11, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+  #timeline .year {
+    height: 100%;
+    width: 20vw;
+    border-right: 1px dashed #252525;
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box; }
+    /* line 18, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+    #timeline .year .head {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 3em;
+      font-weight: 100;
+      background-color: transparent;
+      color: #646464; }
+  /* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+  #timeline #wrap_timeline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    cursor: all-scroll; }
+
+/* line 39, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+#wrapperSVG {
+  position: absolute;
+  z-index: 4;
+  cursor: all-scroll; }
+
+/* line 46, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+#wrapperSVGMINI {
+  position: absolute;
+  z-index: 2;
+  cursor: all-scroll; }
+
+/* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+#miniTimeline {
+  position: absolute;
+  z-index: 2;
+  cursor: all-scroll; }
+
+/* line 62, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team {
+  fill-opacity: 0.35;
+  pointer-events: all;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s; }
+
+/* line 70, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team:hover {
+  fill-opacity: 0.7; }
+
+/* line 75, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.bar {
+  fill: #006ff0; }
+
+/* line 79, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.bar:hover {
+  fill: red; }
+
+/* line 83, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.driver {
+  fill-opacity: 1; }
+
+/* line 87, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.event {
+  fill: #960505; }
+
+/* line 91, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.eventText {
+  text-anchor: start;
+  fill: #960505; }
+
+/* line 96, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.axisText {
+  text-anchor: start;
+  fill: #646464; }
+
+/* line 101, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.circle {
+  stroke-opacity: 1;
+  fill: #006ff0; }
+
+/* line 106, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.trendline {
+  stroke: #006ff0;
+  stroke-dasharray: 5,5;
+  fill-opacity: 0; }
+
+/* line 112, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.tooltip {
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 175px;
+  text-align: center;
+  transition: all 0.5s; }
+
+/* line 123, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+rect.one {
+  fill: #006ff0; }
+
+/* line 127, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team {
+  fill: #EEE;
+  transition: all 0.4s ease; }
+
+/* line 132, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team:hover, .team2:hover {
+  fill: white; }
+
+/* line 136, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
+.team2 {
+  fill: #777;
+  transition: all 0.4s ease; }
+
+/* line 1, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+#timelineNav {
+  width: 100%;
+  height: 35px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  background-color: #0B0B0B;
+  position: relative; }
+  /* line 8, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav .year {
+    position: relative;
+    text-align: center;
+    line-height: 35px;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    z-index: 3;
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none; }
+  /* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav .year2 {
+    position: absolute;
+    text-align: center;
+    line-height: 35px;
+    display: inline-block;
+    cursor: pointer;
+    color: #006ff0;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    z-index: 4;
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none; }
+  /* line 55, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav #selector {
+    position: absolute;
+    height: 35px;
+    width: 300px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 4;
+    box-sizing: border-box;
+    transition: background-color 0.5s;
+    cursor: pointer; }
+  /* line 66, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav #selector:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px #646464; }
+  /* line 70, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav #selector:before {
+    content: '';
+    width: 25px;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-image: url(../img/navigation/left.png);
+    float: left; }
+  /* line 79, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  #timelineNav #selector:after {
+    content: '';
+    width: 25px;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-image: url(../img/navigation/right.png);
+    float: right; }
+
+/* line 2, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.position {
+  font-size: 2rem;
+  width: 100%;
+  color: #006ff0; }
+
+/* line 8, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.circle {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin-right: 1.875px;
+  border-radius: 50%;
+  background-color: #006ff0; }
+
+/* line 17, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.circle.two {
+  background-color: blue; }
+
+/* line 23, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.wins, .snd, .thd {
+  width: 100%;
+  margin-top: 7.5px; }
+
+/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+#wrap-stats {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  cursor: all-scroll;
+  float: left;
+  white-space: nowrap;
+  overflow-x: hidden; }
+
+/* line 38, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+#stats {
+  margin-top: 12px;
+  position: relative; }
+
+/* line 44, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.circles {
+  height: 15px;
+  line-height: 15px; }
+
+/* line 49, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.stat {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 12px; }
+  /* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+  .stat .title {
+    font-size: 1.25rem;
+    color: #9a9a9a;
+    margin-bottom: 12px;
+    margin-top: 12px; }
+  /* line 59, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+  .stat .one {
+    color: #006ff0; }
+
+/* line 64, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.medal {
+  height: 3.5rem;
+  width: 3.5rem;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  padding: 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 5px solid black;
+  border-radius: 50%;
+  box-sizing: border-box; }
+
+/* line 77, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.medal[position="1"] {
+  background: #f1e767;
+  background: -moz-linear-gradient(-45deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #f1e767), color-stop(21%, #f1e767), color-stop(41%, #fcee58), color-stop(60%, #fff9a8), color-stop(77%, #f1e867), color-stop(100%, #f1e867));
+  background: -webkit-linear-gradient(-45deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
+  background: -o-linear-gradient(-45deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
+  background: -ms-linear-gradient(-45deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
+  background: linear-gradient(135deg, #f1e767 0%, #f1e767 21%, #fcee58 41%, #fff9a8 60%, #f1e867 77%, #f1e867 100%);
+  border: 5px solid #ffbd63; }
+
+/* line 88, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.medal[position="2"] {
+  background: #e2e2e2;
+  background: -moz-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #e2e2e2), color-stop(50%, #dbdbdb), color-stop(51%, #d1d1d1), color-stop(100%, #fefefe));
+  background: -webkit-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+  background: -o-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+  background: -ms-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+  background: linear-gradient(135deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+  border: 5px solid #bbb; }
+
+/* line 99, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_statistics.scss */
+.medal[position="3"] {
+  background: #cd7f32;
+  background: -moz-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #cd7f32), color-stop(50%, #f2ad6d), color-stop(51%, #e69b55), color-stop(100%, #fefefe));
+  background: -webkit-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
+  background: -o-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
+  background: -ms-linear-gradient(-45deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
+  background: linear-gradient(135deg, #cd7f32 0%, #f2ad6d 50%, #e69b55 51%, #fefefe 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cd7f32', endColorstr='#fefefe', GradientType=1 );
+  border: 5px solid #cd7f32; }
+
+/*# sourceMappingURL=main.css.map */

@@ -4,7 +4,9 @@ $circuit-width: 5;
 $font-family: 'Roboto', sans-serif;
 $font-size: 16px;
 $default-padding: 12px;
+$default-border-radius: 6px;
 $one-color: #006ff0;
+$two-color: #f00066;
 
 body{
     background-color: $background-color;
@@ -23,6 +25,71 @@ body{
 
 }
 
+#chooser{
+    background-color: rgba(0,0,0,0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+    
+    #dialog{
+        box-sizing: border-box;
+        background-color: #222;
+        border-radius: $default-border-radius;
+        width: 500px;
+        height: 220px;
+        position: absolute;
+        top: calc(50% - 110px);
+        left: calc(50% - 250px);
+        .head{
+            padding: $default-padding;
+            font-size: 1.5rem;
+            background-color: #333;
+            border-top-left-radius: $default-border-radius;
+            border-top-right-radius: $default-border-radius;
+        }
+        .bod{
+            padding: $default-padding;
+            
+            .option{
+                box-sizing: border-box;
+                padding: $default-padding;
+            }
+            
+            button{
+                margin-top: 12px;
+                box-sizing: border-box;
+                padding: $default-padding;
+                width: calc(50% - 6px);
+                color: white;
+                font-weight: bold;
+                border: 0;
+                border-radius: 0.5 * $default-border-radius;
+                transition: background 0.3s;
+                
+            }
+            
+            #cancel{
+                background-color: $two-color;
+            }
+            
+            #cancel:hover{
+                background-color: darken($two-color, 15%);
+            }
+            
+            #change{
+                background-color: $one-color;
+            }
+            
+            #change:hover{
+                background-color: darken($one-color, 15%);
+            }
+        }
+    }
+    
+}
 #title{
     width: 100%;
     display: block;
