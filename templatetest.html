@@ -1,29 +1,35 @@
 <html>
-    <head>
-       <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-        <script src="js/lib/ejs_production.js"></script>
-        <link rel="stylesheet" href="stylesheets/main.css">
-    </head>
-    <body>
-        <div id="stats"></div>
-        <script>
-            var html = new EJS({url: 'tpl/statistics.ejs'}).render({
-                driver1:{
-                    position: 1,
-                    wins: 10,
-                    second: 3,
-                    third: 3
-                },
-                
-                driver2:{
-                    position: 2,
-                    wins: 4,
-                    second: 4,
-                    third: 1
-                }
-            });
 
-            $("#stats").append(html);
-        </script>
-    </body>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="js/lib/ejs_production.js"></script>
+    <link rel="stylesheet" href="stylesheets/main.css">
+</head>
+
+<body>
+    <div id="stats"></div>
+    <script>
+        var html = new EJS({
+            url: 'tpl/chooser.ejs'
+        }).render({
+            driver1: {
+                driverId: "michael_schumacher",
+                name: "Michael Schumacher"
+            },
+
+            driver2: {
+                driverId: "senna",
+                name: "Ayrton Senna"
+            },
+
+            driver3: {
+                driverId: "vettel",
+                name: "Sebastian Vettel"
+            }
+        });
+
+        $("body").append(html);
+    </script>
+</body>
+
 </html>
