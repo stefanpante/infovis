@@ -75,11 +75,11 @@ $circle-radius: 5px;
     }
     .constructor.one {
         float: left;
-        padding-left: $default-padding;
+        padding-left: 0.5 * $default-padding;
     }
     .constructor.two {
         float: right;
-        padding-right: $default-padding;
+        padding-right: 0.5 * $default-padding;
     }
 }
 

@@ -395,10 +395,10 @@ rect.two {
     text-transform: capitalize; }
   .stat .constructor.one {
     float: left;
-    padding-left: 12px; }
+    padding-left: 6px; }
   .stat .constructor.two {
     float: right;
-    padding-right: 12px; }
+    padding-right: 6px; }
 
 .medal {
   height: 2rem;
