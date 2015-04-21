@@ -136,7 +136,7 @@ function makeBarCharts(data, driver1, driver2) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            
+
             return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name + '</div><div class="wins"> ' + d.ids.firstWins + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>'
         });
 
@@ -220,18 +220,9 @@ function makeBarCharts(data, driver1, driver2) {
 
     }
 
-    //    console.log(maxY - minY);
-    //    console.log(selected_driver_1.length);
-    //    console.log(selected_driver_2.length);
-    //    console.log(selected_driver_1);
-    //    console.log(selected_driver_2);
+
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
     selected_driver_2 = fill_career_advanced(minY, maxY, selected_driver_2);
-    //    console.log(selected_driver_1);
-    //    console.log(selected_driver_2);
-
-
-    
 
     //years
     years = time_line.selectAll(".year")
@@ -248,7 +239,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     width = parseInt($("#timeline .year").width());
     var totalWidth = d3.entries(dummy).length * width;
-    
+
     updateXAxis(selected_constructors, width);
 
     // create one global svg, so that the trend line can be drawn
@@ -261,20 +252,8 @@ function makeBarCharts(data, driver1, driver2) {
 
     wrapperSVG.call(tip1);
     wrapperSVG.call(tip2);
-
     wrapperSVG.call(tipSelectedDriver);
 
-
-
-
-    /* Initialise the specifications of the combined SVG */
-    var svgs = wrapperSVG.selectAll("svg").data(dummy).enter().append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("x", function (d, i) {
-            var left = width * i;
-            return left;
-        });
 
 
 
@@ -301,12 +280,6 @@ function makeBarCharts(data, driver1, driver2) {
     drawDriver(wrapperSVG, selected_driver_2, 2);
 
     divideInBlocks(wrapperSVG);
-
-    // divideInBlocks(svgs);
-    // drawEvents(svgs);
-    // drawAxis(svgs);
-    //    
-    // stopLoadingAnimation();
 
 }
 
@@ -409,17 +382,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
-
-    //    gs.selectAll("teamtext").data(function (d) {
-    //            return d;
-    //        }).enter()
-    //        .append("text")
-    //        .attr("x", function (d, i) {
-    //            return x0(d.constructorId);
-    //        })
-    //        .attr("class", "teamname")
-    //        .attr("y", height - 20)
-    //        .text("test");
 }
 
 
@@ -535,51 +497,6 @@ function drawTrendLine(svg, data, nr) {
         .attr("d", lineFunction(data));
 }
 
-
-/*
-Draw the events (change of team for now) 
-function drawEvents(svgs) {
-
-
-    // SVG for bar charts (events)
-    // Drawing a vertical bar to indicate the driver changed team
-    var event = svgs.append("g").selectAll("rect")
-        .data(function (d) {
-            return d.events;
-        })
-        .enter().append("rect")
-        .attr("width", 10)
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("height", height)
-        .attr("class", "event");
-
-    // SVG for the events text
-    // Displaying whether the driver changed team
-    svgs.append("g").selectAll("text")
-        .data(function (d) {
-            return d.events;
-        })
-        .enter().append("text")
-        //.style("text-anchor", "end")
-        .text(function (d) {
-            return d;
-        })
-        .attr("class", "eventText")
-        .attr("x", 45)
-        .attr("y", 35);
-}*/
-
-/*
- * Draws the number of wins axis on each year.
- */
-function drawAxis(svgs) {
-    svgs.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-
-}
-
 function newConstructorDataTypes(year, constructors, drivers) {
 
     var constructors2 = [];
@@ -691,13 +608,25 @@ function divideInBlocks(svgs) {
             .attr("fill", "none");
     }
 
-    for (i = 1; i < linesDividers.length; i++) {
+//    for (i = 1; i < linesDividers.length; i++) {
+//        svgs2.append("text")
+//            .attr("y", y(i))
+//            .attr("x", 10)
+//            .text(i)
+//            .attr("class", "axisText");
+//    }
+
+    svgs2.append("text")
+        .attr("y", y(8))
+        .attr("x", 10)
+        .text(8)
+        .attr("class", "axisText");
+    
         svgs2.append("text")
-            .attr("y", y(i))
-            .attr("x", 10)
-            .text(i)
-            .attr("class", "axisText");
-    }
+        .attr("y", y(16))
+        .attr("x", 10)
+        .text(16)
+        .attr("class", "axisText");
 }
 
 
