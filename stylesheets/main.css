@@ -186,7 +186,8 @@ body {
   pointer-events: all;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s; }
+  transition: all 0.2s;
+  z-index: 15; }
 
 .team:hover {
   fill-opacity: 0.7; }
@@ -249,16 +250,27 @@ rect.two {
 
 .team {
   fill: #EEE;
-  transition: all 0.4s ease; }
+  transition: all 0.4s ease;
+  z-index: 12; }
 
-.team:hover, .team2:hover {
+.team1:hover, .team2:hover {
   fill: white; }
 
 .team2 {
-  fill: #AAA;
-  transition: all 0.4s ease; }
+  fill: #CCC;
+  transition: all 0.4s ease;
+  z-index: 11; }
 
 .teamname {
+  fill: white; }
+
+.teamTotal {
+  position: relative;
+  fill: #555;
+  transition: all 0.4s ease;
+  z-index: 1; }
+
+.teamTotal:hover {
   fill: white; }
 
 #timelineNav {

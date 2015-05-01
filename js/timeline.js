@@ -168,6 +168,7 @@ function makeBarCharts(data, driver1, driver2) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
+            console.log(d);
             return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total wins <span style="color:red">' + d.wins + '</div></div>';
         });
 
@@ -208,7 +209,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     var dummy = [];
     // get the constructors for the years that the driver was active
-    for (var yearI = minY; yearI < maxY; yearI++) {
+    for (var yearI = minY; yearI < maxY+1; yearI++) {
         if (yearI in data.constructors) {
             dummy.push(yearI);
             var constructors = data.constructors[yearI];
@@ -253,6 +254,7 @@ function makeBarCharts(data, driver1, driver2) {
     wrapperSVG.call(tip1);
     wrapperSVG.call(tip2);
     wrapperSVG.call(tipSelectedDriver);
+    wrapperSVG.call(tipTotal);
 
 
 
@@ -321,7 +323,32 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
     //        .on('mouseover', tipTotal.show)
     //        .on('mouseout', tipTotal.hide);
 
-    gs.selectAll("rect").data(function (d) {
+    console.log(selected_constructors);
+
+    gs.selectAll("rectTotal").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("width", x0.rangeBand())
+        .attr("x", function (d, i) {
+            return x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            return y(parseInt(d.wins) + 0.3);
+        })
+        .attr("height", function (d) {
+
+            return height - y(d.wins+0.3);
+        })
+        .attr("class", function (d, i) {
+            return "teamTotal";
+        })
+        .on('mouseover', tipTotal.show)
+        .on('mouseout', tipTotal.hide);
+
+
+
+    gs.selectAll("rectFirst").data(function (d) {
             return d;
         }).enter()
         .append("rect")
@@ -330,20 +357,18 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return y(0.3);
-            }
+//            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+//                return y(0.3);
+//            }
             return y(parseInt(d.wins) + 0.3);
         })
         .attr("height", function (d) {
             if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return y(0.3);
+                return 0;
             }
             return height - y(d.ids.secondWins);
         })
-        .attr("class", function (d, i) {
-            return "team team-" + i;
-        })
+        .attr("class", "team")
         .on("click", function (d) {
             changeDriver(data, d.ids.second);
         })
@@ -354,7 +379,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
 
 
 
-    gs.selectAll("rect3").data(function (d) {
+    gs.selectAll("rectSecond").data(function (d) {
             return d;
         }).enter()
         .append("rect")
@@ -363,6 +388,9 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
+//            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
+//                return y(parseInt(d.wins) + 0.3);
+//            }
             if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
                 return y(parseInt(d.wins) + 0.3);
             }
@@ -370,18 +398,30 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .attr("height", function (d) {
             if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
-                return y(0.3);
+                return 0;
             }
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+                return height - y(d.ids.firstWins);
+            }
+
             return height - y(d.ids.firstWins + 0.3);
         })
         .attr("class", function (d, i) {
-            return "team2 team-" + i;
+            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+                return "team";
+            }
+            return "team2";
         })
         .on("click", function (d) {
             changeDriver(data, d.ids.first);
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
+
+
+
+
+
 }
 
 
@@ -417,6 +457,8 @@ function drawDriver(svgs, selected_data, nr) {
         })
         .attr("height", 22)
         .attr("class", className)
+        .style("position",'absolute')
+        .style("z-index",function (d) { return height-parseInt(d.wins)})
         //.style("fill", 'red')
         //.style("fill-opacity", .5)
         .on('mouseover', tipSelectedDriver.show)
@@ -807,6 +849,8 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             return i * navWidth;
         }).attr("width", navWidth);
 
+
+
     gs.selectAll("rect5").data(function (d) {
             return d;
         }).enter()
@@ -829,8 +873,7 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
-        })
-        .attr("fill", "white");
+        });
 
     gs.selectAll("rect4").data(function (d) {
             return d;
@@ -854,8 +897,7 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
-        })
-        .attr("fill", "blue");
+        });
 }
 
 

@@ -66,6 +66,8 @@ $timeline-bck: #0B0B0B;
     position: relative;
     cursor: pointer;
     transition: all 0.2s;
+    z-index: 15;
+
 }
 
 .team:hover{
@@ -142,23 +144,39 @@ rect.two{
   fill-opacity: 0.7;
 }
 
+
+
 .team{
     fill: #EEE;
     transition: all 0.4s ease;
+    z-index: 12;
 }
 
-.team:hover, .team2:hover{
+.team1:hover, .team2:hover{
     fill: white;
 }
 
 .team2{
-    fill: #AAA;
+
+    fill: #CCC;
     transition: all 0.4s ease;
+    z-index: 11;
 }
 
 .teamname{
     fill: white;
 }
 
+.teamTotal{
+  position: relative;
+  fill: #555;
+  transition: all 0.4s ease;
+  z-index: 1;
+
+}
+
+.teamTotal:hover{
+  fill: white;
+}
 
 
