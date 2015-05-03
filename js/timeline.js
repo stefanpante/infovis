@@ -181,6 +181,27 @@ function makeBarCharts(data, driver1, driver2) {
     var selected_driver_2 = data.drivers[driver2].career;
     var selected_constructors = [];
 
+
+    console.log("d:");
+    console.log(selected_driver_1);
+    console.log(selected_driver_2);
+
+    function compare(a,b) {
+        if (a.year < b.year)
+            return -1;
+        if (a.year > b.year)
+            return 1;
+        return 0;
+    }
+
+    selected_driver_1.sort(compare);
+    selected_driver_2.sort(compare);
+
+
+    console.log("sorted:");
+    console.log(selected_driver_1);
+    console.log(selected_driver_2);
+
     var minYear_1 = selected_driver_1[0].year;
     var minYear_2 = selected_driver_2[0].year;
 
@@ -207,6 +228,8 @@ function makeBarCharts(data, driver1, driver2) {
         minMaxY = maxYear_1;
     }
 
+    console.log("max: "+maxY);
+    console.log("min: "+minY);
     var dummy = [];
     // get the constructors for the years that the driver was active
     for (var yearI = minY; yearI < maxY+1; yearI++) {
@@ -240,7 +263,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     width = parseInt($("#timeline .year").width());
     var totalWidth = d3.entries(dummy).length * width;
-
+    console.log(totalWidth);
     updateXAxis(selected_constructors, width);
 
     // create one global svg, so that the trend line can be drawn
