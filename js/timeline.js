@@ -107,6 +107,48 @@ function changeDriver(data, driver) {
 
 }
 
+
+function makeIdsComplete(constructors){
+    var newConstructors = constructors;
+    //get max number ids
+    var max = 0;
+    for (var i = 0; i< constructors.length ; i++){
+
+        var tempYear = constructors[i];
+        for (var j = 0; j< tempYear.length ; j++) {
+            var tempLength = tempYear[j].ids.length;
+            if(tempLength>max){
+                max = tempLength;
+            }
+
+        }
+
+
+    }
+
+
+    for (var i = 0; i< newConstructors.length ; i++){
+
+        var tempYear = newConstructors[i];
+        for (var j = 0; j< tempYear.length ; j++) {
+
+            var tempLength = tempYear[j].ids.length;
+            for(var k = 0; k< max - tempLength; k++){
+                tempYear[j].ids.push({"driver":"none","metric":0});
+            }
+
+        }
+
+
+    }
+
+
+
+    return newConstructors;
+
+}
+
+
 function updateXAxis(constructors_data, width) {
     var constructors = [];
     for (var i = 0; i < constructors_data.length; i++) {
@@ -137,7 +179,7 @@ function makeBarCharts(data, driver1, driver2) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
 
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.first].name + '</div><div class="wins"> ' + d.ids.firstWins + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>'
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[0].driver].name + '</div><div class="wins"> ' + d.ids[0].metric + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>'
         });
 
 
@@ -148,7 +190,7 @@ function makeBarCharts(data, driver1, driver2) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids.second].name + '</div><div class="wins"> ' + d.ids.secondWins + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>'
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[1].driver].name + '</div><div class="wins"> ' +d.ids[1].metric + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>'
         });
 
     tipSelectedDriver = d3.tip()
@@ -236,13 +278,18 @@ function makeBarCharts(data, driver1, driver2) {
         if (yearI in data.constructors) {
             dummy.push(yearI);
             var constructors = data.constructors[yearI];
-            var year2 = newConstructorDataTypes(yearI, constructors, data.drivers);
+            var year2 = newConstructorDataTypesAdvanced(yearI, constructors, data.drivers);
 
 
             selected_constructors.push(year2);
         }
 
     }
+
+    console.log("Constr");
+    console.log(selected_constructors);
+
+    selected_constructors = makeIdsComplete(selected_constructors);
 
 
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
@@ -386,14 +433,14 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return y(parseInt(d.wins) + 0.3);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return height - y(d.ids.secondWins);
+            return height - y(d.ids[1].metric);
         })
         .attr("class", "team")
         .on("click", function (d) {
-            changeDriver(data, d.ids.second);
+            changeDriver(data, d.ids[1].driver);
         })
         .on('mouseover', tip2.show)
         .on('mouseout', tip2.hide);
@@ -414,29 +461,29 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
 //            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
 //                return y(parseInt(d.wins) + 0.3);
 //            }
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return y(parseInt(d.wins) + 0.3);
             }
-            return y(parseInt(d.ids.firstWins) + 0.3);
+            return y(parseInt(d.ids[0].metric) + 0.3);
         })
         .attr("height", function (d) {
-            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
+            if (d.ids[0].driver == selectedDriverID1 || d.ids[0].driver == selectedDriverID2) {
                 return 0;
             }
             if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return height - y(d.ids.firstWins);
+                return height - y(d.ids[0].metric);
             }
 
-            return height - y(d.ids.firstWins + 0.3);
+            return height - y(d.ids[0].metric + 0.3);
         })
         .attr("class", function (d, i) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return "team";
             }
             return "team2";
         })
         .on("click", function (d) {
-            changeDriver(data, d.ids.first);
+            changeDriver(data, d.ids[0].driver);
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
@@ -574,6 +621,19 @@ function newConstructorDataTypes(year, constructors, drivers) {
     return constructors2;
 }
 
+//More than 2 drivers possible as ids-values (arrays)
+function newConstructorDataTypesAdvanced(year, constructors, drivers) {
+
+    var constructors2 = [];
+    for (var i = 0; i < constructors.length; i++) {
+        var t = constructors[i];
+        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers);
+        constructors2.push(t);
+    }
+
+    return constructors2;
+}
+
 function getDrivers(year, constructorid, drivers) {
     var reqDrivers = {
         first: 0,
@@ -616,6 +676,39 @@ function getDrivers(year, constructorid, drivers) {
     return reqDrivers;
 }
 
+
+function getDriversAdvanced(year, constructorid, drivers) {
+    var reqDrivers = [];
+    for (var d in drivers) {
+
+        var boolean = false;
+        var wins = 0;
+        var career = drivers[d].career;
+        for (var i = 0; i < career.length; i++) {
+
+            if (career[i].year == year && career[i].constructorId == constructorid) {
+                boolean = true;
+                wins = career[i].wins;
+            }
+        }
+
+        if (boolean == true) {
+            reqDrivers.push({"driver": d, "metric": wins});
+        }
+    }
+        function compare(a, b) {
+            if (a.metric > b.metric)
+                return -1;
+            if (a.metric < b.metric)
+                return 1;
+            return 0;
+        }
+
+        reqDrivers.sort(compare);
+
+        return reqDrivers;
+
+    }
 
 /*
  * Draws the number of wins axis on each year.
@@ -883,16 +976,17 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            console.log(d);
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
             return yScale * y(d.wins);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return yScale * (height - y(d.ids.secondWins));
+            return yScale * (height - y(d.ids[1].metric));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
@@ -907,16 +1001,16 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return yScale * y(d.wins);
             }
-            return yScale * y(d.ids.firstWins);
+            return yScale * y(d.ids[0].metric);
         })
         .attr("height", function (d) {
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return yScale * (height - y(d.ids.firstWins));
+            return yScale * (height - y(d.ids[0].metric));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
