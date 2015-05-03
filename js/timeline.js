@@ -1,3 +1,4 @@
+var metric = "wins";  //"points" of "wins!"
 var width = 500;
 var height = $("#timeline").height();
 /* Scaling X-axis */
@@ -278,7 +279,8 @@ function makeBarCharts(data, driver1, driver2) {
         if (yearI in data.constructors) {
             dummy.push(yearI);
             var constructors = data.constructors[yearI];
-            var year2 = newConstructorDataTypesAdvanced(yearI, constructors, data.drivers);
+            var year2 = newConstructorDataTypesAdvanced(yearI, constructors, data.drivers,metric);
+
 
 
             selected_constructors.push(year2);
@@ -404,11 +406,11 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            return y(parseInt(d.wins) + 0.3);
+            return y(parseInt(d.sumMetric) + 0.3);
         })
         .attr("height", function (d) {
 
-            return height - y(d.wins+0.3);
+            return height - y(d.sumMetric+0.3);
         })
         .attr("class", function (d, i) {
             return "teamTotal";
@@ -430,7 +432,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
 //            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
 //                return y(0.3);
 //            }
-            return y(parseInt(d.wins) + 0.3);
+            return y(parseInt(d.sumMetric) + 0.3);
         })
         .attr("height", function (d) {
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
@@ -462,7 +464,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
 //                return y(parseInt(d.wins) + 0.3);
 //            }
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return y(parseInt(d.wins) + 0.3);
+                return y(parseInt(d.sumMetric) + 0.3);
             }
             return y(parseInt(d.ids[0].metric) + 0.3);
         })
@@ -522,13 +524,13 @@ function drawDriver(svgs, selected_data, nr) {
             return width * i + x0(d.constructorId);
         })
         .attr("y", function (d) {
-            var wins = parseInt(d.wins);
+            var wins = parseInt(d[metric]);
             return y(wins + 0.3);
         })
         .attr("height", 22)
         .attr("class", className)
         .style("position",'absolute')
-        .style("z-index",function (d) { return height-parseInt(d.wins)})
+        .style("z-index",function (d) { return height-parseInt(d[metric])})
         //.style("fill", 'red')
         //.style("fill-opacity", .5)
         .on('mouseover', tipSelectedDriver.show)
@@ -548,7 +550,7 @@ function drawDriver(svgs, selected_data, nr) {
             if (d == "nothing") {
                 return height - y(0);
             }
-            return height - y(d.wins + 0.3);
+            return height - y(d[metric] + 0.3);
         })
 
 }
@@ -622,16 +624,28 @@ function newConstructorDataTypes(year, constructors, drivers) {
 }
 
 //More than 2 drivers possible as ids-values (arrays)
-function newConstructorDataTypesAdvanced(year, constructors, drivers) {
+function newConstructorDataTypesAdvanced(year, constructors, drivers,metric) {
 
     var constructors2 = [];
     for (var i = 0; i < constructors.length; i++) {
         var t = constructors[i];
-        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers);
+        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers,metric);
+        var sumMetric = getSumMetric(t);
+        t["sumMetric"] = sumMetric;
         constructors2.push(t);
     }
 
     return constructors2;
+}
+
+function getSumMetric(constructor){
+    var sum = 0;
+    for(var i = 0;i<constructor.ids.length; i++){
+        sum = sum + constructor.ids[i].metric;
+    }
+    return sum;
+
+
 }
 
 function getDrivers(year, constructorid, drivers) {
@@ -677,23 +691,23 @@ function getDrivers(year, constructorid, drivers) {
 }
 
 
-function getDriversAdvanced(year, constructorid, drivers) {
+function getDriversAdvanced(year, constructorid, drivers,metric) {
     var reqDrivers = [];
     for (var d in drivers) {
 
         var boolean = false;
-        var wins = 0;
+        var met = 0;
         var career = drivers[d].career;
         for (var i = 0; i < career.length; i++) {
 
             if (career[i].year == year && career[i].constructorId == constructorid) {
                 boolean = true;
-                wins = career[i].wins;
+                met = career[i][metric];
             }
         }
 
         if (boolean == true) {
-            reqDrivers.push({"driver": d, "metric": wins});
+            reqDrivers.push({"driver": d, "metric": met});
         }
     }
         function compare(a, b) {
