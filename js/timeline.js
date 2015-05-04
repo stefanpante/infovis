@@ -14,8 +14,6 @@ var xAxis = d3.svg.axis()
     .scale(x0)
     .orient("bottom");
 
-
-
 /* Coloring of the different F1-constuctors */
 colors = d3.scale.category20();
 
@@ -26,11 +24,7 @@ var tip2;
 var tipSelectedDriver;
 var tipTotal;
 
-
-
-
 var navWidth = 300; //temp
-
 var navHeight = 30; //temp
 
 /* Scaling X-axis */
@@ -41,8 +35,6 @@ var yNav = d3.scale.linear().range([navHeight, 0]);
 
 var xScale;
 var yScale;
-
-var oldestDriver = "alonso";
 
 function changeDriver(data, driver) {
 
@@ -124,7 +116,6 @@ function makeIdsComplete(constructors){
 
         }
 
-
     }
 
 
@@ -142,9 +133,7 @@ function makeIdsComplete(constructors){
 
 
     }
-
-
-
+    
     return newConstructors;
 
 }
@@ -166,6 +155,8 @@ function updateXAxis(constructors_data, width) {
     x0.domain(constructors);
     x0.rangeRoundBands([0, width], 0.1);
 }
+
+
 
 /* Creating the bar charts */
 function makeBarCharts(data, driver1, driver2) {
@@ -224,11 +215,6 @@ function makeBarCharts(data, driver1, driver2) {
     var selected_driver_2 = data.drivers[driver2].career;
     var selected_constructors = [];
 
-
-    console.log("d:");
-    console.log(selected_driver_1);
-    console.log(selected_driver_2);
-
     function compare(a,b) {
         if (a.year < b.year)
             return -1;
@@ -239,11 +225,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     selected_driver_1.sort(compare);
     selected_driver_2.sort(compare);
-
-
-    console.log("sorted:");
-    console.log(selected_driver_1);
-    console.log(selected_driver_2);
+    
 
     var minYear_1 = selected_driver_1[0].year;
     var minYear_2 = selected_driver_2[0].year;
@@ -271,8 +253,6 @@ function makeBarCharts(data, driver1, driver2) {
         minMaxY = maxYear_1;
     }
 
-    console.log("max: "+maxY);
-    console.log("min: "+minY);
     var dummy = [];
     // get the constructors for the years that the driver was active
     for (var yearI = minY; yearI < maxY+1; yearI++) {
@@ -288,11 +268,8 @@ function makeBarCharts(data, driver1, driver2) {
 
     }
 
-    console.log("Constr");
-    console.log(selected_constructors);
 
     selected_constructors = makeIdsComplete(selected_constructors);
-
 
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
     selected_driver_2 = fill_career_advanced(minY, maxY, selected_driver_2);
@@ -311,6 +288,7 @@ function makeBarCharts(data, driver1, driver2) {
         });
 
     width = parseInt($("#timeline .year").width());
+    
     var totalWidth = d3.entries(dummy).length * width;
     console.log(totalWidth);
     updateXAxis(selected_constructors, width);
@@ -328,21 +306,6 @@ function makeBarCharts(data, driver1, driver2) {
     wrapperSVG.call(tipSelectedDriver);
     wrapperSVG.call(tipTotal);
 
-
-
-
-    for (var i = 0; i < selected_driver_1.length; i++) {
-        var html = new EJS({
-            url: 'tpl/stats2.ejs'
-        }).render({
-            driver1: selected_driver_1[i],
-            driver2: selected_driver_2[i],
-            width: width
-        });
-        $("#wrap-stats").append(html);
-    }
-
-
     // draw all the elements of the barchart
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
     drawTrendLine(wrapperSVG, selected_driver_1, 1);
@@ -352,12 +315,23 @@ function makeBarCharts(data, driver1, driver2) {
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
-
+    drawStatistics(selected_driver_1, selected_driver_2, width);
     divideInBlocks(wrapperSVG);
 
 }
 
-
+function drawStatistics(selected_driver_1, selected_driver_2, width){
+     for (var i = 0; i < selected_driver_1.length; i++) {
+        var html = new EJS({
+            url: 'tpl/stats2.ejs'
+        }).render({
+            driver1: selected_driver_1[i],
+            driver2: selected_driver_2[i],
+            width: width
+        });
+        $("#wrap-stats").append(html);
+    }
+}
 // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
 
@@ -368,34 +342,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         .attr("x", function (d, i) {
             return i * width;
         }).attr("width", width);
-
-    //    gs.selectAll("rectTeam").data(function (d) {
-    //            return d;
-    //        }).enter()
-    //        .append("rect")
-    //        .attr("width", x0.rangeBand())
-    //        .attr("x", function (d, i) {
-    //            return x0(d.constructorId);
-    //        })
-    //        .attr("y", function (d) {
-    ////            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
-    ////                return y(d.wins);
-    ////            }
-    //            return  y(d.wins) + y(0.3);
-    //        })
-    //        .attr("height", function (d) {
-    //            if ((d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) && (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2)) {
-    //                return height - y(d.wins);
-    //            }
-    //            return height - y(0.3);
-    //        })
-    //        .attr("class", function (d, i) {
-    //            return "team team-" + i;
-    //        })
-    //        .on('mouseover', tipTotal.show)
-    //        .on('mouseout', tipTotal.hide);
-
-    console.log(selected_constructors);
 
     gs.selectAll("rectTotal").data(function (d) {
         return d;
