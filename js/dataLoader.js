@@ -25,17 +25,8 @@ function setUpAxis(data, callback){
         }
        
     }
-     console.log(constructors);
+     //console.log(constructors);
     x0.domain(constructors);
-    
-//    y.domain([0, d3.max(data.constructors, function(d){
-//        return d3.max(d.career, function(d){
-//            return d.wins;
-//        })
-//        
-//    })])
-    // TODO: fixme
-    y.domain([0,20]);
     
     callback();
 }

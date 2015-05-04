@@ -195,11 +195,13 @@ function createConstructor() {
             var name = constructor.name;
             // get the wins of the constructor
             var wins = yearStanding[i].wins;
+            var points = yearStanding[i].points;
 
             var constructor = {
                 constructorId: constructorId,
                 name: name,
                 wins: wins,
+                points: points,
                 team: teamComposition[constructorId][key]
             }
 
