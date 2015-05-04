@@ -22,7 +22,7 @@ var tip1;
 var tip2;
 var tipSelectedDriver;
 var tipTotal;
-
+var maxWins = 20;
 var navWidth = 300; //temp
 var navHeight = 30; //temp
 
@@ -155,7 +155,15 @@ function updateXAxis(constructors_data, width) {
 function makeBarCharts(data, driver1, driver2) {
     window.driver1 = driver1;
     window.driver2 = driver2;
-    
+    $("#pointSelector").off("click");
+    $("#pointSelector").on("click", function(){
+    if(metric == "wins"){
+        metric =  "points";
+    }else{
+        metric = "wins";
+    }
+    makeBarCharts(data, driver1, driver2);
+});
     // This code cannot be placed in a seperated function because of the async nature of js.
     //parent
     var time_line = d3.select("#wrap_timeline");
