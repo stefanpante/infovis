@@ -1,5 +1,6 @@
 var metric = "wins"; //"points" of "wins!"
 var width = 500;
+
 var height = $("#timeline").height();
 /* Scaling X-axis */
 var x0 = d3.scale.ordinal()
@@ -93,9 +94,6 @@ function changeDriver(data, driver) {
         })
     });
 
-
-
-
 }
 
 
@@ -111,9 +109,7 @@ function makeIdsComplete(constructors) {
             if (tempLength > max) {
                 max = tempLength;
             }
-
         }
-
     }
 
     for (var i = 0; i < newConstructors.length; i++) {
@@ -212,7 +208,6 @@ function makeBarCharts(data, driver1, driver2) {
 
     }
 
-
     selected_constructors = makeIdsComplete(selected_constructors);
 
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
@@ -251,8 +246,6 @@ function makeBarCharts(data, driver1, driver2) {
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
     drawTrendLine(wrapperSVG, selected_driver_1, 1);
     drawTrendLine(wrapperSVG, selected_driver_2, 2);
-    //    console.log(driver1);
-    //    console.log(driver2);
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
@@ -388,9 +381,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            //            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-            //                return y(0.3);
-            //            }
             return y(parseInt(d.sumMetric) + 0.3);
         })
         .attr("height", function (d) {
@@ -419,9 +409,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            //            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
-            //                return y(parseInt(d.wins) + 0.3);
-            //            }
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return y(parseInt(d.sumMetric) + 0.3);
             }
@@ -486,33 +473,20 @@ function drawDriver(svgs, selected_data, nr) {
             var wins = parseInt(d[metric]);
             return y(wins + 0.3);
         })
-        .attr("height", 22)
-        .attr("class", className)
-        .style("position", 'absolute')
-        .style("z-index", function (d) {
-            return height - parseInt(d[metric])
-        })
-        //.style("fill", 'red')
-        //.style("fill-opacity", .5)
-        .on('mouseover', tipSelectedDriver.show)
-        .on('mouseout', tipSelectedDriver.hide);
-
-    bars.exit()
-        .transition()
-        .duration(300)
-        .ease('exp')
-        .attr('height', 0)
-        .remove();
-
-    bars.transition()
-        .duration(300)
-        .ease("exp")
         .attr("height", function (d) {
             if (d == "nothing") {
                 return height - y(0);
             }
             return height - y(d[metric] + 0.3);
         })
+        .attr("class", className)
+        .style("position", 'absolute')
+        .style("z-index", function (d) {
+            return height - parseInt(d[metric])
+        })
+        .on('mouseover', tipSelectedDriver.show)
+        .on('mouseout', tipSelectedDriver.hide);
+
 
 }
 
@@ -533,6 +507,10 @@ function drawTrendLine(svg, data, nr) {
         }
         return i * width + x0(d.constructorId) + x0.rangeBand() / 2;
 
+    }
+    
+    var calculateZero = function(d, i){
+        return y(0.3);
     }
 
     // function to calculate the y position
@@ -561,6 +539,10 @@ function drawTrendLine(svg, data, nr) {
         })
         .attr("r", 3);
 
+    var lineFunc1 = d3.svg.line()
+        .x(calculateX)
+        .y(calculateZero)
+        .interpolate("monotone");
     // function to draw the line
     var lineFunction = d3.svg.line()
         .x(calculateX)
@@ -569,6 +551,9 @@ function drawTrendLine(svg, data, nr) {
     // draw the line
     svg.append("path")
         .attr("class", "trendline" + nr)
+        .attr("d", lineFunc1(data))
+        .transition()
+        .duration(300)
         .attr("d", lineFunction(data));
 }
 
