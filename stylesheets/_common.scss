@@ -115,3 +115,49 @@ body {
     height: 100vh;
     overflow: hidden;
 }
+
+
+#pointswins{
+    position: absolute;
+    right: $default-padding;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    
+    .txt{
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding-top: 0;
+        position: relative;
+        top: -15px;
+        margin-top: 0;
+    }
+}
+input[type="checkbox"] {
+    background-color: #009cef;
+    border-radius: 30px;
+    cursor: pointer;
+    height: 30px;
+    width: 60px;
+    -webkit-appearance: none;
+    -webkit-transition: .25s;
+}
+input[type="checkbox"]:after {
+    background-color: #eee;
+    border-radius: 30px;
+    content: '';
+    display: block;
+    height: 30px;
+    left: 0;
+    position: relative;
+    top: 0;
+    width: 30px;
+}
+input[type="checkbox"]:checked {
+    background-color: $two-color;
+    padding-left: 30px;
+    padding-right: 0;
+}
