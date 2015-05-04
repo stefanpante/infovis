@@ -6,11 +6,13 @@
     background-color: $timeline-bck;
     position: relative;
     .year {
+        box-sizing: border-box;
         position: relative;
         text-align: center;
         line-height: 35px;
         display: inline-block;
         cursor: pointer;
+        border-right: 1px dashed lighten($timeline-bck, 10%);
         -webkit-user-select: none;
         /* Chrome/Safari */
         

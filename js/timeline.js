@@ -1,4 +1,4 @@
-var metric = "wins";  //"points" of "wins!"
+var metric = "wins"; //"points" of "wins!"
 var width = 500;
 var height = $("#timeline").height();
 /* Scaling X-axis */
@@ -16,8 +16,6 @@ var xAxis = d3.svg.axis()
 
 /* Coloring of the different F1-constuctors */
 colors = d3.scale.category20();
-
-var namesDrivers = {};
 
 var tip1;
 var tip2;
@@ -101,16 +99,16 @@ function changeDriver(data, driver) {
 }
 
 
-function makeIdsComplete(constructors){
+function makeIdsComplete(constructors) {
     var newConstructors = constructors;
     //get max number ids
     var max = 0;
-    for (var i = 0; i< constructors.length ; i++){
+    for (var i = 0; i < constructors.length; i++) {
 
         var tempYear = constructors[i];
-        for (var j = 0; j< tempYear.length ; j++) {
+        for (var j = 0; j < tempYear.length; j++) {
             var tempLength = tempYear[j].ids.length;
-            if(tempLength>max){
+            if (tempLength > max) {
                 max = tempLength;
             }
 
@@ -118,22 +116,21 @@ function makeIdsComplete(constructors){
 
     }
 
-
-    for (var i = 0; i< newConstructors.length ; i++){
+    for (var i = 0; i < newConstructors.length; i++) {
 
         var tempYear = newConstructors[i];
-        for (var j = 0; j< tempYear.length ; j++) {
+        for (var j = 0; j < tempYear.length; j++) {
 
             var tempLength = tempYear[j].ids.length;
-            for(var k = 0; k< max - tempLength; k++){
-                tempYear[j].ids.push({"driver":"none","metric":0});
+            for (var k = 0; k < max - tempLength; k++) {
+                tempYear[j].ids.push({
+                    "driver": "none",
+                    "metric": 0
+                });
             }
-
         }
-
-
     }
-    
+
     return newConstructors;
 
 }
@@ -162,52 +159,7 @@ function updateXAxis(constructors_data, width) {
 function makeBarCharts(data, driver1, driver2) {
     window.driver1 = driver1;
     window.driver2 = driver2;
-
-    tip1 = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 90])
-        .html(function (d) {
-            var myUpper = function (match) {
-                return match.replace(/[\s_]+/, ' ').toUpperCase();
-            }
-
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[0].driver].name + '</div><div class="wins"> ' + d.ids[0].metric + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>'
-        });
-
-
-    tip2 = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 90])
-        .html(function (d) {
-            var myUpper = function (match) {
-                return match.replace(/[\s_]+/, ' ').toUpperCase();
-            }
-            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[1].driver].name + '</div><div class="wins"> ' +d.ids[1].metric + ' wins </div><div class="team">' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>'
-        });
-
-    tipSelectedDriver = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 90])
-        .html(function (d) {
-            var myUpper = function (match) {
-                return match.replace(/[\s_]+/, ' ').toUpperCase();
-            }
-            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> wins <span style="color:red">' + d.wins + '</div></div>';
-        });
-
-    tipTotal = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 90])
-        .html(function (d) {
-            var myUpper = function (match) {
-                return match.replace(/[\s_]+/, ' ').toUpperCase();
-            }
-            console.log(d);
-            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total wins <span style="color:red">' + d.wins + '</div></div>';
-        });
-
-
-    namesDrivers = {}; //init labels
+    
     // This code cannot be placed in a seperated function because of the async nature of js.
     //parent
     var time_line = d3.select("#wrap_timeline");
@@ -215,7 +167,7 @@ function makeBarCharts(data, driver1, driver2) {
     var selected_driver_2 = data.drivers[driver2].career;
     var selected_constructors = [];
 
-    function compare(a,b) {
+    function compare(a, b) {
         if (a.year < b.year)
             return -1;
         if (a.year > b.year)
@@ -225,7 +177,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     selected_driver_1.sort(compare);
     selected_driver_2.sort(compare);
-    
+
 
     var minYear_1 = selected_driver_1[0].year;
     var minYear_2 = selected_driver_2[0].year;
@@ -234,35 +186,27 @@ function makeBarCharts(data, driver1, driver2) {
     var maxYear_2 = selected_driver_2[selected_driver_2.length - 1].year;
 
     var minY; //abs min
-    var maxMinY; //voor doorsnede, toch niet gebruikt
     if (minYear_1 < minYear_2) {
         minY = minYear_1;
-        maxMinY = minYear_2;
     } else {
         minY = minYear_2;
-        maxMinY = minYear_1;
     }
-
+    
     var maxY; //absoluut max
-    var minMaxY; //voor doorsnede, toch niet gebruikt
     if (maxYear_2 < maxYear_1) {
         maxY = maxYear_1;
-        minMaxY = maxYear_2;
     } else {
         maxY = maxYear_2;
-        minMaxY = maxYear_1;
     }
 
     var dummy = [];
     // get the constructors for the years that the driver was active
-    for (var yearI = minY; yearI < maxY+1; yearI++) {
+    for (var yearI = minY; yearI < maxY + 1; yearI++) {
         if (yearI in data.constructors) {
             dummy.push(yearI);
             var constructors = data.constructors[yearI];
-            var year2 = newConstructorDataTypesAdvanced(yearI, constructors, data.drivers,metric);
-
-
-
+            var year2 = newConstructorDataTypesAdvanced(yearI, constructors, data.drivers, metric);
+            
             selected_constructors.push(year2);
         }
 
@@ -288,7 +232,7 @@ function makeBarCharts(data, driver1, driver2) {
         });
 
     width = parseInt($("#timeline .year").width());
-    
+
     var totalWidth = d3.entries(dummy).length * width;
     console.log(totalWidth);
     updateXAxis(selected_constructors, width);
@@ -301,10 +245,7 @@ function makeBarCharts(data, driver1, driver2) {
         .attr("height", height)
         .attr("id", "wrapperSVG");
 
-    wrapperSVG.call(tip1);
-    wrapperSVG.call(tip2);
-    wrapperSVG.call(tipSelectedDriver);
-    wrapperSVG.call(tipTotal);
+    createTooltips(data, wrapperSVG);
 
     // draw all the elements of the barchart
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
@@ -320,19 +261,91 @@ function makeBarCharts(data, driver1, driver2) {
 
 }
 
-function drawStatistics(selected_driver_1, selected_driver_2, width){
-     for (var i = 0; i < selected_driver_1.length; i++) {
-        var html = new EJS({
-            url: 'tpl/stats2.ejs'
-        }).render({
-            driver1: selected_driver_1[i],
-            driver2: selected_driver_2[i],
-            width: width
-        });
-        $("#wrap-stats").append(html);
-    }
+function createTooltips(data, wrapperSVG) {
+    createTip1(data, wrapperSVG);
+    createTip2(data, wrapperSVG);
+    createSelectedDriverTip(data, wrapperSVG);
+    createTotalTip(data, wrapperSVG);
 }
-// Draw the bars for the constructors
+
+//function createTip()
+function createTip1(data, wrapperSVG) {
+    tip1 = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 90])
+        .html(function (d) {
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[0].driver].name +
+                '</div><div class="wins"> ' + d.ids[0].metric + ' wins </div><div class="team">' +
+                d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>';
+        });
+
+    wrapperSVG.call(tip1);
+}
+
+function createTip2(data, wrapperSVG) {
+    tip2 = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 90])
+        .html(function (d) {
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+            return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[1].driver].name +
+                '</div><div class="wins"> ' + d.ids[1].metric + ' wins </div><div class="team">' +
+                d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>';
+        });
+
+    wrapperSVG.call(tip2);
+}
+
+function createSelectedDriverTip(data, wrapperSVG) {
+    tipSelectedDriver = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 90])
+        .html(function (d) {
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+            return '<div class="tooltip"><div class="name"> Team ' + 
+                d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + 
+                '</div><div class="wins"> wins <span style="color:red">' + d.wins + '</div></div>';
+        });
+
+    wrapperSVG.call(tipSelectedDriver);
+}
+
+function createTotalTip(data, wrapperSVG) {
+    tipTotal = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 90])
+        .html(function (d) {
+            var myUpper = function (match) {
+                return match.replace(/[\s_]+/, ' ').toUpperCase();
+            }
+            console.log(d);
+            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total wins <span style="color:red">' + d.wins + '</div></div>';
+        });
+    
+    wrapperSVG.call(tipTotal);
+}
+
+function drawStatistics(selected_driver_1, selected_driver_2, width) {
+        for (var i = 0; i < selected_driver_1.length; i++) {
+            var html = new EJS({
+                url: 'tpl/stats2.ejs'
+            }).render({
+                driver1: selected_driver_1[i],
+                driver2: selected_driver_2[i],
+                width: width
+            });
+            $("#wrap-stats").append(html);
+        }
+    }
+    // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
 
     var gs = svgs.selectAll("years")
@@ -344,8 +357,8 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         }).attr("width", width);
 
     gs.selectAll("rectTotal").data(function (d) {
-        return d;
-    }).enter()
+            return d;
+        }).enter()
         .append("rect")
         .attr("width", x0.rangeBand())
         .attr("x", function (d, i) {
@@ -356,7 +369,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .attr("height", function (d) {
 
-            return height - y(d.sumMetric+0.3);
+            return height - y(d.sumMetric + 0.3);
         })
         .attr("class", function (d, i) {
             return "teamTotal";
@@ -375,9 +388,9 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-//            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-//                return y(0.3);
-//            }
+            //            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
+            //                return y(0.3);
+            //            }
             return y(parseInt(d.sumMetric) + 0.3);
         })
         .attr("height", function (d) {
@@ -406,9 +419,9 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-//            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
-//                return y(parseInt(d.wins) + 0.3);
-//            }
+            //            if (d.ids.first == selectedDriverID1 || d.ids.first == selectedDriverID2) {
+            //                return y(parseInt(d.wins) + 0.3);
+            //            }
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return y(parseInt(d.sumMetric) + 0.3);
             }
@@ -475,8 +488,10 @@ function drawDriver(svgs, selected_data, nr) {
         })
         .attr("height", 22)
         .attr("class", className)
-        .style("position",'absolute')
-        .style("z-index",function (d) { return height-parseInt(d[metric])})
+        .style("position", 'absolute')
+        .style("z-index", function (d) {
+            return height - parseInt(d[metric])
+        })
         //.style("fill", 'red')
         //.style("fill-opacity", .5)
         .on('mouseover', tipSelectedDriver.show)
@@ -570,12 +585,12 @@ function newConstructorDataTypes(year, constructors, drivers) {
 }
 
 //More than 2 drivers possible as ids-values (arrays)
-function newConstructorDataTypesAdvanced(year, constructors, drivers,metric) {
+function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
 
     var constructors2 = [];
     for (var i = 0; i < constructors.length; i++) {
         var t = constructors[i];
-        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers,metric);
+        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers, metric);
         var sumMetric = getSumMetric(t);
         t["sumMetric"] = sumMetric;
         constructors2.push(t);
@@ -584,9 +599,9 @@ function newConstructorDataTypesAdvanced(year, constructors, drivers,metric) {
     return constructors2;
 }
 
-function getSumMetric(constructor){
+function getSumMetric(constructor) {
     var sum = 0;
-    for(var i = 0;i<constructor.ids.length; i++){
+    for (var i = 0; i < constructor.ids.length; i++) {
         sum = sum + constructor.ids[i].metric;
     }
     return sum;
@@ -637,7 +652,7 @@ function getDrivers(year, constructorid, drivers) {
 }
 
 
-function getDriversAdvanced(year, constructorid, drivers,metric) {
+function getDriversAdvanced(year, constructorid, drivers, metric) {
     var reqDrivers = [];
     for (var d in drivers) {
 
@@ -653,22 +668,26 @@ function getDriversAdvanced(year, constructorid, drivers,metric) {
         }
 
         if (boolean == true) {
-            reqDrivers.push({"driver": d, "metric": met});
+            reqDrivers.push({
+                "driver": d,
+                "metric": met
+            });
         }
     }
-        function compare(a, b) {
-            if (a.metric > b.metric)
-                return -1;
-            if (a.metric < b.metric)
-                return 1;
-            return 0;
-        }
 
-        reqDrivers.sort(compare);
-
-        return reqDrivers;
-
+    function compare(a, b) {
+        if (a.metric > b.metric)
+            return -1;
+        if (a.metric < b.metric)
+            return 1;
+        return 0;
     }
+
+    reqDrivers.sort(compare);
+
+    return reqDrivers;
+
+}
 
 /*
  * Draws the number of wins axis on each year.
@@ -726,21 +745,21 @@ function divideInBlocks(svgs) {
             .attr("fill", "none");
     }
 
-//    for (i = 1; i < linesDividers.length; i++) {
-//        svgs2.append("text")
-//            .attr("y", y(i))
-//            .attr("x", 10)
-//            .text(i)
-//            .attr("class", "axisText");
-//    }
+    //    for (i = 1; i < linesDividers.length; i++) {
+    //        svgs2.append("text")
+    //            .attr("y", y(i))
+    //            .attr("x", 10)
+    //            .text(i)
+    //            .attr("class", "axisText");
+    //    }
 
     svgs2.append("text")
         .attr("y", y(8))
         .attr("x", 10)
         .text(8)
         .attr("class", "axisText");
-    
-        svgs2.append("text")
+
+    svgs2.append("text")
         .attr("y", y(16))
         .attr("x", 10)
         .text(16)
@@ -789,7 +808,7 @@ function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver
         .attr("height", 30)
         .attr("id", "wrapperSVGMINI");
 
-
+    console.log(navWidth);
 
     var svgs = wrapperSVG.selectAll("svg").data(data1).enter().append("svg")
         .attr("width", navWidth)

@@ -368,11 +368,13 @@ rect.two {
   position: relative; }
   /* line 8, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav .year {
+    box-sizing: border-box;
     position: relative;
     text-align: center;
     line-height: 35px;
     display: inline-block;
     cursor: pointer;
+    border-right: 1px dashed #252525;
     -webkit-user-select: none;
     /* Chrome/Safari */
     -moz-user-select: none;
@@ -383,7 +385,7 @@ rect.two {
     /* Rules below not implemented in browsers yet */
     -o-user-select: none;
     user-select: none; }
-  /* line 30, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  /* line 32, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav .year2 {
     position: absolute;
     text-align: center;
@@ -401,7 +403,7 @@ rect.two {
     /* Rules below not implemented in browsers yet */
     -o-user-select: none;
     user-select: none; }
-  /* line 55, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  /* line 57, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector {
     position: absolute;
     height: 35px;
@@ -412,11 +414,11 @@ rect.two {
     box-sizing: border-box;
     transition: background-color 0.5s;
     cursor: pointer; }
-  /* line 66, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  /* line 68, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:hover {
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 5px #646464; }
-  /* line 70, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  /* line 72, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:before {
     content: '';
     width: 25px;
@@ -425,7 +427,7 @@ rect.two {
     background-position: center;
     background-image: url(../img/navigation/left.png);
     float: left; }
-  /* line 79, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
+  /* line 81, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timelineNav.scss */
   #timelineNav #selector:after {
     content: '';
     width: 25px;
