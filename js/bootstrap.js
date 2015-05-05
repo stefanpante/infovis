@@ -29,6 +29,5 @@ $("#pointSelector").on("click", function () {
     } else {
         metric = "wins";
     }
-
-    makeBarCharts(window.dat1, window.driver1, window.driver2);
+    //makeBarCharts(window.dat1, window.driver1, window.driver2);
 });

@@ -1,17 +1,4 @@
-
-var navWidth =  300;
-
-var navHeight = 30;
-/* Scaling X-axis */
-var x0Nav= d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
-
-/* Scaling Y-axis */
-var yNav = d3.scale.linear().range([navHeight, 0]);
-
-var xScale;
-var yScale;
-
-function createTimeLineNav(data,selected_constructors,Alldata,driver) {
+function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver1, driver2) {
     //console.log(JSON.stringify(data));
     // select the timeline navigation.
     var time_line_nav = d3.select("#timelineNav");
@@ -19,32 +6,25 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
     var selector = $("#selector");
 
     // get the total number of years to display
-    var numberOfYears = data.length;
+    var numberOfYears = data1.length;
     // Calculate the totalwidth of the timeline
     var width1 = $("#timeline .year").width();
-    var totalWidth = numberOfYears * width1 ;
+    var totalWidth = numberOfYears * width1;
 
 
-    // calculate the width of each year in the navigation in percentages 
+    // calculate scales
     var relativeWidth = 100 / numberOfYears;
+    navWidth = $("#timelineNav").width() / numberOfYears;
+    navHeight = $("#timelineNav").height() - 10;
+    xScale = $("#timelineNav").width() / totalWidth;
+    yScale = navHeight / height;
 
-    xScale = $("#timelineNav").width()/totalWidth;
-    yScale = navHeight/height;
 
-//    navWidth = $("#timelineNav").width()/numberOfYears ;
 
-//    navHeight = 30;
-
-//    x0Nav = d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
-//
-//    console.log(x0Nav.rangeBand());
-//
-//    /* Scaling Y-axis */
-//    yNav = d3.scale.linear().range([navHeight, 0]);
 
     // Draggable timeline displaying the years
     var years = time_line_nav.selectAll(".year")
-        .data(data).enter()
+        .data(data1).enter()
         .append("div")
         .attr('class', 'year')
         .text(function (d) {
@@ -53,14 +33,15 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
         })
         .attr("style", "width:" + relativeWidth + "%");
 
-    mini_timeline.select("#wrapperSVGMINI").remove();
+    mini_timeline.selectAll("#wrapperSVGMINI").remove();
     var wrapperSVG = mini_timeline.append('svg')
         .attr("width", $("#timelineNav").width())
         .attr("height", 30)
         .attr("id", "wrapperSVGMINI");
 
+    //console.log(navWidth);
 
-    var svgs = wrapperSVG.selectAll("svg").data(data).enter().append("svg")
+    var svgs = wrapperSVG.selectAll("svg").data(data1).enter().append("svg")
         .attr("width", navWidth)
         .attr("height", 30)
         .attr("x", function (d, i) {
@@ -68,14 +49,15 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
             return left;
         });
 
-    drawConstructorsOnNav(wrapperSVG, selected_constructors,Alldata,driver);
-    drawDriverOnNav(wrapperSVG, data);
+    drawConstructorsOnNav2(wrapperSVG, selected_constructors, Alldata, driver1, driver2);
+    drawDriverOnNav2(wrapperSVG, data1, 1);
+    drawDriverOnNav2(wrapperSVG, data2, 2);
 
-//
-//    var years2 = mini_timeline
-//        .append("div")
-//        .attr('class', 'year2')
-//        .html("<svg width="+totalWidth+" height=\"30\"><use transform=\"scale("+$("#timelineNav").outerWidth()/totalWidth+","+0.12+")\" xlink:href=\"#wrapperSVG\"/></svg>");
+    //    mini_timeline.select(".year2").remove();
+    //    var years2 = mini_timeline
+    //        .append("div")
+    //        .attr('class', 'year2')
+    //        .html("<svg width="+totalWidth+" height=\"30\"><use transform=\"scale("+$("#timelineNav").outerWidth()/totalWidth+","+0.12+")\" xlink:href=\"#wrapperSVG\"/></svg>");
 
     // calculate the width that the selector has so that it corresponds to the displayed years
 
@@ -115,6 +97,10 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
             $("#wrapperSVG").css({
                 "left": offset + "px"
             });
+
+            $("#wrap-stats").css({
+                "left": offset + "px"
+            });
         }
 
     });
@@ -148,13 +134,13 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
                 left: left + "px"
             });
             var factor = -left / totalWidth;
-            console.log("factor: " + factor);
+            //console.log("factor: " + factor);
             var left1 = width * factor;
 
             $("#selector").css({
                 left: left1
             })
-            
+
             $("#wrap-stats").css({
                 left: left + "px"
             })
@@ -167,9 +153,9 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
                 left: left + "px"
             });
             var factor = -left / totalWidth;
-            console.log("factor: " + factor);
+            //console.log("factor: " + factor);
             var left1 = width * factor;
-            console.log(left1);
+            //console.log(left1);
             $("#selector").css({
                 left: left1
             })
@@ -179,8 +165,13 @@ function createTimeLineNav(data,selected_constructors,Alldata,driver) {
 
 }
 
+
+
+
+
+
 // Draw the bars for the constructors
-function drawConstructorsOnNav(svgs, selected_constructors,data,selectedDriverID) {
+function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
     var gs = svgs.selectAll("years2")
         .data(selected_constructors)
         .enter()
@@ -189,94 +180,96 @@ function drawConstructorsOnNav(svgs, selected_constructors,data,selectedDriverID
             return i * navWidth;
         }).attr("width", navWidth);
 
+
+
     gs.selectAll("rect5").data(function (d) {
-        return d;
-    }).enter()
+            return d;
+        }).enter()
         .append("rect")
-        .attr("width", x0Nav2.rangeBand())
+        .attr("width", xScale * x0.rangeBand())
         .attr("x", function (d, i) {
-            return x0Nav2(d.constructorId);
+            return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if(d.ids.second == selectedDriverID){
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return yNav2(d.wins);
+            return yScale * y(d.wins);
         })
         .attr("height", function (d) {
-            if(d.ids.second == selectedDriverID){
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return navHeight - yNav2(d.ids.secondWins);
+            return yScale * (height - y(d.ids[1].metric));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
-        })
-        .attr("fill", "white");
+        });
 
     gs.selectAll("rect4").data(function (d) {
-        return d;
-    }).enter()
+            return d;
+        }).enter()
         .append("rect")
-        .attr("width", x0.rangeBand())
+        .attr("width", xScale * x0.rangeBand())
         .attr("x", function (d, i) {
-            return x0(d.constructorId);
+            return xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            if( d.ids.second == selectedDriverID){
-                return y(d.wins);
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
+                return yScale * y(d.wins);
             }
-            return y(d.ids.firstWins);
+            return yScale * y(d.ids[0].metric);
         })
         .attr("height", function (d) {
-            if(d.ids.first == selectedDriverID ){
+            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return height - y(d.ids.firstWins);
+            return yScale * (height - y(d.ids[0].metric));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
-        })
-        .attr("fill", "blue");
+        });
 }
 
 
 // Draw the bars for the drivers on top of the teams bar.
 // This is the red bar.
-function drawDriverOnNav(svgs, selected_data) {
+function drawDriverOnNav2(svgs, selected_data, nr) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
-    var bars = svgs.selectAll("rect2")
+    var bars = svgs.selectAll("rect2" + nr)
         .data(selected_data);
 
-    bars.attr('fill', 'red');
+    var className;
+    if (nr == 1) {
+        className = 'blue';
+    } else {
+        className = 'red';
+    }
+
+    bars.attr('fill', className);
+
+
 
     bars.enter()
         .append("rect")
-        .attr("width", x0.rangeBand())
+        .attr("width", xScale * x0.rangeBand())
         .attr("x", function (d, i) {
-            return navWidth * i + x0Nav(d.constructorId);
+            if ("dummy" in d) {
+                return i * navWidth + navWidth / 2;
+            }
+            return navWidth * i + xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
             var wins = parseInt(d.wins);
-            return yNav(wins);
+            return yScale * y(wins);
         })
         .attr("height", 22)
-        .style("fill", 'red')
-        .style("fill-opacity", .5);
-
-    bars.exit()
-        .transition()
-        .duration(300)
-        .ease('exp')
-        .attr('height', 0)
-        .remove();
-
-    bars.transition()
-        .duration(300)
-        .ease("exp")
+        .style("fill", className)
+        .attr("class", className)
+        .style("fill-opacity", .5)
         .attr("height", function (d) {
-            return navHeight - yNav(d.wins);
+            return navHeight - yScale * y(d.wins);
         })
 
 }

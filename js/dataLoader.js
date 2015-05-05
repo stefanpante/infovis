@@ -27,6 +27,7 @@ function setUpAxis(data, callback){
     }
      //console.log(constructors);
     x0.domain(constructors);
+
     
     callback();
 }
