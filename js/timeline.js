@@ -1,22 +1,3 @@
-var metric = "wins"; //"points" or "wins!"
-var width = 500;
-
-var height = $("#timeline").height();
-var x0 = d3.scale.ordinal().rangeRoundBands([0, width], 0.1); // x-axis
-var y = d3.scale.linear().range([height, 0]); //y
-
-/* Coloring of the different F1-constuctors */
-colors = d3.scale.category20();
-
-var navWidth = 300; //temp
-var navHeight = 30; //temp
-
-/* Scaling X-axis */
-var x0Nav = d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
-
-/* Scaling Y-axis */
-var yNav = d3.scale.linear().range([navHeight, 0]);
-
 function changeDriver(data, driver) {
 
     var name = data.drivers[driver].name;
@@ -95,37 +76,36 @@ function updateXAxis(constructors_data, width) {
     x0.rangeRoundBands([0, width], 0.1);
 }
 
+function updateYScale() {
+    var scale = 0;
+    for (var i = 0; i < selected_constructors.length; i++) {
+        constructors = selected_constructors[i];
+        for (var j = 0; j < constructors.length; j++) {
+            var s = parseInt(constructors[j][metric]);
+            if (s >= scale) {
+                scale = s;
+            }
+        }
+    }
+
+
+    y.domain([0, scale * 1.2]);
+}
+
 /* Creating the bar charts */
 function makeBarCharts(data, driver1, driver2) {
 
-    $("#wrap_timeline").empty();
-    $("#wrapperSVG").remove();
-    $("#timelineNav .year").remove();
-    $(".d3-tip").hide();
-
-    $("#wrap-stats").empty();
-
+    hideAndRemoveBars();
     window.driver1 = driver1;
     window.driver2 = driver2;
 
     // This code cannot be placed in a seperated function because of the async nature of js.
     //parent
     var time_line = d3.select("#wrap_timeline");
-    var selected_driver_1 = data.drivers[driver1].career;
-    var selected_driver_2 = data.drivers[driver2].career;
-    var selected_constructors = [];
 
-    function compare(a, b) {
-        if (a.year < b.year)
-            return -1;
-        if (a.year > b.year)
-            return 1;
-        return 0;
-    }
-
-    selected_driver_1.sort(compare);
-    selected_driver_2.sort(compare);
-
+    selected_driver_1 = data.drivers[driver1].career;
+    selected_driver_2 = data.drivers[driver2].career;
+    selected_constructors = [];
 
     var minYear_1 = selected_driver_1[0].year;
     var minYear_2 = selected_driver_2[0].year;
@@ -150,23 +130,10 @@ function makeBarCharts(data, driver1, driver2) {
 
     }
 
+    updateYScale();
+
+
     selected_constructors = makeIdsComplete(selected_constructors);
-
-    var scale = 0;
-    for (var i = 0; i < selected_constructors.length; i++) {
-        constructors = selected_constructors[i];
-        for (var j = 0; j < constructors.length; j++) {
-            var s = parseInt(constructors[j][metric]);
-            if (s >= scale) {
-                scale = s;
-            }
-        }
-    }
-
-
-    y.domain([0, scale * 1.2]);
-
-
 
     selected_driver_1 = fill_career_advanced(minY, maxY, selected_driver_1);
     selected_driver_2 = fill_career_advanced(minY, maxY, selected_driver_2);
@@ -198,14 +165,20 @@ function makeBarCharts(data, driver1, driver2) {
         .attr("id", "wrapperSVG");
 
     createTooltips(data, wrapperSVG);
-    divideInBlocks(wrapperSVG);
+
     // draw all the elements of the barchart
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
-    drawTrendLine(wrapperSVG, selected_driver_1, 1);
-    drawTrendLine(wrapperSVG, selected_driver_2, 2);
+
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
+    // animation
+    showBars();
+    drawTrendLine(wrapperSVG, selected_driver_1, 1);
+    drawTrendLine(wrapperSVG, selected_driver_2, 2);
+    showTrendLine(1);
+    showTrendLine(2);
+    divideInBlocks(wrapperSVG);
     drawStatistics(selected_driver_1, selected_driver_2, width);
 
 }
@@ -227,6 +200,7 @@ function drawStatistics(selected_driver_1, selected_driver_2, width) {
 // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
 
+
     var gs = svgs.selectAll("years")
         .data(selected_constructors)
         .enter()
@@ -235,46 +209,18 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
             return i * width;
         }).attr("width", width);
 
-    gs.selectAll("rectTotal").data(function (d) {
+    var total = gs.selectAll("rectTotal").data(function (d) {
             return d;
         }).enter()
         .append("rect")
-        .attr("width", x0.rangeBand())
-        .attr("x", function (d, i) {
-            return x0(d.constructorId);
-        })
-        .attr("y", function (d) {
-            return y(parseInt(d.sumMetric) + 0.3);
-        })
-        .attr("height", function (d) {
-
-            return height - y(d.sumMetric + 0.3);
-        })
-        .attr("class", function (d, i) {
-            return "teamTotal";
-        })
+        .attr("class", "teamTotal")
         .on('mouseover', tipTotal.show)
         .on('mouseout', tipTotal.hide);
 
-
-
-    gs.selectAll("rectFirst").data(function (d) {
+    var firstDriver = gs.selectAll("rectFirst").data(function (d) {
             return d;
         }).enter()
         .append("rect")
-        .attr("width", x0.rangeBand())
-        .attr("x", function (d, i) {
-            return x0(d.constructorId);
-        })
-        .attr("y", function (d) {
-            return y(parseInt(d.sumMetric) + 0.3);
-        })
-        .attr("height", function (d) {
-            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return 0;
-            }
-            return height - y(d.ids[1].metric);
-        })
         .attr("class", "team")
         .on("click", function (d) {
             changeDriver(data, d.ids[1].driver);
@@ -282,41 +228,37 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         .on('mouseover', tip2.show)
         .on('mouseout', tip2.hide);
 
-    gs.selectAll("rectSecond").data(function (d) {
+    var secondDriver = gs.selectAll("rectSecond").data(function (d) {
             return d;
         }).enter()
         .append("rect")
-        .attr("width", x0.rangeBand())
-        .attr("x", function (d, i) {
-            return x0(d.constructorId);
-        })
-        .attr("y", function (d) {
-            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return y(parseInt(d.sumMetric) + 0.3);
-            }
-            return y(parseInt(d.ids[0].metric) + 0.3);
-        })
-        .attr("height", function (d) {
-            if (d.ids[0].driver == selectedDriverID1 || d.ids[0].driver == selectedDriverID2) {
-                return 0;
-            }
-            if (d.ids.second == selectedDriverID1 || d.ids.second == selectedDriverID2) {
-                return height - y(d.ids[0].metric);
-            }
-
-            return height - y(d.ids[0].metric + 0.3);
-        })
-        .attr("class", function (d, i) {
-            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return "team";
-            }
-            return "team2";
-        })
+        .attr("class", "team2")
         .on("click", function (d) {
             changeDriver(data, d.ids[0].driver);
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
+
+    var bard = [total, firstDriver, secondDriver];
+
+    for (var i = 0; i < bard.length; i++) {
+        bard[i]
+            .attr("width", x0.rangeBand())
+            .attr("height", function (d) {
+                return height - y(0.3);
+            })
+            .attr("x", function (d, i) {
+                return x0(d.constructorId);
+            })
+            .attr("y", function (d) {
+                return y(0.3);
+            })
+    }
+
+    // make globally accessible for animation
+    bars.total = total;
+    bars.firstDriver = firstDriver;
+    bars.secondDriver = secondDriver;
 
 }
 
@@ -326,7 +268,7 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
 function drawDriver(svgs, selected_data, nr) {
     // SVG for the bar charts (number of wins)
     // Drawing the number of wins for the Formula 1 drivers
-    var bars = svgs.selectAll("rect" + nr)
+    var barss = svgs.selectAll("rect" + nr)
         .data(selected_data);
 
     var className;
@@ -335,10 +277,10 @@ function drawDriver(svgs, selected_data, nr) {
     } else {
         className = "two";
     }
+    // save the object for global usage
+    bars[className] = barss;
 
-    bars.attr('fill', 'red');
-
-    bars.enter()
+    barss.enter()
         .append("rect")
         .attr("width", x0.rangeBand())
         .attr("x", function (d, i) {
@@ -347,37 +289,47 @@ function drawDriver(svgs, selected_data, nr) {
             }
             return width * i + x0(d.constructorId);
         })
-        .attr("y", function (d) {
-            var wins = parseInt(d[metric]);
-            return y(wins + 0.3);
-        })
-        .attr("height", function (d) {
-            if (d == "nothing") {
-                return height - y(0);
-            }
-            return height - y(d[metric] + 0.3);
-        })
+        .attr("y", y(0.3))
+        .attr("height", height - y(0.3))
         .attr("class", className)
         .style("position", 'absolute')
-        .style("z-index", function (d) {
-            return height - parseInt(d[metric])
-        })
         .on('mouseover', tipSelectedDriver.show)
         .on('mouseout', tipSelectedDriver.hide);
+}
+
+function drawTrendLine(svg, data, nr) {
+    // function to calculate the x position
+    var calculateX = function (d, i) {
+        if ("dummy" in d) {
+            return i * width + width / 2;
+        }
+        return i * width + x0(d.constructorId) + x0.rangeBand() / 2;
+
+    }
+
+
+    var lineFunc1 = d3.svg.line()
+        .x(calculateX)
+        .y(function (d, i) {
+            return y(0.3)
+        })
+        .interpolate("monotone")
+        
+
+
+    // draw the line
+    bars["line" + nr] = svg.append("path");
+    bars["line" + nr].attr("class", "trendline" + nr)
+        .data(data)
+        .attr("d", lineFunc1(data))
+        .attr("stroke-width", 1.25);
+    
+    bars["linedata" + nr] = data;
 
 
 }
 
-
-function drawTrendLine(svg, data, nr) {
-    // function to calculate the x position
-
-    var className;
-    if (nr == 1) {
-        className = "one";
-    } else {
-        className = "two";
-    }
+function showTrendLine(nr) {
 
     var calculateX = function (d, i) {
         if ("dummy" in d) {
@@ -397,41 +349,100 @@ function drawTrendLine(svg, data, nr) {
 
     }
 
-    // add little circles to where the driver is located
-    svg.selectAll(".circle" + nr).data(data).enter()
-        .append("circle")
-        .attr("class", "circle" + nr)
-        .attr("cy", calculateY)
-        .attr("cx", calculateX)
-        .attr("id", function (d) {
-            if (d == "nothing") {
-                "nothing";
-            } else {
-                d.key
-            }
-
-        })
-        .attr("r", 3);
-
-    var lineFunc1 = d3.svg.line()
-        .x(calculateX)
-        .y(function (d, i) {
-            return y(0.3)
-        })
-        .interpolate("monotone");
-    // function to draw the line
     var lineFunction = d3.svg.line()
         .x(calculateX)
         .y(calculateY).interpolate("monotone");
 
-    // draw the line
-    svg.append("path")
-        .attr("class", "trendline" + nr)
-        .attr("d", lineFunc1(data))
+    bars["line" + nr]
         .transition()
         .duration(300)
-        .attr("d", lineFunction(data));
+        .attr("d", lineFunction(bars["linedata" + nr]));
+    
 }
+
+
+
+function showBars() {
+
+    bars.firstDriver
+        .transition()
+        .duration(300)
+        .attr("width", x0.rangeBand())
+        .attr("height", function (d) {
+            return height - y(parseInt(d.ids[1][metric]));
+        })
+        .attr("x", function (d, i) {
+            return x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            return y(parseInt(d[metric]) + 0.3);
+        })
+
+    bars.secondDriver
+        .transition()
+        .duration(300)
+        .attr("width", x0.rangeBand())
+        .attr("height", function (d) {
+            return height - y(parseInt(d.ids[0][metric]) + 0.3);
+        })
+        .attr("x", function (d, i) {
+            return x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            return y(parseInt(d.ids[0][metric]) + 0.3);
+        })
+
+    bars.one
+        .transition()
+        .duration(300)
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * width + width / 2;
+            }
+            return width * i + x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d[metric]);
+            return y(wins + 0.3);
+        })
+        .attr("height", function (d) {
+            if (d == "nothing") {
+                return height - y(0);
+            }
+            return height - y(parseInt(d[metric]) + 0.3);
+        })
+
+    bars.two
+        .transition()
+        .duration(300)
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * width + width / 2;
+            }
+            return width * i + x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d[metric]);
+            return y(wins + 0.3);
+        })
+        .attr("height", function (d) {
+            if (d == "nothing") {
+                return height - y(0);
+            }
+            return height - y(parseInt(d[metric]) + 0.3);
+        })
+}
+
+function hideAndRemoveBars() {
+    $("#wrap_timeline").empty();
+    $("#wrapperSVG").remove();
+    $("#timelineNav .year").remove();
+    $(".d3-tip").hide();
+    $("#wrap-stats").empty();
+}
+
+
+
 
 /*
  * Draws the number of wins axis on each year.
@@ -485,17 +496,9 @@ function divideInBlocks(svgs) {
         var lineGraph = svgs2.append("path")
             .attr("d", lineFunction(linesAxis[i]))
             .attr("stroke", "white")
-            .attr("stroke-width", 0.5)
+            .attr("stroke-width", 1)
             .attr("fill", "none");
     }
-
-    //    for (i = 1; i < linesDividers.length; i++) {
-    //        svgs2.append("text")
-    //            .attr("y", y(i))
-    //            .attr("x", 10)
-    //            .text(i)
-    //            .attr("class", "axisText");
-    //    }
 
     svgs2.append("text")
         .attr("y", y(8))

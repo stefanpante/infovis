@@ -51,7 +51,7 @@ function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
         t["sumMetric"] = sumMetric;
         constructors2.push(t);
     }
-
+    console.log(constructors2);
     return constructors2;
 }
 
@@ -106,7 +106,6 @@ function getSumMetric(constructor) {
     }
     return sum;
 
-
 }
 
 function getDrivers(year, constructorid, drivers) {
@@ -157,20 +156,25 @@ function getDriversAdvanced(year, constructorid, drivers, metric) {
     for (var d in drivers) {
 
         var boolean = false;
-        var met = 0;
+        var wins = 0;
+        var points = 0;
         var career = drivers[d].career;
         for (var i = 0; i < career.length; i++) {
 
             if (career[i].year == year && career[i].constructorId == constructorid) {
                 boolean = true;
-                met = career[i][metric];
+                wins = career[i].wins;
+                points = career[i].points;
+                // much more efficient. Even more efficient would be to use team composition
+                break;
             }
         }
 
         if (boolean == true) {
             reqDrivers.push({
                 "driver": d,
-                "metric": met
+                "points": points,
+                "wins": wins
             });
         }
     }

@@ -292,7 +292,7 @@ input[type="checkbox"]:checked {
 /* line 109, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .trendline1 {
   stroke: #006ff0;
-  stroke-dasharray: 5,5;
+  stroke-dasharray: 3,3;
   fill-opacity: 0; }
 
 /* line 115, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
@@ -303,7 +303,7 @@ input[type="checkbox"]:checked {
 /* line 120, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
 .trendline2 {
   stroke: #f00066;
-  stroke-dasharray: 5,5;
+  stroke-dasharray: 3,3;
   fill-opacity: 0; }
 
 /* line 126, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_timeline.scss */
