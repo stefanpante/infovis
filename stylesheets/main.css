@@ -171,9 +171,11 @@ input[type="checkbox"] {
   height: 30px;
   width: 60px;
   -webkit-appearance: none;
-  -webkit-transition: .25s; }
+  appearance: none;
+  -webkit-transition: .25s;
+  transition: .25s; }
 
-/* line 148, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+/* line 150, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 input[type="checkbox"]:after {
   background-color: #eee;
   border-radius: 30px;
@@ -185,7 +187,7 @@ input[type="checkbox"]:after {
   top: 0;
   width: 30px; }
 
-/* line 159, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
+/* line 161, C:/Users/Stefan/Desktop/datavis/visualisation/stylesheets/_common.scss */
 input[type="checkbox"]:checked {
   background-color: #f00066;
   padding-left: 30px;

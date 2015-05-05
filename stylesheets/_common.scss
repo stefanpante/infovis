@@ -143,7 +143,9 @@ input[type="checkbox"] {
     height: 30px;
     width: 60px;
     -webkit-appearance: none;
+    appearance: none;
     -webkit-transition: .25s;
+    transition: .25s;
 }
 input[type="checkbox"]:after {
     background-color: #eee;
