@@ -3,13 +3,10 @@ function makeIdsComplete(constructors) {
     //get max number ids
     var max = 0;
     for (var i = 0; i < constructors.length; i++) {
-
         var tempYear = constructors[i];
         for (var j = 0; j < tempYear.length; j++) {
             var tempLength = tempYear[j].ids.length;
-            if (tempLength > max) {
-                max = tempLength;
-            }
+            max = Math.max(tempLength, max);
         }
     }
 
@@ -61,6 +58,11 @@ function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
 function fill_career_advanced(min, max, career) {
     var interval = max + 1 - min;
     var size = career.length;
+    
+    if(interval == size){
+        return career;
+    }
+    
     var newCareer = [];
     var i = 0;
     for (var y = min; y < max + 1; y++) {
@@ -96,3 +98,95 @@ function fill_career_advanced(min, max, career) {
     return newCareer;
 
 }
+
+function getSumMetric(constructor) {
+    var sum = 0;
+    for (var i = 0; i < constructor.ids.length; i++) {
+        sum = sum + constructor.ids[i].metric;
+    }
+    return sum;
+
+
+}
+
+function getDrivers(year, constructorid, drivers) {
+    var reqDrivers = {
+        first: 0,
+        second: 0,
+        firstWins: 0,
+        secondWins: 0
+    };
+    for (var d in drivers) {
+
+        var boolean = false;
+        var wins = 0;
+        var career = drivers[d].career;
+        for (var i = 0; i < career.length; i++) {
+
+            if (career[i].year == year && career[i].constructorId == constructorid) {
+                boolean = true;
+                wins = career[i].wins;
+            }
+        }
+
+        if (boolean == true) {
+            if (reqDrivers["first"] != 0) {
+
+                if (wins > reqDrivers.firstWins) {
+                    reqDrivers["second"] = reqDrivers["first"];
+                    reqDrivers["first"] = d;
+
+                    reqDrivers["secondWins"] = reqDrivers["firstWins"];
+                    reqDrivers["firstWins"] = wins;
+                } else {
+                    reqDrivers["second"] = d;
+                    reqDrivers["secondWins"] = wins;
+                }
+            } else {
+                reqDrivers["first"] = d;
+                reqDrivers["firstWins"] = wins;
+            }
+        }
+    }
+    return reqDrivers;
+}
+
+
+function getDriversAdvanced(year, constructorid, drivers, metric) {
+    var reqDrivers = [];
+    for (var d in drivers) {
+
+        var boolean = false;
+        var met = 0;
+        var career = drivers[d].career;
+        for (var i = 0; i < career.length; i++) {
+
+            if (career[i].year == year && career[i].constructorId == constructorid) {
+                boolean = true;
+                met = career[i][metric];
+            }
+        }
+
+        if (boolean == true) {
+            reqDrivers.push({
+                "driver": d,
+                "metric": met
+            });
+        }
+    }
+
+    function compare(a, b) {
+        if (a.metric > b.metric)
+            return -1;
+        if (a.metric < b.metric)
+            return 1;
+        return 0;
+    }
+
+    reqDrivers.sort(compare);
+
+    return reqDrivers;
+
+}
+
+

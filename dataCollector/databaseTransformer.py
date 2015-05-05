@@ -66,7 +66,7 @@ def getDriverStanding(results, driverRef, positions):
 	career2 = []
 	for year in career:
 		career2.append(career[year])
-
+    
 	return career2
 
 # def getPosition(year, driverRef):
