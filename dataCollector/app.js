@@ -41,6 +41,24 @@ function getDrivers() {
     return d.promise;
 }
 
+function sortCareers() {
+    function compare(a, b) {
+        if (a.year < b.year)
+            return -1;
+        if (a.year > b.year)
+            return 1;
+        return 0;
+    }
+    var d = Q.defer();
+    for (key in result.drivers) {
+        var career = result.drivers[key].career;
+        career.sort(compare)
+        result.drivers[key].career = career;
+    }
+    d.resolve();
+    return d.promise;
+}
+
 function getTeamComposition() {
     var d = Q.defer();
     teamComposition = JSON.parse(fs.readFileSync("teamcomp.json", 'utf8'));
@@ -86,9 +104,9 @@ function buildPositions() {
             var driver = standing[i].Driver.driverId;
             var position = standing[i].position;
             positions.seasons[year][driver] = position;
-//
-//           //console.log(standings[i].Driver.driverId);
-//            //positions.seasons[year][driverId] = position;
+            //
+            //           //console.log(standings[i].Driver.driverId);
+            //            //positions.seasons[year][driverId] = position;
         }
 
     }
@@ -233,10 +251,11 @@ function writeResults(name) {
  * Execute the data collection.
  */
 Q.fcall(getSeasons)
-//    .then(getDriverStandings)
-//    .then(buildPositions)
-//    .then(writePositions);
+    //    .then(getDriverStandings)
+    //    .then(buildPositions)
+    //    .then(writePositions);
     .then(getDrivers)
+    .then(sortCareers)
     .then(getTeamComposition)
     .then(getConstructorStandings)
     .then(createConstructor)

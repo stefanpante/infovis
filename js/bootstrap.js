@@ -1,13 +1,6 @@
 $(document).ready(function () {
-    //var loader = new LoaderAnimation('body');
-    //    loader.startAnimation();
-    //loadData();
-    //loaderAnimation.insertAnimation('body');
-    loadJSON()
-        /*.then(function(){
-                console.log("promise");
-            })*/
-    ;
+    loadJSON();
+
 });
 
 $(".changedriver").click(function (event) {
@@ -29,5 +22,4 @@ $("#pointSelector").on("click", function () {
     } else {
         metric = "wins";
     }
-    //makeBarCharts(window.dat1, window.driver1, window.driver2);
 });

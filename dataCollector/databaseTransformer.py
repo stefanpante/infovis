@@ -60,8 +60,6 @@ def getDriverStanding(results, driverRef, positions):
 			career[year]["snd"] += 1
 		if position == 3:
 			career[year]["thd"] += 1
-		# if career[year]["position"] > rank and not(rank is None):
-		# 	career[year]["position"] = rank
 
 		career[year]["points"] += points
 
