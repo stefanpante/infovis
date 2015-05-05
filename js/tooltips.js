@@ -1,3 +1,8 @@
+var tip1;
+var tip2;
+var tipSelectedDriver;
+var tipTotal;
+
 function createTooltips(data, wrapperSVG) {
     createTip1(data, wrapperSVG);
     createTip2(data, wrapperSVG);

@@ -32,9 +32,6 @@ var x0Nav = d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
 /* Scaling Y-axis */
 var yNav = d3.scale.linear().range([navHeight, 0]);
 
-var xScale;
-var yScale;
-
 function changeDriver(data, driver) {
 
     var name = data.drivers[driver].name;
@@ -348,10 +345,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         .on('mouseover', tip2.show)
         .on('mouseout', tip2.hide);
 
-
-
-
-
     gs.selectAll("rectSecond").data(function (d) {
             return d;
         }).enter()
@@ -387,10 +380,6 @@ function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, 
         })
         .on('mouseover', tip1.show)
         .on('mouseout', tip1.hide);
-
-
-
-
 
 }
 
