@@ -1,28 +1,13 @@
-var metric = "wins"; //"points" of "wins!"
+var metric = "wins"; //"points" or "wins!"
 var width = 500;
 
 var height = $("#timeline").height();
-/* Scaling X-axis */
-var x0 = d3.scale.ordinal()
-    .rangeRoundBands([0, width], 0.1);
-
-/* Scaling Y-axis */
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-/* X-axis */
-var xAxis = d3.svg.axis()
-    .scale(x0)
-    .orient("bottom");
+var x0 = d3.scale.ordinal().rangeRoundBands([0, width], 0.1); // x-axis
+var y = d3.scale.linear().range([height, 0]); //y
 
 /* Coloring of the different F1-constuctors */
 colors = d3.scale.category20();
 
-var tip1;
-var tip2;
-var tipSelectedDriver;
-var tipTotal;
-var maxWins = 20;
 var navWidth = 300; //temp
 var navHeight = 30; //temp
 
@@ -93,42 +78,6 @@ function changeDriver(data, driver) {
 
 }
 
-
-function makeIdsComplete(constructors) {
-    var newConstructors = constructors;
-    //get max number ids
-    var max = 0;
-    for (var i = 0; i < constructors.length; i++) {
-
-        var tempYear = constructors[i];
-        for (var j = 0; j < tempYear.length; j++) {
-            var tempLength = tempYear[j].ids.length;
-            if (tempLength > max) {
-                max = tempLength;
-            }
-        }
-    }
-
-    for (var i = 0; i < newConstructors.length; i++) {
-
-        var tempYear = newConstructors[i];
-        for (var j = 0; j < tempYear.length; j++) {
-
-            var tempLength = tempYear[j].ids.length;
-            for (var k = 0; k < max - tempLength; k++) {
-                tempYear[j].ids.push({
-                    "driver": "none",
-                    "metric": 0
-                });
-            }
-        }
-    }
-
-    return newConstructors;
-
-}
-
-
 function updateXAxis(constructors_data, width) {
     var constructors = [];
     for (var i = 0; i < constructors_data.length; i++) {
@@ -145,8 +94,6 @@ function updateXAxis(constructors_data, width) {
     x0.domain(constructors);
     x0.rangeRoundBands([0, width], 0.1);
 }
-
-
 
 /* Creating the bar charts */
 function makeBarCharts(data, driver1, driver2) {
@@ -186,19 +133,9 @@ function makeBarCharts(data, driver1, driver2) {
     var maxYear_1 = selected_driver_1[selected_driver_1.length - 1].year;
     var maxYear_2 = selected_driver_2[selected_driver_2.length - 1].year;
 
-    var minY; //abs min
-    if (minYear_1 < minYear_2) {
-        minY = minYear_1;
-    } else {
-        minY = minYear_2;
-    }
+    var minY = Math.min(minYear_1, minYear_2); //absolute min
+    var maxY = Math.max(maxYear_1, maxYear_2); //absoluut max
 
-    var maxY; //absoluut max
-    if (maxYear_2 < maxYear_1) {
-        maxY = maxYear_1;
-    } else {
-        maxY = maxYear_2;
-    }
 
     var dummy = [];
     // get the constructors for the years that the driver was active
@@ -270,22 +207,22 @@ function makeBarCharts(data, driver1, driver2) {
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
     drawStatistics(selected_driver_1, selected_driver_2, width);
-    
+
 }
 
 
 function drawStatistics(selected_driver_1, selected_driver_2, width) {
-        for (var i = 0; i < selected_driver_1.length; i++) {
-            var html = new EJS({
-                url: 'tpl/stats2.ejs'
-            }).render({
-                driver1: selected_driver_1[i],
-                driver2: selected_driver_2[i],
-                width: width
-            });
-            $("#wrap-stats").append(html);
-        }
+    for (var i = 0; i < selected_driver_1.length; i++) {
+        var html = new EJS({
+            url: 'tpl/stats2.ejs'
+        }).render({
+            driver1: selected_driver_1[i],
+            driver2: selected_driver_2[i],
+            width: width
+        });
+        $("#wrap-stats").append(html);
     }
+}
 
 // Draw the bars for the constructors
 function drawConstructors(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
@@ -450,10 +387,6 @@ function drawTrendLine(svg, data, nr) {
 
     }
 
-    var calculateZero = function (d, i) {
-        return y(0.3);
-    }
-
     // function to calculate the y position
     var calculateY = function (d) {
         if (d == "nothing") {
@@ -482,7 +415,9 @@ function drawTrendLine(svg, data, nr) {
 
     var lineFunc1 = d3.svg.line()
         .x(calculateX)
-        .y(calculateZero)
+        .y(function (d, i) {
+            return y(0.3)
+        })
         .interpolate("monotone");
     // function to draw the line
     var lineFunction = d3.svg.line()
@@ -498,32 +433,7 @@ function drawTrendLine(svg, data, nr) {
         .attr("d", lineFunction(data));
 }
 
-function newConstructorDataTypes(year, constructors, drivers) {
 
-    var constructors2 = [];
-    for (var i = 0; i < constructors.length; i++) {
-        var t = constructors[i];
-        t["ids"] = getDrivers(year, t.constructorId, drivers);
-        constructors2.push(t);
-    }
-
-    return constructors2;
-}
-
-//More than 2 drivers possible as ids-values (arrays)
-function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
-
-    var constructors2 = [];
-    for (var i = 0; i < constructors.length; i++) {
-        var t = constructors[i];
-        t["ids"] = getDriversAdvanced(year, t.constructorId, drivers, metric);
-        var sumMetric = getSumMetric(t);
-        t["sumMetric"] = sumMetric;
-        constructors2.push(t);
-    }
-
-    return constructors2;
-}
 
 function getSumMetric(constructor) {
     var sum = 0;
@@ -736,47 +646,6 @@ function fill_career(min, max, career) {
         }
     }
 
-    return newCareer;
-
-}
-
-function fill_career_advanced(min, max, career) {
-    var interval = max + 1 - min;
-    var size = career.length;
-    var newCareer = [];
-    //newCareer.push({constructorId:career[0].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:min+i2,dummy:"DUMMY"});
-    //newCareer.push({constructorId:career[size-1].constructorId,points:0,position:"NA",snd:0,thd:0,wins:0,year:max-j,dummy:"DUMMY"});
-    var i = 0;
-    for (var y = min; y < max + 1; y++) {
-        if (career[i].year < y) {
-            newCareer.push({
-                constructorId: career[i].constructorId,
-                points: 0,
-                position: "NA",
-                snd: 0,
-                thd: 0,
-                wins: 0,
-                year: y,
-                dummy: "DUMMY"
-            });
-        } else if (career[i].year > y) {
-            newCareer.push({
-                constructorId: career[i].constructorId,
-                points: 0,
-                position: "NA",
-                snd: 0,
-                thd: 0,
-                wins: 0,
-                year: y,
-                dummy: "DUMMY"
-            });
-        } else {
-            newCareer.push(career[i]);
-            if (i < size - 1) {
-                i++;
-            }
-        }
-    }
     return newCareer;
 
 }
