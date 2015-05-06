@@ -174,6 +174,7 @@ function makeBarCharts(data, driver1, driver2) {
     drawDriver(wrapperSVG, selected_driver_2, 2);
     // animation
     showBars();
+    
     drawTrendLine(wrapperSVG, selected_driver_1, 1);
     drawTrendLine(wrapperSVG, selected_driver_2, 2);
     showTrendLine(1);
@@ -194,6 +195,11 @@ function drawStatistics(selected_driver_1, selected_driver_2, width) {
             width: width
         });
         $("#wrap-stats").append(html);
+        
+        $(".stat").animate({
+            opacity: 1,
+            transform: "scale(1)"
+        })
     }
 }
 
@@ -374,10 +380,12 @@ function showBars() {
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
+        
         .attr("y", function (d) {
-            return y(parseInt(d[metric]) + 0.3);
+            return y(parseInt(d.ids[1][metric]))
         })
 
+    // 
     bars.secondDriver
         .transition()
         .duration(300)
@@ -389,10 +397,10 @@ function showBars() {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            return y(parseInt(d.ids[0][metric]) + 0.3);
+            return y(parseInt(d[metric]) + 0.3)
         })
 
-    bars.one
+ bars.one
         .transition()
         .duration(300)
         .attr("x", function (d, i) {
@@ -403,16 +411,16 @@ function showBars() {
         })
         .attr("y", function (d) {
             var wins = parseInt(d[metric]);
-            return y(wins + 0.3);
+            return y(wins);
         })
         .attr("height", function (d) {
             if (d == "nothing") {
                 return height - y(0);
             }
-            return height - y(parseInt(d[metric]) + 0.3);
+            return height - y(parseInt(d[metric]));
         })
 
-    bars.two
+       bars.two
         .transition()
         .duration(300)
         .attr("x", function (d, i) {
