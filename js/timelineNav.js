@@ -202,7 +202,7 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return yScale * (height - y(d.ids[1].metric));
+            return yScale * (height - y(d.ids[1][metric]));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
@@ -220,13 +220,13 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return yScale * y(d.wins);
             }
-            return yScale * y(d.ids[0].metric);
+            return yScale * y(d.ids[0][metric]);
         })
         .attr("height", function (d) {
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
                 return 0;
             }
-            return yScale * (height - y(d.ids[0].metric));
+            return yScale * (height - y(d.ids[0][metric]));
         })
         .attr("class", function (d, i) {
             return "team team-" + i;
