@@ -172,6 +172,7 @@ function makeBarCharts(data, driver1, driver2) {
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
+
     // animation
     showBars();
     

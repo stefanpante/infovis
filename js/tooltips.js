@@ -21,7 +21,7 @@ function createTip1(data, wrapperSVG) {
             }
 
             return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[0].driver].name +
-                '</div><div class="wins"> ' + d.ids[0].metric + ' wins </div><div class="team">' +
+                '</div><div class="wins"> ' + d.ids[0][metric] + ' wins </div><div class="team">' +
                 d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>';
         });
 
@@ -37,7 +37,7 @@ function createTip2(data, wrapperSVG) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
             return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[1].driver].name +
-                '</div><div class="wins"> ' + d.ids[1].metric + ' wins </div><div class="team">' +
+                '</div><div class="wins"> ' + d.ids[1][metric] + ' wins </div><div class="team">' +
                 d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>';
         });
 
@@ -54,7 +54,7 @@ function createSelectedDriverTip(data, wrapperSVG) {
             }
             return '<div class="tooltip"><div class="name"> Team ' +
                 d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) +
-                '</div><div class="wins"> wins <span style="color:red">' + d.wins + '</div></div>';
+                '</div><div class="wins"> wins <span style="color:red">' + d[metric] + '</div></div>';
         });
 
     wrapperSVG.call(tipSelectedDriver);
@@ -68,7 +68,7 @@ function createTotalTip(data, wrapperSVG) {
             var myUpper = function (match) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
-            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total wins <span style="color:red">' + d.wins + '</div></div>';
+            return '<div class="tooltip"><div class="name"> Team ' + d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div><div class="wins"> Total <span style="color:red">' + metric +" "+ d[metric] + '</div></div>';
         });
 
     wrapperSVG.call(tipTotal);

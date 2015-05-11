@@ -1,3 +1,4 @@
+//voor gegeven jaar met allemaal constructors, alle ids'en van elke constructor aanvullen met 0 waardes.
 function makeIdsComplete(constructors) {
     var newConstructors = constructors;
     //get max number ids
@@ -19,7 +20,8 @@ function makeIdsComplete(constructors) {
             for (var k = 0; k < max - tempLength; k++) {
                 tempYear[j].ids.push({
                     "driver": "none",
-                    "metric": 0
+                    "points": 0,
+                    "wins":0
                 });
             }
         }
@@ -27,18 +29,18 @@ function makeIdsComplete(constructors) {
     return newConstructors;
 }
 
-
-function newConstructorDataTypes(year, constructors, drivers) {
-
-    var constructors2 = [];
-    for (var i = 0; i < constructors.length; i++) {
-        var t = constructors[i];
-        t["ids"] = getDrivers(year, t.constructorId, drivers);
-        constructors2.push(t);
-    }
-
-    return constructors2;
-}
+// Wordt niet meer gebruikt
+//function newConstructorDataTypes(year, constructors, drivers) {
+//
+//    var constructors2 = [];
+//    for (var i = 0; i < constructors.length; i++) {
+//        var t = constructors[i];
+//        t["ids"] = getDrivers(year, t.constructorId, drivers);
+//        constructors2.push(t);
+//    }
+//
+//    return constructors2;
+//}
 
 //More than 2 drivers possible as ids-values (arrays)
 function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
@@ -55,6 +57,7 @@ function newConstructorDataTypesAdvanced(year, constructors, drivers, metric) {
     return constructors2;
 }
 
+// make dummy entries for the years not participated
 function fill_career_advanced(min, max, career) {
     var interval = max + 1 - min;
     var size = career.length;
@@ -99,58 +102,62 @@ function fill_career_advanced(min, max, career) {
 
 }
 
+//geeft voor de gegeven constructor (voor een bepaald jaar) de som van het aantal punten (wins of points).
 function getSumMetric(constructor) {
     var sum = 0;
     for (var i = 0; i < constructor.ids.length; i++) {
-        sum = sum + constructor.ids[i].metric;
+        sum = sum + constructor.ids[i][metric];
     }
     return sum;
 
 }
 
-function getDrivers(year, constructorid, drivers) {
-    var reqDrivers = {
-        first: 0,
-        second: 0,
-        firstWins: 0,
-        secondWins: 0
-    };
-    for (var d in drivers) {
 
-        var boolean = false;
-        var wins = 0;
-        var career = drivers[d].career;
-        for (var i = 0; i < career.length; i++) {
+//wordt niet meer gebruikt
+//function getDrivers(year, constructorid, drivers) {
+//    var reqDrivers = {
+//        first: 0,
+//        second: 0,
+//        firstWins: 0,
+//        secondWins: 0
+//    };
+//    for (var d in drivers) {
+//
+//        var boolean = false;
+//        var wins = 0;
+//        var career = drivers[d].career;
+//        for (var i = 0; i < career.length; i++) {
+//
+//            if (career[i].year == year && career[i].constructorId == constructorid) {
+//                boolean = true;
+//                wins = career[i].wins;
+//            }
+//        }
+//
+//        if (boolean == true) {
+//            if (reqDrivers["first"] != 0) {
+//
+//                if (wins > reqDrivers.firstWins) {
+//                    reqDrivers["second"] = reqDrivers["first"];
+//                    reqDrivers["first"] = d;
+//
+//                    reqDrivers["secondWins"] = reqDrivers["firstWins"];
+//                    reqDrivers["firstWins"] = wins;
+//                } else {
+//                    reqDrivers["second"] = d;
+//                    reqDrivers["secondWins"] = wins;
+//                }
+//            } else {
+//                reqDrivers["first"] = d;
+//                reqDrivers["firstWins"] = wins;
+//            }
+//        }
+//    }
+//    return reqDrivers;
+//}
 
-            if (career[i].year == year && career[i].constructorId == constructorid) {
-                boolean = true;
-                wins = career[i].wins;
-            }
-        }
-
-        if (boolean == true) {
-            if (reqDrivers["first"] != 0) {
-
-                if (wins > reqDrivers.firstWins) {
-                    reqDrivers["second"] = reqDrivers["first"];
-                    reqDrivers["first"] = d;
-
-                    reqDrivers["secondWins"] = reqDrivers["firstWins"];
-                    reqDrivers["firstWins"] = wins;
-                } else {
-                    reqDrivers["second"] = d;
-                    reqDrivers["secondWins"] = wins;
-                }
-            } else {
-                reqDrivers["first"] = d;
-                reqDrivers["firstWins"] = wins;
-            }
-        }
-    }
-    return reqDrivers;
-}
-
-
+//Geeft alle drivers terug die voor een bepaald jaar voor de gegeven constructor gereden hebben. Dit is een array van triplets, gesorteerd volgens de gekozen metriek.
+// worden later "ids" genoemd van een constructor
 function getDriversAdvanced(year, constructorid, drivers, metric) {
     var reqDrivers = [];
     for (var d in drivers) {
@@ -180,9 +187,9 @@ function getDriversAdvanced(year, constructorid, drivers, metric) {
     }
 
     function compare(a, b) {
-        if (a.metric > b.metric)
+        if (a[metric] > b[metric])
             return -1;
-        if (a.metric < b.metric)
+        if (a[metric] < b[metric])
             return 1;
         return 0;
     }

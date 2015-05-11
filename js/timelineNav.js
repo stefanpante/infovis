@@ -1,3 +1,5 @@
+
+// should be copy paste of the code in timeline.js, but adapted
 function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver1, driver2) {
     //console.log(JSON.stringify(data));
     // select the timeline navigation.
