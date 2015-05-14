@@ -370,13 +370,14 @@ function showTrendLine(nr) {
 
 
 function showBars() {
-
+    //second is de beste
     bars.firstDriver
         .transition()
         .duration(300)
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
-            if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
+            // niet weergeven als beide gekozen zijn
+            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2)&&(d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
                 return 0;
             }
             return  (height - y(parseInt(d.ids[1][metric])+0.3));
@@ -386,8 +387,9 @@ function showBars() {
         })
         
         .attr("y", function (d) {
+            //verplaats naar onder als de slechtste (first driver) gekozen is
             if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
-                return 0;
+                return y(parseInt(d.ids[1][metric])+0.3)
             }
             return y(parseInt(d[metric])+0.3);
         })
@@ -398,7 +400,8 @@ function showBars() {
         .duration(300)
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
-            if (d.ids[1].driver == window.driver1 || d.ids[1].driver ==  window.driver2) {
+            // niet weergeven als beide gekozen zijn
+            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2)&&(d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
                 return 0;
             }
             return  (height - y(parseInt(d.ids[0][metric])+0.3));
@@ -407,11 +410,12 @@ function showBars() {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
+            //verplaats naar boven als de slechtste (first driver) gekozen is
             if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
                 return  y(parseInt(d[metric]) +0.3);
             }
             return  y(parseInt(d.ids[0][metric])+0.3);
-        })
+        });
 
     bars.total
         .transition()
