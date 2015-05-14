@@ -387,11 +387,13 @@ function showBars() {
         })
         
         .attr("y", function (d) {
-            //verplaats naar onder als de slechtste (first driver) gekozen is
+            //verplaats naar onder als de 2de beste (first driver) gekozen is
             if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
                 return y(parseInt(d.ids[1][metric])+0.3)
             }
-            return y(parseInt(d[metric])+0.3);
+            //return y(  worst +  best + 0.3)
+            return y(parseInt(d.ids[1][metric])+parseInt(d.ids[0][metric])+0.3);
+            // ipv return y(parseInt(d[metric])+0.3);
         })
 
     // 
@@ -410,9 +412,11 @@ function showBars() {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            //verplaats naar boven als de slechtste (first driver) gekozen is
+            //verplaats naar boven als de 2de beste (first driver) gekozen is
             if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
-                return  y(parseInt(d[metric]) +0.3);
+                //return y(  worst +  best + 0.3)
+                return y(parseInt(d.ids[1][metric])+parseInt(d.ids[0][metric])+0.3);
+                // ipv return y(parseInt(d[metric])+0.3);
             }
             return  y(parseInt(d.ids[0][metric])+0.3);
         });

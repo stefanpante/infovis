@@ -195,14 +195,14 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
         })
         .attr("y", function (d) {
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return 0;
+                return yScale * y(d.ids[1][metric]);
             }
-            return yScale * y(d.wins);
+            return yScale * y(d[metric]);
         })
         .attr("height", function (d) {
-            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return 0;
-            }
+//            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
+//                return 0;
+//            }
             return yScale * (height - y(d.ids[1][metric]));
         })
         .attr("class", function (d, i) {
@@ -219,14 +219,14 @@ function drawConstructorsOnNav2(svgs, selected_constructors, data, selectedDrive
         })
         .attr("y", function (d) {
             if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return yScale * y(d.wins);
+                return yScale * y(d[metric]);
             }
             return yScale * y(d.ids[0][metric]);
         })
         .attr("height", function (d) {
-            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
-                return 0;
-            }
+//            if (d.ids[1].driver == selectedDriverID1 || d.ids[1].driver == selectedDriverID2) {
+//                return 0;
+//            }
             return yScale * (height - y(d.ids[0][metric]));
         })
         .attr("class", function (d, i) {
@@ -264,7 +264,7 @@ function drawDriverOnNav2(svgs, selected_data, nr) {
             return navWidth * i + xScale * x0(d.constructorId);
         })
         .attr("y", function (d) {
-            var wins = parseInt(d.wins);
+            var wins = parseInt(d[metric]);
             return yScale * y(wins);
         })
         .attr("height", 22)
@@ -272,7 +272,7 @@ function drawDriverOnNav2(svgs, selected_data, nr) {
         .attr("class", className)
         .style("fill-opacity", .5)
         .attr("height", function (d) {
-            return navHeight - yScale * y(d.wins);
+            return navHeight - yScale * y(d[metric]);
         })
 
 }
