@@ -175,7 +175,7 @@ function makeBarCharts(data, driver1, driver2) {
 
     // animation
     showBars();
-    
+    showBarsNav();
     drawTrendLine(wrapperSVG, selected_driver_1, 1);
     drawTrendLine(wrapperSVG, selected_driver_2, 2);
     showTrendLine(1);
@@ -376,14 +376,20 @@ function showBars() {
         .duration(300)
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
-            return height - y(parseInt(d.ids[1][metric]));
+            if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
+                return 0;
+            }
+            return  (height - y(parseInt(d.ids[1][metric])+0.3));
         })
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
         
         .attr("y", function (d) {
-            return y(parseInt(d.ids[1][metric]))
+            if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
+                return 0;
+            }
+            return y(parseInt(d[metric])+0.3);
         })
 
     // 
@@ -392,13 +398,35 @@ function showBars() {
         .duration(300)
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
-            return height - y(parseInt(d.ids[0][metric]) + 0.3);
+            if (d.ids[1].driver == window.driver1 || d.ids[1].driver ==  window.driver2) {
+                return 0;
+            }
+            return  (height - y(parseInt(d.ids[0][metric])+0.3));
         })
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
-            return y(parseInt(d[metric]) + 0.3)
+            if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
+                return  y(parseInt(d[metric]) +0.3);
+            }
+            return  y(parseInt(d.ids[0][metric])+0.3);
+        })
+
+    bars.total
+        .transition()
+        .duration(300)
+        .attr("width", x0.rangeBand())
+        .attr("height", function (d) {
+
+            return  (height - y(parseInt(d[metric])+0.3));
+        })
+        .attr("x", function (d, i) {
+            return x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+
+            return  y(parseInt(d[metric])+0.3);
         })
 
  bars.one
@@ -412,13 +440,13 @@ function showBars() {
         })
         .attr("y", function (d) {
             var wins = parseInt(d[metric]);
-            return y(wins);
+            return y(wins+0.3);
         })
         .attr("height", function (d) {
             if (d == "nothing") {
                 return height - y(0);
             }
-            return height - y(parseInt(d[metric]));
+            return height - y(parseInt(d[metric])+0.3);
         })
 
        bars.two

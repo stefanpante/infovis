@@ -1,4 +1,5 @@
 
+
 // should be copy paste of the code in timeline.js, but adapted
 function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver1, driver2) {
     //console.log(JSON.stringify(data));
@@ -51,9 +52,9 @@ function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver
             return left;
         });
 
-    drawConstructorsOnNav2(wrapperSVG, selected_constructors, Alldata, driver1, driver2);
-    drawDriverOnNav2(wrapperSVG, data1, 1);
-    drawDriverOnNav2(wrapperSVG, data2, 2);
+    drawConstructorsNav(wrapperSVG, selected_constructors, Alldata, driver1, driver2);
+    drawDriverNav(wrapperSVG, data1, 1);
+    drawDriverNav(wrapperSVG, data2, 2);
 
     //    mini_timeline.select(".year2").remove();
     //    var years2 = mini_timeline
@@ -275,3 +276,167 @@ function drawDriverOnNav2(svgs, selected_data, nr) {
         })
 
 }
+
+
+
+
+// Draw the bars for the constructors
+function drawConstructorsNav(svgs, selected_constructors, data, selectedDriverID1, selectedDriverID2) {
+
+
+    var gs = svgs.selectAll("years2")
+        .data(selected_constructors)
+        .enter()
+        .append("svg")
+        .attr("x", function (d, i) {
+            return i * navWidth;
+        }).attr("width", navWidth);
+
+    var total = gs.selectAll("rectTotalNav").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("class", "teamTotal");
+
+    var firstDriver = gs.selectAll("rect4").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("class", "team2");
+
+    var secondDriver = gs.selectAll("rect5").data(function (d) {
+        return d;
+    }).enter()
+        .append("rect")
+        .attr("class", "team");
+
+    var bard = [total, firstDriver, secondDriver];
+
+    for (var i = 0; i < bard.length; i++) {
+        bard[i]
+            .attr("width", xScale *x0.rangeBand())
+            .attr("height", function (d) {
+                return yScale *(height - y(0.3));
+            })
+            .attr("x", function (d, i) {
+                return xScale *x0(d.constructorId);
+            })
+            .attr("y", function (d) {
+                return yScale *y(0.3);
+            })
+    }
+
+    // make globally accessible for animation
+    barsNav.total = total;
+    barsNav.firstDriver = firstDriver;
+    barsNav.secondDriver = secondDriver;
+
+}
+
+
+// Draw the bars for the drivers on top of the teams bar.
+// This is the red bar.
+function drawDriverNav(svgs, selected_data, nr) {
+    // SVG for the bar charts (number of wins)
+    // Drawing the number of wins for the Formula 1 drivers
+    var barss = svgs.selectAll("rect2" + nr)
+        .data(selected_data);
+
+    var className;
+    if (nr == 1) {
+        className = "one";
+    } else {
+        className = "two";
+    }
+    // save the object for global usage
+    barsNav[className] = barss;
+
+    barss.enter()
+        .append("rect")
+        .attr("width",xScale* x0.rangeBand())
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * navWidth + navWidth / 2;
+            }
+            return navWidth * i + xScale*x0(d.constructorId);
+        })
+        .attr("y", yScale*y(0.3))
+        .attr("height",yScale*( height - y(0.3)))
+        .attr("class", className)
+        .style("position", 'absolute');
+}
+
+
+function showBarsNav() {
+
+    barsNav.firstDriver
+        .transition()
+        .duration(300)
+        .attr("width", xScale*x0.rangeBand())
+        .attr("height", function (d) {
+            return navHeight - yScale*y(parseInt(d.ids[1][metric]));
+        })
+        .attr("x", function (d, i) {
+            return xScale*x0(d.constructorId);
+        })
+
+        .attr("y", function (d) {
+            return yScale*y(parseInt(d.ids[1][metric]))
+        })
+
+    //
+    barsNav.secondDriver
+        .transition()
+        .duration(300)
+        .attr("width", xScale*x0.rangeBand())
+        .attr("height", function (d) {
+            return navHeight - yScale*y(parseInt(d.ids[0][metric]) + 0.3);
+        })
+        .attr("x", function (d, i) {
+            return xScale*x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            return yScale*y(parseInt(d[metric]) + 0.3)
+        })
+
+    barsNav.one
+        .transition()
+        .duration(300)
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * width + width / 2;
+            }
+            return navWidth * i + xScale * x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d[metric]);
+            return yScale*y(wins);
+        })
+        .attr("height", function (d) {
+            if (d == "nothing") {
+                return navHeight - yScale*y(0);
+            }
+            return navHeight - yScale*y(parseInt(d[metric]));
+        })
+
+    barsNav.two
+        .transition()
+        .duration(300)
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * navWidth + navWidth / 2;
+            }
+            return navWidth * i + xScale * x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d[metric]);
+            return yScale*y(wins + 0.3);
+        })
+        .attr("height", function (d) {
+            if (d == "nothing") {
+                return navHeight - yScale*y(0);
+            }
+            return navHeight - yScale*y(parseInt(d[metric]) + 0.3);
+        })
+}
+

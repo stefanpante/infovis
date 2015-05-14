@@ -28,5 +28,5 @@ $("#pointSelector").on("click", function () {
     showTrendLine(2);
 
     //navigator
-    //showBarsNav(); w.i.p.
+    showBarsNav(); //w.i.p.
 });

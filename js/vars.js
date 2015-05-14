@@ -17,6 +17,7 @@ var x0Nav = d3.scale.ordinal().rangeRoundBands([0, navWidth], 0.1);
 /* Scaling Y-axis */
 var yNav = d3.scale.linear().range([navHeight, 0]);
 
+barsNav={};
 bars = {};
 selected_constructors = [];
 selected_driver_1 = [];
