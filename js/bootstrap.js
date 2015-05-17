@@ -26,6 +26,12 @@ $("#pointSelector").on("click", function () {
     showBars();
     showTrendLine(1);
     showTrendLine(2);
+    window.svgs2.remove();
+    if(metric == "wins"){
+        divideInBlocks(window.wrapperSVG);
+    } else{
+        divideInBlocks2(window.wrapperSVG);
+    }
 
     //navigator
     showBarsNav(); //w.i.p.

@@ -164,6 +164,8 @@ function makeBarCharts(data, driver1, driver2) {
         .attr("height", height)
         .attr("id", "wrapperSVG");
 
+    window.wrapperSVG = wrapperSVG;
+    
     createTooltips(data, wrapperSVG);
 
     // draw all the elements of the barchart
@@ -502,6 +504,7 @@ function divideInBlocks(svgs) {
     var linesAxis = [];
     var axisLength = 4;
 
+    window.svgs2 = svgs2;
     for (i = 1; i < maxY; i++) {
         var lineData = [{
             "x": 0,
@@ -555,5 +558,73 @@ function divideInBlocks(svgs) {
         .attr("y", y(16))
         .attr("x", 10)
         .text(16)
+        .attr("class", "axisText");
+}
+
+
+function divideInBlocks2(svgs) {
+    var svgs2 = svgs.selectAll("svg")
+        .append("svg")
+        .attr("width", width);
+    var domainY = y.domain();
+    var maxY = domainY[1] - 100;
+    var linesDividers = [];
+    var linesAxis = [];
+    var axisLength = 4;
+
+    window.svgs2 = svgs2;
+    for (i = 1; i < maxY; i += 25) {
+        var lineData = [{
+            "x": 0,
+            "y": y(i - 0.7)
+        }, {
+            "x": width,
+            "y": y(i - 0.7)
+        }];
+        linesDividers.push(lineData);
+
+        var lineData2 = [{
+            "x": 0,
+            "y": y(i - 0.7)
+        }, {
+            "x": axisLength,
+            "y": y(i - 0.7)
+        }];
+        linesAxis.push(lineData2);
+    }
+
+    var lineFunction = d3.svg.line()
+        .x(function (d) {
+            return d.x;
+        })
+        .y(function (d) {
+            return d.y;
+        })
+        .interpolate("linear");
+
+
+    for (i = 0; i < linesDividers.length; i++) {
+        var lineGraphDividers = svgs2.append("path")
+            .attr("d", lineFunction(linesDividers[i]))
+            .attr("stroke", "#0b0b0b")
+            .attr("stroke-width", 0.5)
+            .attr("fill", "none");
+        var lineGraph = svgs2.append("path")
+            .attr("d", lineFunction(linesAxis[i]))
+            .attr("stroke", "white")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+    }
+
+    svgs2.append("text")
+        .attr("y", y(250))
+        .attr("x", 10)
+        .text(250)
+        .attr("class", "axisText");
+
+    svgs2.append("text")
+        .attr("y", y(500))
+        .attr("x", 10)
+        .text(500)
         .attr("class", "axisText");
 }
