@@ -27,12 +27,20 @@ $("#pointSelector").on("click", function () {
     showTrendLine(1);
     showTrendLine(2);
     window.svgs2.remove();
-    if(metric == "wins"){
+    if (metric == "wins") {
         divideInBlocks(window.wrapperSVG);
-    } else{
+    } else {
         divideInBlocks2(window.wrapperSVG);
     }
 
     //navigator
     showBarsNav(); //w.i.p.
 });
+
+$(".switch").click(function (event) {
+    $("#wrap_timeline").empty();
+    $("#wrapperSVG").remove();
+    $("#wrapperSVGMINI").remove();
+    $("#timelineNav .year").remove();
+    makeBarCharts(window.dat1,"mario_andretti", "lauda");
+})

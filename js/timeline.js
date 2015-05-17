@@ -87,7 +87,10 @@ function updateYScale() {
             }
         }
     }
-
+    
+    if(metric == "points"){
+        scale = 525;
+    }
 
     y.domain([0, scale * 1.2]);
 }
