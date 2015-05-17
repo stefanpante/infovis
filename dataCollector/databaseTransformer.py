@@ -72,7 +72,23 @@ def getDriverStanding(results, driverRef, positions):
 # def getPosition(year, driverRef):
 
 
-
+positionPoints = {
+    1: 25,
+    2: 18,
+    3: 15,
+    4: 12,
+    5: 10,
+    6: 8,
+    7: 6,
+    8: 4,
+    9: 2,
+    10: 1
+}
+def calculatePoints(position):
+    if(position in positionPoints):
+        return positionPoints[position]
+    return 0
+    
 
 def openConnection():
 	connection = mysql.connector.connect(user='root', password='', host='127.0.0.1', database='f1')
