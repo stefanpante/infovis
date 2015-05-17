@@ -88,7 +88,7 @@ function updateYScale() {
         }
     }
     
-    if(metric == "points"){
+    if(metric == "points" && scale < 500){
         scale = 525;
     }
 
