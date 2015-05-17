@@ -61,7 +61,7 @@ def getDriverStanding(results, driverRef, positions):
 		if position == 3:
 			career[year]["thd"] += 1
 
-		career[year]["points"] += points
+		career[year]["points"] += calculatePoints(position)
 
 	career2 = []
 	for year in career:

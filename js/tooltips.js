@@ -21,7 +21,7 @@ function createTip1(data, wrapperSVG) {
             }
 
             return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[0].driver].name +
-                '</div><div class="wins"> ' + d.ids[0][metric] + metric + ' </div><div class="team">' +
+                '</div><div class="wins"> ' + d.ids[0][metric] + " " +metric + ' </div><div class="team">' +
                 d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div</div>';
         });
 
@@ -37,7 +37,7 @@ function createTip2(data, wrapperSVG) {
                 return match.replace(/[\s_]+/, ' ').toUpperCase();
             }
             return '<div class="tooltip"><div class="name">' + data.drivers[d.ids[1].driver].name +
-                '</div><div class="wins"> ' + d.ids[1][metric] + metric+' </div><div class="team">' +
+                '</div><div class="wins"> ' + d.ids[1][metric] + " " + metric+' </div><div class="team">' +
                 d.constructorId.toUpperCase().replace(/[\s_]+\w/g, myUpper) + '</div></div>';
         });
 

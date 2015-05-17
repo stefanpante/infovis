@@ -171,6 +171,11 @@ function makeBarCharts(data, driver1, driver2) {
     // draw all the elements of the barchart
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
 
+      drawTrendLine(wrapperSVG, selected_driver_1, 1);
+    drawTrendLine(wrapperSVG, selected_driver_2, 2);
+    showTrendLine(1);
+    showTrendLine(2);
+    
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
@@ -178,11 +183,12 @@ function makeBarCharts(data, driver1, driver2) {
     // animation
     showBars();
     showBarsNav();
-    drawTrendLine(wrapperSVG, selected_driver_1, 1);
-    drawTrendLine(wrapperSVG, selected_driver_2, 2);
-    showTrendLine(1);
-    showTrendLine(2);
-    divideInBlocks(wrapperSVG);
+    if(metric == "wins"){
+       divideInBlocks(wrapperSVG); 
+    }else{
+        divideInBlocks2(wrapperSVG);
+    }
+    
     drawStatistics(selected_driver_1, selected_driver_2, width);
 
 }
