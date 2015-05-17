@@ -165,17 +165,17 @@ function makeBarCharts(data, driver1, driver2) {
         .attr("id", "wrapperSVG");
 
     window.wrapperSVG = wrapperSVG;
-    
+
     createTooltips(data, wrapperSVG);
 
     // draw all the elements of the barchart
     createTimeLineNav2(selected_driver_1, selected_driver_2, selected_constructors, data, driver1, driver2);
 
-      drawTrendLine(wrapperSVG, selected_driver_1, 1);
+    drawTrendLine(wrapperSVG, selected_driver_1, 1);
     drawTrendLine(wrapperSVG, selected_driver_2, 2);
     showTrendLine(1);
     showTrendLine(2);
-    
+
     drawConstructors(wrapperSVG, selected_constructors, data, driver1, driver2);
     drawDriver(wrapperSVG, selected_driver_1, 1);
     drawDriver(wrapperSVG, selected_driver_2, 2);
@@ -183,12 +183,12 @@ function makeBarCharts(data, driver1, driver2) {
     // animation
     showBars();
     showBarsNav();
-    if(metric == "wins"){
-       divideInBlocks(wrapperSVG); 
-    }else{
+    if (metric == "wins") {
+        divideInBlocks(wrapperSVG);
+    } else {
         divideInBlocks2(wrapperSVG);
     }
-    
+
     drawStatistics(selected_driver_1, selected_driver_2, width);
 
 }
@@ -204,7 +204,7 @@ function drawStatistics(selected_driver_1, selected_driver_2, width) {
             width: width
         });
         $("#wrap-stats").append(html);
-        
+
         $(".stat").animate({
             opacity: 1,
             transform: "scale(1)"
@@ -329,7 +329,7 @@ function drawTrendLine(svg, data, nr) {
             return y(0.3)
         })
         .interpolate("monotone")
-        
+
 
 
     // draw the line
@@ -338,7 +338,7 @@ function drawTrendLine(svg, data, nr) {
         .data(data)
         .attr("d", lineFunc1(data))
         .attr("stroke-width", 1.25);
-    
+
     bars["linedata" + nr] = data;
 
 
@@ -372,7 +372,7 @@ function showTrendLine(nr) {
         .transition()
         .duration(300)
         .attr("d", lineFunction(bars["linedata" + nr]));
-    
+
 }
 
 
@@ -385,24 +385,24 @@ function showBars() {
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
             // niet weergeven als beide gekozen zijn
-            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2)&&(d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
+            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) && (d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
                 return 0;
             }
-            return  (height - y(parseInt(d.ids[1][metric])+0.3));
+            return (height - y(parseInt(d.ids[1][metric]) + 0.3));
         })
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
-        
-        .attr("y", function (d) {
-            //verplaats naar onder als de 2de beste (first driver) gekozen is
-            if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
-                return y(parseInt(d.ids[1][metric])+0.3)
-            }
-            //return y(  worst +  best + 0.3)
-            return y(parseInt(d.ids[1][metric])+parseInt(d.ids[0][metric])+0.3);
-            // ipv return y(parseInt(d[metric])+0.3);
-        })
+
+    .attr("y", function (d) {
+        //verplaats naar onder als de 2de beste (first driver) gekozen is
+        if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
+            return y(parseInt(d.ids[1][metric]) + 0.3)
+        }
+        //return y(  worst +  best + 0.3)
+        return y(parseInt(d.ids[1][metric]) + parseInt(d.ids[0][metric]) + 0.3);
+        // ipv return y(parseInt(d[metric])+0.3);
+    })
 
     // 
     bars.secondDriver
@@ -411,10 +411,10 @@ function showBars() {
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
             // niet weergeven als beide gekozen zijn
-            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2)&&(d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
+            if ((d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) && (d.ids[0].driver == window.driver1 || d.ids[0].driver == window.driver2)) {
                 return 0;
             }
-            return  (height - y(parseInt(d.ids[0][metric])+0.3));
+            return (height - y(parseInt(d.ids[0][metric]) + 0.3));
         })
         .attr("x", function (d, i) {
             return x0(d.constructorId);
@@ -423,10 +423,10 @@ function showBars() {
             //verplaats naar boven als de 2de beste (first driver) gekozen is
             if (d.ids[1].driver == window.driver1 || d.ids[1].driver == window.driver2) {
                 //return y(  worst +  best + 0.3)
-                return y(parseInt(d.ids[1][metric])+parseInt(d.ids[0][metric])+0.3);
+                return y(parseInt(d.ids[1][metric]) + parseInt(d.ids[0][metric]) + 0.3);
                 // ipv return y(parseInt(d[metric])+0.3);
             }
-            return  y(parseInt(d.ids[0][metric])+0.3);
+            return y(parseInt(d.ids[0][metric]) + 0.3);
         });
 
     bars.total
@@ -435,37 +435,17 @@ function showBars() {
         .attr("width", x0.rangeBand())
         .attr("height", function (d) {
 
-            return  (height - y(parseInt(d[metric])+0.3));
+            return (height - y(parseInt(d[metric]) + 0.3));
         })
         .attr("x", function (d, i) {
             return x0(d.constructorId);
         })
         .attr("y", function (d) {
 
-            return  y(parseInt(d[metric])+0.3);
+            return y(parseInt(d[metric]) + 0.3);
         })
 
- bars.one
-        .transition()
-        .duration(300)
-        .attr("x", function (d, i) {
-            if ("dummy" in d) {
-                return i * width + width / 2;
-            }
-            return width * i + x0(d.constructorId);
-        })
-        .attr("y", function (d) {
-            var wins = parseInt(d[metric]);
-            return y(wins+0.3);
-        })
-        .attr("height", function (d) {
-            if (d == "nothing") {
-                return height - y(0);
-            }
-            return height - y(parseInt(d[metric])+0.3);
-        })
-
-       bars.two
+    bars.one
         .transition()
         .duration(300)
         .attr("x", function (d, i) {
@@ -484,6 +464,57 @@ function showBars() {
             }
             return height - y(parseInt(d[metric]) + 0.3);
         })
+
+    bars.two
+        .transition()
+        .duration(300)
+        .attr("x", function (d, i) {
+            if ("dummy" in d) {
+                return i * width + width / 2;
+            }
+            return width * i + x0(d.constructorId);
+        })
+        .attr("y", function (d) {
+            var wins = parseInt(d[metric]);
+            return y(wins + 0.3);
+        })
+        .attr("height", function (d) {
+            if (d == "nothing") {
+                return height - y(0);
+            }
+            return height - y(parseInt(d[metric]) + 0.3);
+        })
+
+    $("rect.one").mouseover(function () {
+        $("rect.one").css({
+            "fill-opacity": 1,
+            "stroke": "#043e83",
+            "stroke-width": 2
+        })
+    })
+
+    $("rect.two").mouseover(function () {
+        $("rect.two").css({
+            "fill-opacity": 1,
+            "stroke": "#5a0026",
+            "stroke-width": 2
+        })
+    })
+    
+    $("rect.one").mouseout(function () {
+        $("rect.one").css({
+            "fill-opacity": 0.7,
+            "stroke-width": 0
+            
+        })
+    })
+
+    $("rect.two").mouseout(function () {
+        $("rect.two").css({
+            "fill-opacity": 0.7,
+            "stroke-width": 0
+        })
+    })
 }
 
 function hideAndRemoveBars() {

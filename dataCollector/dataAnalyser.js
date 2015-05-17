@@ -31,6 +31,7 @@ careers = []
 minCareerLength = 50;
 maxCareerLength = -1;
 averageCareerLength = 0;
+var included = 0;
 for (var i = 0; i < drivers.length; i++) {
     var driver = drivers[i];
     if(driver.totalPoints > 0){
@@ -38,15 +39,21 @@ for (var i = 0; i < drivers.length; i++) {
         minCareerLength = Math.min(minCareerLength, length);
         if( length == 14) console.log("14 " + driver.name);
         if( length == 15) console.log("15 " + driver.name);
+        if( length < 30){
+            averageCareerLength += length;
+            included++;
+            careers.push(length);
+        }
         maxCareerLength = Math.max(maxCareerLength, length);
-        averageCareerLength += length;
-        careers.push(length);
+        
+        
     }
     
 
 }
 
-averageCareerLength /= 329;
+
+averageCareerLength /= (included);
 
 console.log("Average Career length: " + averageCareerLength);
 console.log("min Career length: " + minCareerLength);
