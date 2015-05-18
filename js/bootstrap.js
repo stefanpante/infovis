@@ -38,12 +38,33 @@ $("#pointSelector").on("click", function () {
     showBarsNav(); //w.i.p.
 });
 
+
 $(".switch").click(function (event) {
     $("#wrap_timeline").empty();
     $("#wrapperSVG").remove();
     $("#wrapperSVGMINI").remove();
     $("#timelineNav .year").remove();
-    $("#title .name.two").text("Mario Andretti");
-        $("#title .name.one").text("Niki Lauda");
-    makeBarCharts(window.dat1,"mario_andretti", "lauda");
+    $("#title .name.one").text("Mario Andretti");
+    $("#title .name.two").text("Niki Lauda");
+    makeBarCharts(window.dat1, "mario_andretti", "lauda");
+})
+
+$(".switch2").click(function (event) {
+    $("#wrap_timeline").empty();
+    $("#wrapperSVG").remove();
+    $("#wrapperSVGMINI").remove();
+    $("#timelineNav .year").remove();
+    $("#title .name.one").text("Alain Prost");
+    $("#title .name.two").text("Ayrton Senna");
+    makeBarCharts(window.dat1, "prost", "senna");
+})
+
+$(".switch3").click(function (event) {
+    $("#wrap_timeline").empty();
+    $("#wrapperSVG").remove();
+    $("#wrapperSVGMINI").remove();
+    $("#timelineNav .year").remove();
+    $("#title .name.one").text("Sebastian Vettel");
+    $("#title .name.two").text("Lewis Hamilton");
+    makeBarCharts(window.dat1, "vettel", "hamilton");
 })

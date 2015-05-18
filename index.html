@@ -48,7 +48,7 @@
     <div id="misc"></div>
 
     <style>
-        .switch {
+        .switch, .switch2, .switch3 {
             position: absolute;
             bottom: 5;
             right: 20;
@@ -63,7 +63,18 @@
             cursor: pointer;
         }
         
-        .switch:hover:before{
+        
+        .switch2{
+            right: 75px;
+            background-image: url(senna.jpg);
+        }
+        
+        .switch3{
+            right: 130px;
+            background-image: url(vettel.jpg);
+        }
+        
+        .switch:hover:before, .switch2:hover:before, .switch3:hover:before {
             position: absolute;
             display: block;
             content: '';
@@ -76,6 +87,8 @@
         }
     </style>
     <div class="switch"></div>
+    <div class="switch2"></div>
+    <div class="switch3"></div>
 
 
     <script src="js/vars.js"></script>
