@@ -125,6 +125,10 @@ function createTimeLineNav2(data1, data2, selected_constructors, Alldata, driver
         $("#wrapperSVG").css({
             "left": offset + "px"
         });
+        
+                    $("#wrap-stats").css({
+                "left": offset + "px"
+            });
     });
 
     $("#wrapperSVG").draggable({
