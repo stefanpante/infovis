@@ -2,8 +2,8 @@ function loadJSON(){
     d3.json("data/data.json", function(err,data){
        setUpAxis(data, function(){
            window.dat1 = data;
-           window.driver1 = "vettel";
-           window.driver2 = "hamilton";
+           window.driver1 = "prost";
+           window.driver2 = "senna";
            makeBarCharts(data, window.driver1, window.driver2);
        })
     });
