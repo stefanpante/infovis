@@ -4,24 +4,31 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 /* Basic */
+/* line 12, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
 body, input, select, textarea {
   font-size: 14pt; }
 
+/* line 16, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
 h2 {
   font-size: 1.5em; }
 
+/* line 20, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
 h3 {
   font-size: 1.25em; }
 
 /* Section/Article */
+/* line 28, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
 header.major p {
   font-size: 1.25em; }
 
 /* Header */
+/* line 36, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
 #header {
   padding: 8em 0 16em 0; }
+  /* line 39, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
   #header h1 {
     font-size: 2.25em; }
+  /* line 43, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-wide.scss */
   #header p {
     font-size: 1.25em;
     line-height: 1.65em; }

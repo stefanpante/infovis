@@ -4,62 +4,79 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 /* Basic */
+/* line 12, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 body, input, select, textarea {
   font-size: 13pt; }
 
+/* line 16, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 h2 {
   font-size: 1.35em; }
 
+/* line 20, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 h3 {
   font-size: 1.15em; }
 
 /* Section/Article */
+/* line 27, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 header.major {
   margin-bottom: 4em;
   padding: 3em 0; }
+  /* line 31, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   header.major p {
     font-size: 1.15em; }
 
+/* line 38, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 footer.major {
   margin-top: 4em;
   padding: 3em 0; }
 
 /* Box */
+/* line 46, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 .box {
   padding: 2.5em;
   margin-bottom: 4em; }
 
 /* Feature */
+/* line 53, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 .feature {
   height: 18em; }
+  /* line 56, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   .feature .content {
     padding: 2.5em; }
 
 /* Header */
+/* line 63, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 #header {
   background-attachment: scroll,							scroll,							scroll;
-  background-image: url("images/top-1600.svg"), url("images/overlay.png"), url("../images/header.jpg");
-  background-size: 1600px 230px,					auto,							cover;
+  background-image: url('images/top-1600.svg'), url('images/overlay.png'), url('../images/header.jpg');
+  background-size: 1600px 230px, auto, cover;
   padding: 6em 0 12em 0; }
+  /* line 69, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   #header:before {
     height: calc(100% - 25px); }
+  /* line 73, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   #header:after {
     height: 25px; }
+  /* line 77, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   #header h1 {
     font-size: 2em; }
+  /* line 81, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   #header p {
     font-size: 1.15em; }
 
 /* Footer */
+/* line 88, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 #footer {
-  background-image: url("images/bottom-1600.svg");
+  background-image: url('images/bottom-1600.svg');
   background-size: 1600px 230px;
   margin-top: -100px;
   padding: calc(230px + 4em) 0 6em 0; }
+  /* line 94, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
   #footer:before {
     height: calc(230px + 4em); }
 
 /* Main */
+/* line 101, C:/Users/Stefan/Desktop/datavis/visualisation/websiteInfovis/sass/style-normal.scss */
 #main {
   padding: 4em 0 3em 0; }
 
